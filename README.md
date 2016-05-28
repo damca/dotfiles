@@ -4,13 +4,16 @@ Welcome to my world. This is a collection of vim, tmux, and zsh configurations. 
 
 ## Contents
 
-+ [Initial Setup and Installation](#initial-setup-and-installation)
-+ [ZSH Setup](#zsh-setup)
++ [pre install](#pre-install)
++ [install.sh](#install.sh)
++ [post install](#post-install)
++ [ZSH Details](#zsh-details)
 + [Vim and Neovim Setup](#vim-and-neovim-setup)
 + [Fonts](#fonts)
 + [Tmux](#tmux-configuration)
 
-## Initial Setup and Installation
+## pre install
+### Get XCode CLI tools
 
 If on OSX, you will need to install the XCode CLI tools before continuing. To do so, open a terminal and type
 
@@ -18,7 +21,37 @@ If on OSX, you will need to install the XCode CLI tools before continuing. To do
 xcode-select --install
 ```
 
-Then, clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
+### Get a new version of BASH/ZSH
+Make sure to use an updated version of bash or zsh when running the subsequent `install.sh`. The following bash install segment is from: https://johndjameson.com/blog/updating-your-shell-with-homebrew/
+
+Installing bash via Homebrew – To get things started, you need to tell Homebrew to install the latest version of your shell. Whether you prefer using Bash or Zsh, the following instructions will work for both. Just change the word bash to zsh, and you’ll be good to go.
+Open your terminal and enter this command:
+`brew install bash`
+Homebrew installs packages to /usr/local/bin/, so you’ll need to specify that path when looking for any Homebrew packages. In the following three commands, we’ll initiate a shell as the root user, append our desired shell’s path to a file of whitelisted system shells, and then change the system shell globally.
+```sudo -s
+echo /usr/local/bin/bash >> /etc/shells
+chsh -s /usr/local/bin/bash
+```
+
+NOTE: I had to log out and login for the effects to take place.
+
+Now you can close and reopen your terminal. With just those few commands, you should be using with the latest version of your shell. You can double-check the version you’re using with the command echo $BASH_VERSION. Or, if you’ve installed Zsh, you can use the command echo $ZSH_VERSION to do the same.
+That’s it for installing your brand-new shell. Let’s take a look at how to keep it up-to-date with the help of Homebrew.
+
+Staying current – The Homebrew command update actually refers to updating Homebrew itself. If you want to install the latest version of a Homebrew package, you’ll have to use the word upgrade instead:
+`brew upgrade bash`
+In this example, Homebrew will look for the package named bash on your computer and install the latest version. If you already have the newest version installed, Homebrew will print an error message telling you exactly that. You’ll have to run this command manually from time to time, but it’s a much more reliable approach than downloading directly from source or maintaining a cloned version control repository.
+Now go out and write shell scripts for all the things.
+
+### Configure git
+
+Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#Prompt) and to clone into the base16 repo (found in .dotfiles/.config, you need to have an ssh set up with git.
+
+NOTE: to personalize you'll want to edit the .dotfiles/git/gitconfig.symlink file
+
+## install.sh
+
+Clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
 
 ```bash
 git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
@@ -26,11 +59,21 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-`install.sh` will start by initializing the submodules used by this repository. Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
+* `install.sh` will start by initializing the submodules used by this repository (base-16, etc.). 
+* Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. 
+* Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. 
+* Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
+* Next, the install script will perform a check to see if it is running on an OSX machine. If so, it will install Homebrew if it is not currently installed and will install the homebrew packages listed in [`brew.sh`](install/brew.sh). Then, it will run [`osx.sh`](install/osx.sh) and change some OSX configurations. This file is pretty well documented and so it is advised that you __read through and comment out any changes you do not want__. 
+* Next, the script will call [`install/nvm.sh`](install/nvm.sh) to install Node.js (stable) using nvm.
 
-Next, the isntall script will perform a check to see if it is running on an OSX machine. If so, it will install Homebrew if it is not currently installed and will install the homebrew packages listed in [`brew.sh`](install/brew.sh). Then, it will run [`osx.sh`](install/osx.sh) and change some OSX configurations. This file is pretty well documented and so it is advised that you __read through and comment out any changes you do not want__. Next, the script will call [`install/nvm.sh`](install/nvm.sh) to install Node.js (stable) using nvm.
+## post install
 
-## ZSH Setup
+You'll need to run the following to install neovim plugins, see the section [below](#Vim-and-Neovim-Setup)
+```
+nvim +PlugInstall
+```
+
+## ZSH Details 
 
 ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. The following occurs in this file:
 
@@ -43,6 +86,8 @@ ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the ho
 * Setup NVM, RVM, and hub if they exist
 * Set the base16 colorscheme to use for both the terminal (iTerm2) and vim/neovim by exporting the `$THEME` and `$BACKGROUND` environment variables
 * And more...
+* note: I commented out the:[ -z "$TMUX" ] && export TERM=xterm-256color-italic, since I don't want to deal with italics for the time being. 
+
 
 ### Prompt
 
@@ -90,10 +135,16 @@ vim and neovim should just work once the correct plugins are installed. To insta
 ```bash
 nvim +PlugInstall
 ```
+Or once in neovim run :PlugInstall
 
 ## Fonts
 
-I am currently using [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) as my default font, which does not include Powerline support. In addition to this, I do have [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) installed and configured to be used for non-ascii characters. If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
+I am currently using [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) as my default font, which does not include Powerline support. In addition to this, I do have [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) installed and configured to be used for non-ascii characters. 
+
+From the nerd-fonts page, you can download the Droid Powerline font with: `cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf`, install it by double clicking.
+
+If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
+
 
 ![](http://nicknisi.com/share/iterm-fonts-config.png)
 
