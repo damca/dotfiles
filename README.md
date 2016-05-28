@@ -91,7 +91,6 @@ ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the ho
 * Setup NVM, RVM, and hub if they exist
 * Set the base16 colorscheme to use for both the terminal (iTerm2) and vim/neovim by exporting the `$THEME` and `$BACKGROUND` environment variables
 * And more...
-* note: I commented out the:[ -z "$TMUX" ] && export TERM=xterm-256color-italic, since I don't want to deal with italics for the time being. 
 
 
 ### Prompt
@@ -144,9 +143,13 @@ Or once in neovim run :PlugInstall
 
 ## Fonts
 
-I am currently using [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) as my default font, which does not include Powerline support. In addition to this, I do have [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) installed and configured to be used for non-ascii characters. 
+nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart). This font doesn't support Powerline for non-ascii characters. So I use 'Droid Sans Mono for Powerline' from [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) for both.
 
-From the nerd-fonts page, you can download the Droid Powerline font with: `cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf`, install it by double clicking.
+From the nerd-fonts page, you can download the Droid Powerline font with: 
+```bash
+cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf
+```
+Install it by double clicking the file. I commented out the: [ -z "$TMUX" ] && export TERM=xterm-256color-italic from the zshrc since the font doesn't support italics (and even after compiling the xterm-italics in resources and adding it in iterm2 the zshrc was still throwing 'Can't find xterm-256color-italic defnition' errors) 
 
 If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
 
