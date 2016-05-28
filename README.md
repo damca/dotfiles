@@ -50,7 +50,7 @@ In this example, Homebrew will look for the package named bash on your computer 
 
 ### Configure git
 
-Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#Prompt) and to clone into the base16 repo (found in .dotfiles/.config). You need to have an ssh set up with git.
+Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#prompt) and to clone into the base16 repo (found in .dotfiles/.config). You need to have an ssh set up with git.
 
 NOTE: to personalize you'll want to edit the .dotfiles/git/gitconfig.symlink file
 
