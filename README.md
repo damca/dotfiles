@@ -28,7 +28,8 @@ Installing bash via Homebrew – To get things started, you need to tell Homebre
 Open your terminal and enter this command:
 `brew install bash`
 Homebrew installs packages to /usr/local/bin/, so you’ll need to specify that path when looking for any Homebrew packages. In the following three commands, we’ll initiate a shell as the root user, append our desired shell’s path to a file of whitelisted system shells, and then change the system shell globally.
-```sudo -s
+```bash
+sudo -s
 echo /usr/local/bin/bash >> /etc/shells
 chsh -s /usr/local/bin/bash
 ```
