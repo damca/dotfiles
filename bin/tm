@@ -19,7 +19,7 @@ do
 			tmux new -s "$SESSION_NAME"
 			break
 			;;
-		"zsh")
+		"zsh") # Does not start a tmux session, instead runs zsh.
 			zsh --login
 			break;;
 		*)

@@ -252,6 +252,7 @@ nmap <silent> <leader>b :bw<cr>
 
 " shortcut to save
 nmap <leader>, :w<cr>
+nmap <leader>q :q<cr>
 
 " disable Ex mode
 noremap Q <NOP>
@@ -428,6 +429,7 @@ function! HiInterestingWord(n)
     normal! `z
 endfunction
 
+" <silent> causes the entered command to not echo on the command line
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
 nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
 nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
