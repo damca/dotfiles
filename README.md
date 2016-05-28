@@ -1,6 +1,6 @@
 # Dotfiles
 
-Welcome to my world. This is a collection of vim, tmux, and zsh configurations. Interested in a video walkthrough of the dotfiles? Check out my talk, [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ).
+This is my personalized version of nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his excellent video at [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ). Be warned: I am learning as I go and there a lot of gaps in my git/bash/vim/tmux knowledge ;)
 
 ## Contents
 
@@ -21,8 +21,13 @@ If on OSX, you will need to install the XCode CLI tools before continuing. To do
 xcode-select --install
 ```
 
+### Get Homebrew
+
+This is done automatically with the install.sh and brew.sh files, but in order for the script to fully execute you need a new version of bash or zsh. There are plenty of tutorials online for getting Homebrew going. Until I automate installing the new bash from within the brew.sh there is a 'chicken before the egg' problem.
+
 ### Get a new version of BASH/ZSH
-Make sure to use an updated version of bash or zsh when running the subsequent `install.sh`. The following bash install segment is from: https://johndjameson.com/blog/updating-your-shell-with-homebrew/
+Hopefully in the future I can put this process in the brew.sh, but until then this part is manual.
+Make sure to use an updated version of bash or zsh when running the subsequent `install.sh`. The following bash install segment is from [John Jameson's blog](https://johndjameson.com/blog/updating-your-shell-with-homebrew/)
 
 Installing bash via Homebrew – To get things started, you need to tell Homebrew to install the latest version of your shell. Whether you prefer using Bash or Zsh, the following instructions will work for both. Just change the word bash to zsh, and you’ll be good to go.
 Open your terminal and enter this command:
@@ -34,7 +39,7 @@ echo /usr/local/bin/bash >> /etc/shells
 chsh -s /usr/local/bin/bash
 ```
 
-NOTE: I had to log out and login for the effects to take place.
+NOTE: you will have to log out and log back in for the effect to take place.
 
 Now you can close and reopen your terminal. With just those few commands, you should be using with the latest version of your shell. You can double-check the version you’re using with the command echo $BASH_VERSION. Or, if you’ve installed Zsh, you can use the command echo $ZSH_VERSION to do the same.
 That’s it for installing your brand-new shell. Let’s take a look at how to keep it up-to-date with the help of Homebrew.
@@ -42,11 +47,10 @@ That’s it for installing your brand-new shell. Let’s take a look at how to k
 Staying current – The Homebrew command update actually refers to updating Homebrew itself. If you want to install the latest version of a Homebrew package, you’ll have to use the word upgrade instead:
 `brew upgrade bash`
 In this example, Homebrew will look for the package named bash on your computer and install the latest version. If you already have the newest version installed, Homebrew will print an error message telling you exactly that. You’ll have to run this command manually from time to time, but it’s a much more reliable approach than downloading directly from source or maintaining a cloned version control repository.
-Now go out and write shell scripts for all the things.
 
 ### Configure git
 
-Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#Prompt) and to clone into the base16 repo (found in .dotfiles/.config, you need to have an ssh set up with git.
+Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#Prompt) and to clone into the base16 repo (found in .dotfiles/.config). You need to have an ssh set up with git.
 
 NOTE: to personalize you'll want to edit the .dotfiles/git/gitconfig.symlink file
 
