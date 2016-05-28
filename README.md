@@ -54,6 +54,9 @@ Download git and configure, in particular see: https://help.github.com/articles/
 
 NOTE: to personalize you'll want to edit the .dotfiles/git/gitconfig.symlink file
 
+### Get iterm2
+
+
 ## install.sh
 
 Clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
@@ -143,13 +146,13 @@ Or once in neovim run :PlugInstall
 
 ## Fonts
 
-nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart). This font doesn't support Powerline for non-ascii characters. So I use 'Droid Sans Mono for Powerline' from [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) for both.
+iterm2 supports ascii and non-ascii fonts, see the image below. nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) for ascii characters. However, this font doesn't support Powerline or non-ascii characters. A font from [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) can be used for the non-ascii characters. 
 
-From the nerd-fonts page, you can download the Droid Powerline font with: 
+I use the 'Droid Powerline' font from the nerd-fonts page, you can download the font with: 
 ```bash
 cd ~/Library/Fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf
 ```
-Install it by double clicking the file. I commented out the: [ -z "$TMUX" ] && export TERM=xterm-256color-italic from the zshrc since the font doesn't support italics (and even after compiling the xterm-italics in resources and adding it in iterm2 the zshrc was still throwing 'Can't find xterm-256color-italic defnition' errors) 
+Install it by double clicking the file. I commented out the: `[ -z "$TMUX" ] && export TERM=xterm-256color-italic` line from the zshrc since the Droid font doesn't support italics (and even after compiling the xterm-italics in resources and adding it in iterm2 the zshrc was still throwing 'Can't find xterm-256color-italic definition' errors) 
 
 If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
 
