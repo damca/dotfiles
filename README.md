@@ -48,6 +48,10 @@ Staying current – The Homebrew command update actually refers to updating Home
 `brew upgrade bash`
 In this example, Homebrew will look for the package named bash on your computer and install the latest version. If you already have the newest version installed, Homebrew will print an error message telling you exactly that. You’ll have to run this command manually from time to time, but it’s a much more reliable approach than downloading directly from source or maintaining a cloned version control repository.
 
+### Make ZSH the default shell for new terminal sessions
+
+Have added `/usr/local/bin/zsh` to `/etc/shells`, then `chsh -s $(which zsh)`.
+
 ### Configure git
 
 Download git and configure, in particular see: https://help.github.com/articles/set-up-git/. You will need this for the [prompt](#prompt) and to clone into the base16 repo (found in .dotfiles/.config). You need to have an ssh set up with git.

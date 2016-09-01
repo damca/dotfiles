@@ -1,18 +1,21 @@
-" Section Plugins {{{
-call plug#begin('~/.config/nvim/plugged')
+"""""""""""""
+"""PLUGINS"""
+"""""""""""""
 
+call plug#begin('~/.config/nvim/plugged')
+"""ON DEMAND LOADING""" so its not slow (like webstorm):  Plug 'plugin' { 'on': ['cmd1', 'cmd2']}
+"""GROUP DEPENDENCIES""" Plug 'independent' | Plug 'dependent'
 " colorschemes
 Plug 'chriskempson/base16-vim'
-
-
 " utilities
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, mapped to <leader>t
+Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, mapped to <leader>r
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'ryanoasis/vim-devicons' " file drawer
 Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
+Plug 'rking/ag.vim' " Ag commands
 Plug 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc.
-Plug 'tpope/vim-commentary' " comment stuff out
+Plug 'tpope/vim-commentary' " comment stuff out, gcc: line, gc: selection
 Plug 'tpope/vim-unimpaired' " mappings which are simply short normal mode aliases for commonly used ex commands
-Plug 'tpope/vim-endwise' " automatically add end in ruby
+" Plug 'tpope/vim-endwise' " automatically add end in ruby
 Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
 Plug 'tpope/vim-surround' " mappings to easily delete, change and add such surroundings in pairs, such as quotes, parens, etc.
 Plug 'benmills/vimux' " tmux integration for vim
@@ -38,42 +41,38 @@ Plug 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
 Plug 'sickill/vim-pasta' " context-aware pasting
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " distraction-free writing
 Plug 'junegunn/limelight.vim', { 'on': 'Limelight' } " focus tool. Good for presentating with vim
-
 " language-specific plugins
-Plug 'mattn/emmet-vim', { 'for': 'html' } " emmet support for vim - easily create markdup wth CSS-like syntax
-Plug 'gregsexton/MatchTag', { 'for': 'html' } " match tags in html, similar to paren support
-Plug 'othree/html5.vim', { 'for': 'html' } " html5 support
+" Plug 'mattn/emmet-vim', { 'for': 'html' } " emmet support for vim - easily create markdup wth CSS-like syntax
+" Plug 'gregsexton/MatchTag', { 'for': 'html' } " match tags in html, similar to paren support
+" Plug 'othree/html5.vim', { 'for': 'html' } " html5 support
 " Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " JavaScript support
-Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
-Plug 'moll/vim-node', { 'for': 'javascript' } " node support
+" Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
+" Plug 'moll/vim-node', { 'for': 'javascript' } " node support
 " Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' } " JavaScript syntax plugin
-Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
-Plug 'mxw/vim-jsx', { 'for': 'jsx' } " JSX support
-Plug 'elzr/vim-json', { 'for': 'json' } " JSON support
-Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
-" Plug 'Quramy/tsuquyomi', { 'for': 'typescript', 'do': 'npm install' } " extended typescript support - works as a client for TSServer
-Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
-" Plug 'clausreinke/typescript-tools.vim', { 'for': 'typescript' } " typescript tools
-" Plug 'juvenn/mustache.vim', { 'for': 'mustache' } " mustache support
-Plug 'mustache/vim-mustache-handlebars' " mustach support
-Plug 'digitaltoad/vim-jade', { 'for': ['jade', 'pug'] } " jade support
-Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } " sass scss syntax support
+" Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
+" Plug 'mxw/vim-jsx', { 'for': 'jsx' } " JSX support
+" Plug 'elzr/vim-json', { 'for': 'json' } " JSON support
+" Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
+" Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
+" Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
+" Plug 'mustache/vim-mustache-handlebars' " mustach support
+" Plug 'digitaltoad/vim-jade', { 'for': ['jade', 'pug'] } " jade support
+" Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } " sass scss syntax support
 Plug 'wavded/vim-stylus', { 'for': ['stylus', 'markdown'] } " markdown support
-Plug 'groenewege/vim-less', { 'for': 'less' } " less support
+" Plug 'groenewege/vim-less', { 'for': 'less' } " less support
 Plug 'ap/vim-css-color', { 'for': ['css','stylus','scss'] } " set the background of hex color values to the color
 Plug 'hail2u/vim-css3-syntax', { 'for': 'css' } " CSS3 syntax support
-Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
-Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
-Plug 'fatih/vim-go', { 'for': 'go' } " go support
-Plug 'timcharper/textile.vim', { 'for': 'textile' } " textile support
-Plug 'tclem/vim-arduino' " arduino support - compile wihtout needing to open the arduino IDE
+" Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
+" Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
+" Plug 'fatih/vim-go', { 'for': 'go' } " go support
+" Plug 'timcharper/textile.vim', { 'for': 'textile' } " textile support
+" Plug 'tclem/vim-arduino' " arduino support - compile wihtout needing to open the arduino IDE
 
 call plug#end()
 
-" }}}
-
-" Section General {{{
+"""""""""""""""""""""""""""
+"""GENERAL CONFIGURATION"""
+"""""""""""""""""""""""""""
 
 " load plugins from vundle
 " source ~/.vim/plugins.vim
@@ -125,8 +124,6 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 set laststatus=2 " show the satus line all the time
-
-" }}}
 
 " Section AutoGroups {{{
 " file type specific settings
@@ -220,11 +217,13 @@ let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
 execute "set background=".$BACKGROUND
 execute "colorscheme ".$THEME
-highlight Comment cterm=italic
-highlight htmlArg cterm=italic
+
+" if you have italic supported font and terminal
+" highlight Comment cterm=italic
+" highlight htmlArg cterm=italic
 
 set number " show line numbers
-" set relativenumber " show relative line numbers
+set relativenumber " show relative line numbers
 
 set wrap "turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
@@ -267,6 +266,12 @@ map <leader>v :set paste!<cr>
 map <leader>ev :e! ~/.config/nvim/init.vim<cr>
 " edit gitconfig
 map <leader>eg :e! ~/.gitconfig<cr>
+" edit zshrc
+map <leader>ez :e! ~/.zshrc<cr>
+" edit tmux
+map <leader>et :e! ~/.tmux.conf<cr>
+" view tmux cheatsheet
+map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
 
 " clear highlighted search
 noremap <space> :set hlsearch! hlsearch?<cr>
@@ -277,7 +282,8 @@ nmap ;s :set invspell spelllang=en<cr>
 " toggle invisible characters
 set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-highlight SpecialKey ctermbg=none " make the highlighting of tabs less annoying
+" make the highlighting of tabs less annoying
+highlight SpecialKey ctermbg=none
 set showbreak=↪
 nmap <leader>l :set list!<cr>
 
@@ -304,8 +310,8 @@ map <leader>wc :wincmd q<cr>
 nnoremap <leader>i :set cursorline!<cr>
 
 " scroll the viewport faster
-nnoremap <C-e> 3<C-e>
-nnoremap <C-y> 3<C-y>
+nnoremap <C-e> 5<C-e>
+nnoremap <C-y> 5<C-y>
 
 " moving up and down work as you would expect
 nnoremap <silent> j gj
@@ -444,6 +450,7 @@ hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
+
 function! HtmlUnEscape()
   silent s/&lt;/</eg
   silent s/&gt;/>/eg
@@ -452,9 +459,10 @@ endfunction
 
 nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
 
-" }}}
 
-" Section Plugins {{{
+""""""""""""""
+"""NERDTREE"""
+""""""""""""""
 
 " close NERDTree after a file is opened
 let g:NERDTreeQuitOnOpen=0
@@ -467,30 +475,31 @@ nmap <silent> <leader>k :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>y :NERDTreeFind<cr>
 
-" map fuzzyfinder (CtrlP) plugin
-" nmap <silent> <leader>t :CtrlP<cr>
-nmap <silent> <leader>r :CtrlPBuffer<cr>
-let g:ctrlp_map='<leader>t'
-let g:ctrlp_dotfiles=1
-let g:ctrlp_working_path_mode = 'ra'
+""""""""""""""
+"""FUGITIVE"""
+""""""""""""""
 
-" Fugitive Shortcuts
 nmap <silent> <leader>gs :Gstatus<cr>
 nmap <leader>ge :Gedit<cr>
 nmap <silent><leader>gr :Gread<cr>
 nmap <silent><leader>gb :Gblame<cr>
-
 nmap <leader>m :MarkedOpen!<cr>
 nmap <leader>mq :MarkedQuit<cr>
 
-" toggle Limelight
+"""""""""""""""
+"""LIMELIGHT"""
+"""""""""""""""
+
 nmap <leader>f :Limelight!!<cr>
+
+"""""""""""""
+"""NEOMAKE"""
+"""""""""""""
 
 let g:neomake_javascript_jshint_maker = {
     \ 'args': ['--verbose'],
     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
 \ }
-
 let g:neomake_typescript_tsc_maker = {
     \ 'args': ['-m', 'commonjs', '--noEmit' ],
     \ 'append_file': 0,
@@ -500,10 +509,17 @@ let g:neomake_typescript_tsc_maker = {
         \ '%Eerror %m,' .
         \ '%C%\s%\+%m'
 \ }
-
 " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
 let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
 
+"""""""""""
+"""CTRLP"""
+"""""""""""
+
+nmap <silent> <leader>r :CtrlPBuffer<cr>
+let g:ctrlp_map='<leader>t'
+let g:ctrlp_dotfiles=1
+let g:ctrlp_working_path_mode = 'ra'
 " CtrlP ignore patterns
 " let g:ctrlp_custom_ignore = {
 "             \ 'dir': '\.git$\|node_modules$\|bower_components$\|\.hg$\|\.svn$',
@@ -511,12 +527,13 @@ let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
 "             \ }
 " only show files that are not ignored by git
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
 " search the nearest ancestor that contains .git, .hg, .svn
 let g:ctrlp_working_path_mode = 2
 
+"""""""""""""
+"""AIRLINE"""
+"""""""""""""
 
-" airline options
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
