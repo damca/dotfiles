@@ -94,3 +94,5 @@ source $BASE16_SHELL
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="/home/darren/anaconda3/bin:$PATH"
