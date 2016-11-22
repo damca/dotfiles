@@ -1,5 +1,5 @@
 """""""""""""
-"""PLUGINS"""
+""PLUGINS"""
 """""""""""""
 
 call plug#begin('~/.config/nvim/plugged')
