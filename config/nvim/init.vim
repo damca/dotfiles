@@ -106,7 +106,7 @@ set shiftround " round indent to a multiple of 'shiftwidth'
 set completeopt+=longest
 
 if has('mouse')
-    set mouse=a
+    set mouse=a  " n: normal, v:visual, etc., a:all
     " set ttymouse=xterm2
 endif
 
