@@ -238,7 +238,7 @@ set smartindent
 " Section Mappings {{{
 
 " remap esc
-inoremap jk <esc>
+inoremap jj <esc>
 
 " markdown to html
 nmap <leader>md :%!markdown --html4tags <cr>
