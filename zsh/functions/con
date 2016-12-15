@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function con {
+	if which conda > /dev/null; then 
+		echo "Removing /anaconda3/ from PATH"
+		export PATH=`echo ${PATH} | awk -v RS=: -v ORS=: '/anaconda3/ {next} {print}'`
+	else
+		echo "Adding /Users/damca/anaconda3/bin to PATH"
+		export PATH="/Users/damca/anaconda3/bin:$PATH"
+	fi
+	}
