@@ -1,11 +1,18 @@
 #!/bin/bash
 
 function con {
+    # From matplotlib README.osx
+    # Note that your environment is somewhat important. Some conda users have 
+    # found that, to run the tests, their PYTHONPATH must include 
+    # /path/to/anaconda/.../site-packages and their DYLD_FALLBACK_LIBRARY_PATH 
+    # must include /path/to/anaconda/lib.
 	if which conda > /dev/null; then 
-		echo "Removing /anaconda3/ from PATH"
+		echo "Removing ../anaconda3/.. paths from PATH"
 		export PATH=`echo ${PATH} | awk -v RS=: -v ORS=: '/anaconda3/ {next} {print}'`
 	else
 		echo "Adding /Users/damca/anaconda3/bin to PATH"
+        echo "Adding /Users/damca/anaconda3/lib/python3.5/site-packages to PATH"
 		export PATH="/Users/damca/anaconda3/bin:$PATH"
+        export PATH="/Users/damca/anaconda3/lib/python3.5/site-packages:$PATH"
 	fi
 	}
