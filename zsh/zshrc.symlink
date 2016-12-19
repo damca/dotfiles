@@ -4,6 +4,10 @@ export ZSH=$DOTFILES/zsh
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
 
+# The terminfo database contains the description of the terminal capabilities.
+# Used by programs like 'vi' and 'curses' to control the screen. Usually kept at /usr/share/lib/terminfo
+# Functionally equivalent to the individual entries in the 'termcap' file, but is compiled, not ASCII.
+# Practically, this is used by persons who do a lot of remote access and want to preserve environments
 [[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
 
 # define the code directory
@@ -15,25 +19,26 @@ fi
 # source all .zsh files inside of the zsh/ directory
 for config ($ZSH/**/*.zsh) source $config
 
-if [[ -a ~/.localrc ]]; then
-    source ~/.localrc
-fi
+# if [[ -a ~/.localrc ]]; then
+    # source ~/.localrc
+# fi
 
 
 # initialize autocomplete
-autoload -U compinit add-zsh-hook
-compinit
+# autoload -U compinit add-zsh-hook
+# compinit
 
-for config ($ZSH/**/*completion.sh) source $config
+# for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
 
 export EDITOR='nvim'
 
+# Make hombrew stuff available
 export PATH=/usr/local/bin:$PATH
 
-# add /usr/local/sbin
-if [[ -d /usr/local/sbin ]]; then
-    export PATH=/usr/local/sbin:$PATH
-fi
+# add /usr/local/sbin, this sbin is for scripts that need superuser priveledges. We don't need that right now.
+# if [[ -d /usr/local/sbin ]]; then
+#    export PATH=/usr/local/sbin:$PATH
+# fi
 
 # adding path directory for custom scripts
 export PATH=$DOTFILES/bin:$PATH
@@ -70,31 +75,30 @@ load-nvmrc() {
         nvm use
     fi
 }
-add-zsh-hook chpwd load-nvmrc
+# add-zsh-hook chpwd load-nvmrc
 
-if hash brew 2>/dev/null; then
-    source $(brew --prefix nvm)/nvm.sh
-    source `brew --prefix`/etc/profile.d/z.sh
-    # when sourcing, check and ensure that the correct Node version is set
-    load-nvmrc
+# if hash brew 2>/dev/null; then
+#    source $(brew --prefix nvm)/nvm.sh
+#    source `brew --prefix`/etc/profile.d/z.sh
+#    # when sourcing, check and ensure that the correct Node version is set
+#    load-nvmrc
 
-fi
 
 # Base16 Shell
-# if [ -z "$THEME" ]; then
-    export THEME="base16-atelierlakeside"
-# fi
+if [ -z "$THEME" ]; then
+    export THEME="base16-atelier-lakeside"
+fi
 if [ -z "$BACKGROUND" ]; then
     export BACKGROUND="dark"
 fi
 
 BASE16_SHELL="$DOTFILES/.config/base16-shell/$THEME.$BACKGROUND.sh"
-# [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 source $BASE16_SHELL
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export NVM_DIR="/Users/damca/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+# export NVM_DIR="/Users/damca/.nvm"
+# . "/usr/local/opt/nvm/nvm.sh"
 

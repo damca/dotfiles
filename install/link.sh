@@ -42,6 +42,8 @@ done
 echo -e "\n\nCreating vim symlinks"
 echo "=============================="
 
+# typeset is the same as `declare`, it declares a list of variables
+# -A will make vimfiles treated as an array
 typeset -A vimfiles
 vimfiles[~/.vim]=$DOTFILES/config/nvim
 vimfiles[~/.vimrc]=$DOTFILES/config/nvim/init.vim

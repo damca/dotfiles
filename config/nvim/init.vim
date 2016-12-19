@@ -120,7 +120,13 @@ set diffopt+=vertical
 " highlight conflicts
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
+" tell vim to keep backups
+" set backup
+
+" tell vim where to put backup files
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" tell vim where to put swap files
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 set laststatus=2 " show the satus line all the time

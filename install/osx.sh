@@ -3,29 +3,35 @@
 echo -e "\n\nSetting OS X settings"
 echo "=============================="
 
-# echo "Finder: show all filename extensions"
+echo "Finder: show all filename extensions"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# echo "show hidden files by default"
+echo "show hidden files by default"
 defaults write com.apple.Finder AppleShowAllFiles -bool false
 
-# echo "only use UTF-8 in Terminal.app"
+echo "only use UTF-8 in Terminal.app"
 defaults write com.apple.terminal StringEncodings -array 4
 
-# echo "expand save dialog by default"
+echo "expand save dialog by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 
-# echo "show the ~/Library folder in Finder"
+echo "show the ~/Library folder in Finder"
 chflags nohidden ~/Library
 
+# When you quit an application and re-open it, Resume restores all windows as they were at the time the application was closed.
+# On a broader level, when you restart your Mac, all applications are restored to the exact state they were in at the time of shutdown.
+# Resume is extremely useful, but there are times when it can be annoying.
+# Its cleaner to uncheck "Restore windows when quitting..." in Settings -> General
 # echo "disable resume system wide"
 # defaults write NSGlobalDomainNSQuitAlwaysKeepWindows -bool false
 
-echo "Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+# Sometimes you want tab to go between all controls, not just text boxes
+# Cleaner to go under Settings -> Keyboard -> Shortcuts, and check "All controls" at bottom
+# echo "Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
+# defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-echo "Enable subpixel font rendering on non-Apple LCDs"
-defaults write NSGlobalDomain AppleFontSmoothing -int 2
+# echo "Enable subpixel font rendering on non-Apple LCDs"
+# defaults write NSGlobalDomain AppleFontSmoothing -int 2
 
 # echo "Enable the 2D Dock"
 # defaults write com.apple.dock no-glass -bool true

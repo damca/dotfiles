@@ -10,25 +10,25 @@ echo "=============================="
 
 # cli tools
 brew install ack
-brew install tree
-brew install wget
+# brew install tree  # find seems to work fine
+# brew install wget  # not doing web developement
 
 # development server setup
-brew install nginx
-brew install dnsmasq
+# brew install nginx
+# brew install dnsmasq
 
 # development tools
 brew install git
-brew install hub
-brew install macvim --override-system-vim
-brew install reattach-to-user-namespace
-brew install tmux
+brew install hub  # wraps git to make certain commands shorter
 brew install zsh
-brew install highlight
-brew install nvm
-brew install z
-brew install markdown
-brew install diff-so-fancy
+brew install z  # tracks most used directories to make cd smarter
+brew install diff-so-fancy  # git diff tool
+# brew install macvim --override-system-vim
+# brew install reattach-to-user-namespace  # intended to fix pbcopy/paste in tmux: unsupported on new sierra OS
+# brew install tmux  # iterm2 seems to do fine with split windows
+# brew install highlight  # source code formatter to make pretty html (or other "display"coded text: TeX, LaTex, RTF, etc.) snippets for blogs, etc.
+# brew install nvm  # node virtual machine:  using node.js currently
+# brew install markdown  # text to HTML conversion tool
 
 # install neovim
 brew install neovim/neovim/neovim

@@ -14,20 +14,22 @@ if [ "$(uname)" == "Darwin" ]; then
 
     source install/osx.sh
 
-    source install/nvm.sh
+    # source install/nvm.sh  # Not using node virtual machine
 
     # create a backup of the original nginx.conf
-    mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.original
-    ln -s ~/.dotfiles/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf
+    # mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.original
+    # ln -s ~/.dotfiles/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf
     # symlink the code.dev from dotfiles
-    ln -s ~/.dotfiles/nginx/code.dev /usr/local/etc/nginx/sites-enabled/code.dev
+    # ln -s ~/.dotfiles/nginx/code.dev /usr/local/etc/nginx/sites-enabled/code.dev
 fi
 
+# see 'set backupdir' and 'set directory' in .vimrc
 echo "creating vim directories"
 mkdir -p ~/.vim-tmp
 
 
 echo "Configuring zsh as default shell"
+echo /usr/local/bin/zsh >> /etc/shells
 chsh -s $(which zsh)
 
 echo "Done."
