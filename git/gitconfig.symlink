@@ -1,7 +1,7 @@
 # gitconfig
 [user]
 	name = damca
-	email = da.mca@outlook.com
+	email = dmcaffee@berkeley.edu
 [github]
     user = damca 
 [init]

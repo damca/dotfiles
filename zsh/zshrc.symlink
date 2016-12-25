@@ -53,11 +53,12 @@ fi
 # The first evaluates if the string is null.
 # [ -z "$TMUX" ] && export TERM=xterm-256color-italic
 
-# install rbenv
+# If rbenv installed. Initiate
 if hash rbenv 2>/dev/null; then
     eval "$(rbenv init -)"
 fi
 
+# If Ruby Virtual Machine installed. Add appropriate paths
 if [[ -d ~/.rvm ]]; then
     PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
     source ~/.rvm/scripts/rvm
@@ -68,14 +69,17 @@ if hash hub 2>/dev/null; then
     eval "$(hub alias -s)"
 fi
 
-# source nvm
-export NVM_DIR=~/.nvm
+# NODE STUFF
 
-load-nvmrc() {
-    if [[ -f .nvmrc && -r .nvmrc ]]; then
-        nvm use
-    fi
-}
+# source nvm
+# export NVM_DIR=~/.nvm
+
+# load-nvmrc() {
+#    if [[ -f .nvmrc && -r .nvmrc ]]; then
+#        nvm use
+#    fi
+#}
+
 # add-zsh-hook chpwd load-nvmrc
 
 # if hash brew 2>/dev/null; then
@@ -83,7 +87,9 @@ load-nvmrc() {
 #    source `brew --prefix`/etc/profile.d/z.sh
 #    # when sourcing, check and ensure that the correct Node version is set
 #    load-nvmrc
-
+#
+# export NVM_DIR="/Users/damca/.nvm"
+# . "/usr/local/opt/nvm/nvm.sh"
 
 # Base16 Shell
 if [ -z "$THEME" ]; then
@@ -98,8 +104,7 @@ BASE16_SHELL="$DOTFILES/.config/base16-shell/$THEME.$BACKGROUND.sh"
 source $BASE16_SHELL
 
 
+# If you are using the fzf plugin
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# export NVM_DIR="/Users/damca/.nvm"
-# . "/usr/local/opt/nvm/nvm.sh"
 

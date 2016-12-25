@@ -28,9 +28,18 @@ brew install diff-so-fancy  # git diff tool
 # brew install tmux  # iterm2 seems to do fine with split windows
 # brew install highlight  # source code formatter to make pretty html (or other "display"coded text: TeX, LaTex, RTF, etc.) snippets for blogs, etc.
 # brew install nvm  # node virtual machine:  using node.js currently
-# brew install markdown  # text to HTML conversion tool
+brew install markdown  # text to HTML conversion tool
 
 # install neovim
 brew install neovim/neovim/neovim
+
+# other tools
+brew install cask
+brew cask install fiji  # FIJI is just ImageJ
+
+# Blogging
+brew cask install marked  # markdown writing app
+brew install ruby
+gem install jekyll bundler
 
 exit 0

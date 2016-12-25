@@ -1,4 +1,4 @@
-# Dotfile
+# Dotfiles
 
 This is my personalized version of nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his excellent video at [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ). Be warned: I am learning as I go and there a lot of gaps in my git/bash/vim/tmux knowledge ;)
 
@@ -8,7 +8,7 @@ This is my personalized version of nicknisi's [dotfiles](https://github.com/nick
 + [ZSH Details](#zsh-details)
 + [Vim and Neovim Setup](#vim-and-neovim-setup)
 + [Fonts](#fonts)
-+ [Tmux](#tmux-configuration)
++ [Anaconda](#anaconda)
 
 ## starting clean
 
@@ -106,6 +106,6 @@ A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). You'll wan
 
 ![](http://nicknisi.com/share/iterm-fonts-config.png)
 
-## Tmux Configuration
+## Anaconda
 
-*TODO: Documentation coming soon.*
+Homebrew and [Anaconda](https://www.continuum.io/downloads) sometimes can mess each other up with dependencies found the PATH. To avoid this my default shell in iterm2 is the updated bash, and whenever I want to use brew, I'll start zsh. But within zsh, anaconda can be activated by toggling it in the PATH with the con script.
