@@ -5,6 +5,7 @@
 [github]
     user = damca 
 [init]
+# hooks and other info is copied into each new .git
     templatedir = ~/.dotfiles/git/templates
 [alias]
     # list all aliases
