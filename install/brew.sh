@@ -41,5 +41,6 @@ brew cask install fiji  # FIJI is just ImageJ
 brew cask install marked  # markdown writing app
 brew install ruby
 gem install jekyll bundler
+brew install wget
 
 exit 0
