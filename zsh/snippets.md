@@ -14,3 +14,5 @@
     * `find /path/to/base/dir -type f -print0 | xargs -0 chmod 644`
   * Yet another way: `find /path/to/base/dir -type d -exec chmod 755 {} +`
     * Doesn't behave as expected in zsh
+
+* `[[ -f file ]] && echo YES` [[]] is the conditional operator. If the file is present, will echo.

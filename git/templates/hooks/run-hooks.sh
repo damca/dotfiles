@@ -8,12 +8,18 @@ hooks=~/.dotfiles/git/hooks
 
 echo "Executing $hook_type hook(s)"
 
-for hook in $hooks/*.$hook_type; do
-	echo ""
-	echo "${COLOR_LIGHTPURPLE}Executing ${hook}${COLOR_NONE}"
-	${hook}
-	EXIT_CODE=$((${EXIT_CODE} + $?))
-done
+# Use the fact that ls exits with 0 if no files are found with *
+if ls $hooks/*.$hook_type 1> /dev/null 2>&1; then
+    echo "Found: $hooks/*.$hook_type"
+    for hook in $hooks/*.$hook_type; do
+        echo ""
+        echo "${COLOR_LIGHTPURPLE}Executing ${hook}${COLOR_NONE}"
+        ${hook}
+        EXIT_CODE=$((${EXIT_CODE} + $?))
+    done
+else
+    echo "No $hook_type hooks found in $hooks"
+fi
 
 if [[ ${EXIT_CODE} -ne 0 ]]; then
 	echo ""
