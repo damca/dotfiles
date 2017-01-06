@@ -85,7 +85,7 @@ set autoread " detect when a file is changed
 " make backspace behave in a sane manner
 set backspace=indent,eol,start
 " set a map leader for more key combos
-let g:mapleader = '\'
+let g:mapleader = ','
 set history=1000 " change history to 1000
 set textwidth=120
 " Tab control
@@ -160,6 +160,8 @@ augroup END
 """USER INTERFACE"""
 """"""""""""""""""""
 
+" see :help option-list
+
 " code folding settings
 set foldmethod=syntax " fold based on indent
 set foldnestmax=10 " deepest fold is 10 levels
@@ -178,7 +180,7 @@ set title " set terminal title
 " Searching
 set ignorecase " case insensitive searching
 set smartcase " case-sensitive if expresson contains a capital letter
-set hlsearch
+set hlsearch " highlight search
 set incsearch " set incremental search, like modern browsers
 set nolazyredraw " don't redraw while executing macros
 set magic " Set magic on, for regex
@@ -200,7 +202,18 @@ execute "colorscheme ".$THEME
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
 set number " show line numbers
-set relativenumber " show relative line numbers
+set relativenumber " show relative line numbers, see mapping below for toggling
+let g:rnu_on = 1
+nnoremap <leader>z :call RnuToggle()<cr>
+function! RnuToggle()
+	if g:rnu_on
+		setlocal nornu
+		let g:rnu_on = 0
+	else
+		setlocal rnu
+		let g:rnu_on = 1
+	endif
+endfunction
 set wrap "turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
@@ -244,8 +257,6 @@ nnoremap <C-p> :bprevious<CR>
 inoremap jk <esc>
 " select whole block
 nmap <leader>p {V}
-" add a line and return to normal mode
-nnoremap op o<esc>
 " markdown to html
 nmap <leader>md :%!markdown --html4tags <cr>
 " remove extra whitespace
@@ -282,23 +293,28 @@ set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 " make the highlighting of tabs less annoying
 highlight SpecialKey ctermbg=none
 set showbreak=↪
-nmap <leader>l :set list!<cr>
+nmap <leader>li :set list!<cr>
+" toggle cursor line
+nnoremap <leader>ll :set cursorline!<cr>
 " Textmate style indentation
 vmap <leader>[ <gv
 vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 " switch between current and last buffer
-" nmap <leader> <c-^>
+nmap <leader>. <c-^>
 " enable . command in visual mode
 vnoremap . :normal .<cr>
 map <silent> <C-h> :call WinMove('h')<cr>
 map <silent> <C-j> :call WinMove('j')<cr>
 map <silent> <C-k> :call WinMove('k')<cr>
 map <silent> <C-l> :call WinMove('l')<cr>
+" resize windows. Using option char on mac
+nmap <leader>h :vertical :res +10<cr>
+nmap <leader>j :res +10<cr>
+nmap <leader>k :res -10<cr>
+nmap <leader>l :vertical :res -10<cr>
 map <leader>wc :wincmd q<cr>
-" toggle cursor line
-nnoremap <leader>ll :set cursorline!<cr>
 " scroll the viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
@@ -314,8 +330,8 @@ map <leader>r :call RunCustomCommand()<cr>
 " map <leader>s :call SetCustomCommand()<cr>
 let g:silent_custom_command = 0
 " helpers for dealing with other people's code
-nmap \t :set ts=4 sts=4 sw=4 noet<cr>
-nmap \s :set ts=4 sts=4 sw=4 et<cr>
+" nmap \t :set ts=4 sts=4 sw=4 noet<cr>
+" nmap \s :set ts=4 sts=4 sw=4 et<cr>
 " nmap <leader>w :setf textile<cr> :Goyo<cr>
 nmap <leader>w :Goyo<cr>
 " highlight interesting words
@@ -325,8 +341,12 @@ nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
 nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
 nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
 nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+" clear all matches
+nnoremap <leader>0 :call clearmatches()<cr>
 " escape html
 nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
+" vim-commentary defaults: gc{motion} or gcc. gc is awkard for me.
+nmap \ gc
 
 
 """""""""""""""
@@ -447,7 +467,7 @@ let NERDTreeShowHidden=1
 " remove some files by extension
 let NERDTreeIgnore = ['\.js.map$']
 " Toggle NERDTree
-nmap <silent> <leader>k :NERDTreeToggle<cr>
+nmap <silent> <leader>n :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nmap <silent> <leader>y :NERDTreeFind<cr>
 

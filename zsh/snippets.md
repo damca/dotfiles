@@ -1,8 +1,12 @@
 * See `man man`
   * Often man pages on things like `ls` or `chflags` will say "see chflags(2)". This means that you would enter `man 2 chflags`. As explained in `man man`, the 2 is the section number. 
-* `set extended_glob`
+* `setopt extended_glob`
   * Allows for more file completion operators
     * `echo ^*.(tif|xml)` find all NON tif or xml files
+  * `for i in c[0-9]; do; (cd $i; cd data_final; mkdir ~/git/lat/$i; echo *.(tif|xml); cp *.(tif|xml) ~/git/lat/$i); echo $PWD; done`
+    *  Find each directories with c[some number]
+    *  open a subshell with parentheses; which exits back to the CD after closing paranetheses
+    *  Go into the data_final folder, make a new dir, copy all tif and xml files to it
 
 * `chmod 755 $(find /path/to/base/dir -type d)`
 * `chmod 644 $(find /path/to/base/dir -type f)`
@@ -16,3 +20,4 @@
     * Doesn't behave as expected in zsh
 
 * `[[ -f file ]] && echo YES` [[]] is the conditional operator. If the file is present, will echo.
+*  ack -l 'pattern' | xargs perl -pi -E 's/pattern/replacement/g'
