@@ -113,6 +113,8 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " tell vim where to put swap files
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set laststatus=2 " show the satus line all the time
+" Can toggle local cursorline with leader ll
+set cursorline 
 
 
 """""""""""""""""""""""
@@ -128,6 +130,7 @@ augroup configgroup
     autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
     autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
+    autocmd FileType python setlocal expandtab
     autocmd FileType *.md.js :call SyntasticReset<cr>
     autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
@@ -219,7 +222,8 @@ set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
 set autoindent " automatically set indent of new line
-set smartindent
+" set smartindent
+
 
 
 """"""""""""""
@@ -229,15 +233,19 @@ set smartindent
 " Python
 let g:python3_host_prog = '/Users/damca/anaconda3/bin/python'
 let g:nvim_ipy_perform_mappings = 0
-" let g:ipy_truncate_input = 10
 imap <C-F> <Plug>(IPy-Complete)
 imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
 map <leader>i <Plug>(IPy-WordObjInfo) 
-map <c-s> <Plug>(IPy-Run)
+" Many ways to run
+map ;s <Plug>(IPy-Run)
+nmap ;b {V}<Plug>(IPy-Run)}
+nmap ;i <Plug>(IPy-Interrupt)
 imap jb <esc>{V}<Plug>(IPy-Run)
 imap js <esc><Plug>(IPy-Run)
-nmap ;s {jV}<Plug>(IPy-Run)}
+" Close
 map <space>c <Plug>(IPy-Terminate)
+" ipy-snippets
+nnoremap <leader>c :call IPyRun('plt.close("all")',1)<cr>
 " Better to not have an easy way to start a second kernel
 " Best way to restart is to close then send and reply 'yes' to prompt
 " map <space>o :IPython<cr> 

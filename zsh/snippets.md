@@ -20,4 +20,5 @@
     * Doesn't behave as expected in zsh
 
 * `[[ -f file ]] && echo YES` [[]] is the conditional operator. If the file is present, will echo.
-*  ack -l 'pattern' | xargs perl -pi -E 's/pattern/replacement/g'
+*  `ack -l 'pattern' | xargs perl -pi -E 's/pattern/replacement/g'`
+*  `find /dir1 -mindepth 2 -type f -exec mv -i '{}' /dir1 ';'` Flatten a directory

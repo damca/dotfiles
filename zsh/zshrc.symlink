@@ -108,3 +108,5 @@ source $BASE16_SHELL
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
+# Using new JAVA_HOME for pims.Bioformats
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home
