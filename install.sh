@@ -17,11 +17,6 @@ if [ "$(uname)" == "Darwin" ]; then
     # ln -s ~/.dotfiles/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf
     # symlink the code.dev from dotfiles
     # ln -s ~/.dotfiles/nginx/code.dev /usr/local/etc/nginx/sites-enabled/code.dev
-elif [ "$(uname)" == "Linux"]; then
-    # Typically echo will literally output the string. -e lets it interpret
-    # backslash escapes
-    echo -e "\n\nRunning on Linux"
-    source install/apt.sh
 fi
 
 # see 'set backupdir' and 'set directory' in .vimrc
@@ -30,4 +25,9 @@ mkdir -p ~/.vim-tmp
 echo "Configuring zsh as default shell"
 echo $(which zsh) >> /etc/shells
 chsh -s $(which zsh)
+
+# Make italic terminfo available
+tic $DOTFILES/resources/xterm-256color-italic
+# Need to restart
+
 echo "Done."

@@ -205,8 +205,8 @@ execute "colorscheme ".$THEME
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
 set number " show line numbers
-set relativenumber " show relative line numbers, see mapping below for toggling
-let g:rnu_on = 1
+" set relativenumber " show relative line numbers, see mapping below for toggling
+let g:rnu_on = 0
 nnoremap <leader>z :call RnuToggle()<cr>
 function! RnuToggle()
 	if g:rnu_on
