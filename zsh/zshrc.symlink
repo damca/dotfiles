@@ -91,17 +91,17 @@ fi
 # export NVM_DIR="/Users/damca/.nvm"
 # . "/usr/local/opt/nvm/nvm.sh"
 
-# Base16 Shell
-if [ -z "$THEME" ]; then
-    export THEME="base16-atelier-lakeside"
-fi
-if [ -z "$BACKGROUND" ]; then
-    export BACKGROUND="dark"
-fi
+# # Base16 Shell
+# if [ -z "$THEME" ]; then
+#     export THEME="base16-atelier-lakeside"
+# fi
+# if [ -z "$BACKGROUND" ]; then
+#     export BACKGROUND="dark"
+# fi
 
-BASE16_SHELL="$DOTFILES/.config/base16-shell/$THEME.$BACKGROUND.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-source $BASE16_SHELL
+# BASE16_SHELL="$DOTFILES/.config/base16-shell/$THEME.$BACKGROUND.sh"
+# [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+# source $BASE16_SHELL
 
 
 # If you are using the fzf plugin

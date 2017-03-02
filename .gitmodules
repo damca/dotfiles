@@ -4,3 +4,6 @@
 [submodule "fonts/FiraCode"]
 	path = fonts/FiraCode
 	url = https://github.com/tonsky/FiraCode.git
+[submodule ".config/base16-terminal-app"]
+	path = .config/base16-terminal-app
+	url = https://github.com/korzhyk/base16-terminal-app.git
