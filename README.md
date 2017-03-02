@@ -102,8 +102,6 @@ Or once in neovim run :PlugInstall
 
 A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). But currently it does not support italics. 
 
-![](http://nicknisi.com/share/iterm-fonts-config.png)
-
 ## Anaconda
 
 Homebrew and [Anaconda](https://www.continuum.io/downloads) sometimes can mess each other up with dependencies found the PATH. To avoid this my default shell in iterm2 is the updated bash, and whenever I want to use brew, I'll start zsh. But within zsh, anaconda can be activated by toggling it in the PATH with the con script.
