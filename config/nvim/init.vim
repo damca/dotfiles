@@ -416,6 +416,7 @@ noremap Q <NOP>
 noremap <space>s :set hlsearch! hlsearch?<cr>
 " activate spell-checking alternatives
 nmap ;;s :set invspell spelllang=en<cr>
+" hi SpellBad ctermfg=015 ctermbg=000
 " enable . command in visual mode
 vnoremap . :normal .<cr>
 map <silent> <C-h> :call WinMove('h')<cr>

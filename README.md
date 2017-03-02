@@ -1,39 +1,27 @@
 # Dotfiles
 
-This is my personalized version of nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his excellent video at [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ). Be warned: I am learning as I go and there a lot of gaps in my git/bash/vim/tmux knowledge ;)
+Check out nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his excellent video at [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ). 
 
 ## Contents
 
-+ [starting clean](#starting-clean)
++ [Workflow](#workflow)
 + [ZSH Details](#zsh-details)
 + [Vim and Neovim Setup](#vim-and-neovim-setup)
 + [Fonts](#fonts)
 + [Anaconda](#anaconda)
 
-## starting clean
+## Workflow
 
-This requires OSX.  
-* Get [iterm2](https://www.iterm2.com/). Such a nice terminal emulator. Default profile preferences are a plist in ~/Library/Preferences/
-*  Install `brew`. Your /usr/local directory is empty, [Homebrew](http://brew.sh/) will use this directory to do local installs and builds. You can clean it out whenever you need. Also, homebrew now automatically installs the XCode CLI tools
-*  Your bash is out of date and cannot run the install.sh correctly. Run `brew install bash`
+### Terminal
 
-```bash
-sudo -s  # Uses whatever shell is assigned to the SHELL variable
-echo /usr/local/bin/bash >> /etc/shells  # Appends the new bash to the system's list
-chsh -s /usr/local/bin/bash  # change shells 
-```
+In the past I've used [iterm2](https://www.iterm2.com/). Which works great,
+but I found that I didn't need all the features. And in favor of simplicity
+I've adopted using OSX's Terminal.app (which can still do all the fancy
+colorizations and supports some ligature fonts like FiraCode). 
 
-NOTE: you will have to log out and log back in for the effect to take place.
+### Editor
 
-* Run `brew install git`, and then clone this repo to your homefolder
-* [Configure ssh fot git.](https://help.github.com/articles/generating-an-ssh-key/) Not totally necessary at the moment, but useful. This repo uses [base16](https://github.com/chriskempson/base16) as a submodule, and having git configured will smooth things out. NOTE: to personalize you'll want to edit the .dotfiles/git/gitconfig.symlink file
-* Run `bash install.sh`.
-  * `install.sh` will start by initializing the submodules used by this repository (base-16, etc.). 
-  * Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. 
-  * Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. 
-  * Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
-  * Next, the install script will perform a check to see if it is running on an OSX machine. If so, it will install Homebrew if it is not currently installed and will install the homebrew packages listed in [`brew.sh`](install/brew.sh). Then, it will run [`osx.sh`](install/osx.sh) and change some OSX configurations. This file is pretty well documented and so it is advised that you __read through and comment out any changes you do not want__. 
-*  You'll need to run `nvim +PlugInstall` to add the necessary plugins found in the vimrc
+Know thine editor. Turns out editing is more important than dumping content. Neovim has been the best version of Vim that I've found.
 
 ## ZSH Details 
 
@@ -46,9 +34,7 @@ ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the ho
 * source a `~/.localrc` if it exists so that additional configurations can be made that won't be kept track of in this dotfiles repo. This is good for things like API keys, etc.
 * Add the `~/bin` and `$DOTFILES/bin` directories to the path
 * Setup NVM, RVM, and hub if they exist
-* Set the base16 colorscheme to use for both the terminal (iTerm2) and vim/neovim by exporting the `$THEME` and `$BACKGROUND` environment variables
 * And more...
-
 
 ### Prompt
 
