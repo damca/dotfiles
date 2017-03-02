@@ -271,7 +271,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " search the nearest ancestor that contains .git, .hg, .svn
 " let g:ctrlp_working_path_mode = 2
 " airline
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16_atelierlakeside'
