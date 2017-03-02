@@ -10,7 +10,7 @@ source install/link.sh
 if [ "$(uname)" == "Darwin" ]; then
     echo -e "\n\nRunning on OSX"
     source install/brew.sh
-    source install/osx.sh
+    # source install/osx.sh
     # source install/nvm.sh  # Not using node virtual machine
     # create a backup of the original nginx.conf
     # mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.original

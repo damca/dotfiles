@@ -205,10 +205,10 @@ set tm=500
 " switch syntax highlighting on
 syntax on
 set encoding=utf8
-let base16colorspace=256  " Access colors present in 256 colorspace"
+" let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
-execute "set background=".$BACKGROUND
-execute "colorscheme ".$THEME
+" execute "set background=".$BACKGROUND
+" execute "colorscheme ".$THEME
 " if you have italic supported font and terminal
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
@@ -274,7 +274,7 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='base16'
+" let g:airline_theme='base16'
 " don't hide quotes in json files
 let g:vim_json_syntax_conceal = 0
 let g:SuperTabCrMapping = 0
