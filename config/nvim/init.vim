@@ -1,3 +1,9 @@
+" :help runtime, :echo $VIMRUNTIME
+" :help plugins
+" :scriptnames   show all scripts loaded in the current session.
+"                generally follows: plugins, ftplugin, after/ftplugin, syntax, after/syntax
+" :set ro        be careful with important files
+
 """""""""""""
 ""PLUGINS"""
 """""""""""""
@@ -25,6 +31,7 @@ Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
 " Plug 'scrooloose/syntastic' " syntax checking for vim
 Plug 'benekastah/neomake' " neovim replacement for syntastic using neovim's job control functonality
 Plug 'tpope/vim-fugitive' " amazing git wrapper for vim
+Plug 'tpope/vim-characterize'  " ga to characterize unicode characters
 Plug 'tpope/vim-repeat' " enables repeating other supported plugins with the . command
 Plug 'garbas/vim-snipmate' " snippet manager
 Plug 'editorconfig/editorconfig-vim' " .editorconfig support
@@ -114,15 +121,16 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set laststatus=2 " show the satus line all the time
 " Can toggle local cursorline with leader ll
-set cursorline 
+" set cursorline "can make scrolling too slow
 
 
-"""""""""""""""""""""""
-""""" AUTOGROUPS """"""
-"""""""""""""""""""""""
+"""""""""""""""""""""
+"""""AUTOGROUPS"""""
+"""""""""""""""""""""
 
-" see :help autocmd
-" file type specific settings
+" :help autocmd
+" :set filetype? (see what filetype has been detected)
+" :help ftplugin-overrule
 augroup configgroup
     autocmd!
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
@@ -205,80 +213,103 @@ execute "colorscheme ".$THEME
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
 set number " show line numbers
-" set relativenumber " show relative line numbers, see mapping below for toggling
-let g:rnu_on = 0
-nnoremap <leader>z :call RnuToggle()<cr>
-function! RnuToggle()
-	if g:rnu_on
-		setlocal nornu
-		let g:rnu_on = 0
-	else
-		setlocal rnu
-		let g:rnu_on = 1
-	endif
-endfunction
+" set relativenumber " show relative line numbers, see leader z
 set wrap "turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
 set autoindent " automatically set indent of new line
+" set paste toggle: see leader v
+set pastetoggle=<F6>
 " set smartindent
-
-
-
-""""""""""""""
-"""MAPPINGS"""
-""""""""""""""
-
-" Python
 let g:python3_host_prog = '/Users/damca/anaconda3/bin/python'
 let g:nvim_ipy_perform_mappings = 0
-imap <C-F> <Plug>(IPy-Complete)
-imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
-map <leader>i <Plug>(IPy-WordObjInfo) 
-" Many ways to run
-map ;s <Plug>(IPy-Run)
-nmap ;b {V}<Plug>(IPy-Run)}
-nmap ;i <Plug>(IPy-Interrupt)
-imap jb <esc>{V}<Plug>(IPy-Run)
-imap js <esc><Plug>(IPy-Run)
-" Close
-map <space>c <Plug>(IPy-Terminate)
-" ipy-snippets
+let g:silent_custom_command = 0
+" let g:rnu_on = 0
+" toggle invisible characters
+set invlist
+set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+" make the highlighting of tabs less annoying
+highlight SpecialKey ctermbg=none
+set showbreak=↪
+" nerdtree
+" close NERDTree after a file is opened
+let g:NERDTreeQuitOnOpen=0
+" show hidden files in NERDTree
+let NERDTreeShowHidden=1
+" remove some files by extension
+let NERDTreeIgnore = ['\.js.map$']
+" neomake
+let g:neomake_javascript_jshint_maker = {
+    \ 'args': ['--verbose'],
+    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+\ }
+let g:neomake_typescript_tsc_maker = {
+    \ 'args': ['-m', 'commonjs', '--noEmit' ],
+    \ 'append_file': 0,
+    \ 'errorformat':
+        \ '%E%f %#(%l\,%c): error %m,' .
+        \ '%E%f %#(%l\,%c): %m,' .
+        \ '%Eerror %m,' .
+        \ '%C%\s%\+%m'
+\ }
+" autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
+let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
+" ctrlp
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
+let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_map='<leader>t'
+" let g:ctrlp_dotfiles=1
+let g:ctrlp_working_path_mode = 'ra'
+" CtrlP ignore patterns
+" let g:ctrlp_custom_ignore = {
+"             \ 'dir': '\.git$\|node_modules$\|bower_components$\|\.hg$\|\.svn$',
+"             \ 'file': '\.exe$\|\.so$'
+"             \ }
+" only show files that are not ignored by git
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" search the nearest ancestor that contains .git, .hg, .svn
+" let g:ctrlp_working_path_mode = 2
+" airline
+let g:airline_powerline_fonts=1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme='base16'
+" don't hide quotes in json files
+let g:vim_json_syntax_conceal = 0
+let g:SuperTabCrMapping = 0
+" gui
+if (has("gui_running"))
+    set guioptions=egmrt
+    set background=light
+    colorscheme solarized
+    let g:airline_left_sep=''
+    let g:airline_right_sep=''
+    let g:airline_powerline_fonts=0
+    let g:airline_theme='solarized'
+endif
+
+
+
+"""""""""""""""""""""
+"""LEADER MAPPINGS"""
+"""""""""""""""""""""
+
+" find all commented leader mappings: /".*\_s.*<leader>
+" ipy
 nnoremap <leader>c :call IPyRun('plt.close("all")',1)<cr>
-" Better to not have an easy way to start a second kernel
-" Best way to restart is to close then send and reply 'yes' to prompt
-" map <space>o :IPython<cr> 
-" Terminal
-tnoremap <esc> <C-\><C-n>
-" The symbols are from Mac 'alt' i.e. option
-" Control doesn't work in the terminal too well
-" ˙∆˚¬ = option + (h,j,k,l)
-tmap <silent> ˙ <C-\><C-n>:call WinMove('h')<cr>
-tmap <silent> ∆ <C-\><C-n>:call WinMove('j')<cr>
-tmap <silent> ˚ <C-\><C-n>:call WinMove('k')<cr>
-tmap <silent> ¬ <C-\><C-n>:call WinMove('l')<cr>
-" General
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprevious<CR>
-" remap esc
-inoremap jk <esc>
 " select whole block
 nmap <leader>p {V}
 " markdown to html
 nmap <leader>md :%!markdown --html4tags <cr>
 " remove extra whitespace
 nmap <leader><space> :%s/\s\+$<cr>
-" wipout buffer. bp selects previous (just needs to be different)
 " then wipes the last buffer. This retains split windows.
 nmap <silent> <leader>b :bp\|bd#<cr>
 " shortcut to save
 nmap <leader><leader> :w<cr>
+" wipout buffer. bp selects previous (just needs to be different)
 nmap <leader>q :q<cr>
-" disable Ex mode
-noremap Q <NOP>
-" set paste toggle
-set pastetoggle=<F6>
 " toggle paste mode
 map <leader>v :set paste!<cr>
 " edit ~/.config/nvim/init.vim
@@ -289,40 +320,108 @@ map <leader>eg :e! ~/.gitconfig<cr>
 map <leader>ez :e! ~/.zshrc<cr>
 " edit tmux
 map <leader>et :e! ~/.tmux.conf<cr>
+" edit snippets
+map <leader>es :e! ~/.config/nvim/snippets/
 " view tmux cheatsheet
 map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
-" clear highlighted search
-noremap <space>s :set hlsearch! hlsearch?<cr>
-" activate spell-checking alternatives
-nmap ;;s :set invspell spelllang=en<cr>
-" toggle invisible characters
-set invlist
-set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-" make the highlighting of tabs less annoying
-highlight SpecialKey ctermbg=none
-set showbreak=↪
-nmap <leader>li :set list!<cr>
 " toggle cursor line
 nnoremap <leader>ll :set cursorline!<cr>
 " Textmate style indentation
 vmap <leader>[ <gv
+" switch between current and last buffer
+nmap <leader>. <c-^>
+" search for word under the cursor
+nnoremap <leader>/ "fyiw :/<c-r>f<cr>
+" inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+map <leader>r :call RunCustomCommand()<cr>
+nmap <leader>w :Goyo<cr>
+" clear all matches
+nnoremap <leader>0 :call clearmatches()<cr>
+" escape html
+nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
+" nnoremap <leader>z :call RnuToggle()<cr>
+" NERDTree
+nmap <silent> <leader>n :NERDTreeToggle<cr>
+" expand to the path of the file in the current buffer
+nmap <silent> <leader>y :NERDTreeFind<cr>
+" ack !=don't go to first file
+nnoremap <Leader>a :Ack! <Space> 
+nmap <leader>li :set list!<cr>
 vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
-" switch between current and last buffer
-nmap <leader>. <c-^>
+" resize windows
+nmap <leader>j :res +10<cr>
+nmap <leader>k :res -10<cr>
+nmap <leader>l :vertical :res -10<cr>
+nmap <leader>h :vertical :res +10<cr>
+map <leader>wc :wincmd q<cr>
+" custom highlighters: see functions section
+" highlight interesting words
+nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+" fugitive
+nmap <silent> <leader>gs :Gstatus<cr>
+nmap <leader>ge :Gedit<cr>
+nmap <silent><leader>gr :Gread<cr>
+nmap <silent><leader>gb :Gblame<cr>
+" markdown
+nmap <leader>m :MarkedOpen!<cr>
+nmap <leader>mq :MarkedQuit<cr>
+" limelight
+nmap <leader>f :Limelight!!<cr>
+" ctrlp
+nmap <silent> <leader>r :CtrlPBuffer<cr>
+nmap <leader>t :CtrlP<cr>
+" ipython: :IPython<CR>
+imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
+map <leader>i <Plug>(IPy-WordObjInfo) 
+
+"""""""""""""""
+"""MAPPTINGS"""
+"""""""""""""""
+
+" ipython
+imap <C-F> <Plug>(IPy-Complete)
+map ;s <Plug>(IPy-Run)
+nmap ;b {V}<Plug>(IPy-Run)}
+nmap ;i <Plug>(IPy-Interrupt)
+imap jb <esc>{V}<Plug>(IPy-Run)
+imap js <esc><Plug>(IPy-Run)
+" map <leader>s :call SetCustomCommand()<cr>
+nmap \s :set ts=4 sts=4 sw=4 et<cr>
+" nmap <leader>w :setf textile<cr> :Goyo<cr>
+nmap \t :set ts=4 sts=4 sw=4 noet<cr>
+" latex
+" write file, then compile. %=filename, %:r=root
+nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %;<CR>
+" view
+nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
+" best way to restart is to close then send and reply 'yes' to prompt
+map <space>c <Plug>(IPy-Terminate)
+" Terminal
+tnoremap <esc> <C-\><C-n>
+" buffers
+nnoremap <C-n> :bnext<CR>
+nnoremap <C-p> :bprevious<CR>
+" remap esc
+inoremap jk <esc>
+" disable Ex mode
+noremap Q <NOP>
+" clear highlighted search
+noremap <space>s :set hlsearch! hlsearch?<cr>
+" activate spell-checking alternatives
+nmap ;;s :set invspell spelllang=en<cr>
 " enable . command in visual mode
 vnoremap . :normal .<cr>
 map <silent> <C-h> :call WinMove('h')<cr>
 map <silent> <C-j> :call WinMove('j')<cr>
 map <silent> <C-k> :call WinMove('k')<cr>
 map <silent> <C-l> :call WinMove('l')<cr>
-" resize windows. Using option char on mac
-nmap <leader>h :vertical :res +10<cr>
-nmap <leader>j :res +10<cr>
-nmap <leader>k :res -10<cr>
-nmap <leader>l :vertical :res -10<cr>
-map <leader>wc :wincmd q<cr>
 " scroll the viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
@@ -331,45 +430,33 @@ nnoremap <silent> j gj
 nnoremap <silent> k gk
 nnoremap <silent> ^ g^
 nnoremap <silent> $ g$
-" search for word under the cursor
-nnoremap <leader>/ "fyiw :/<c-r>f<cr>
-" inoremap <tab> <c-r>=Smart_TabComplete()<CR>
-map <leader>r :call RunCustomCommand()<cr>
-" map <leader>s :call SetCustomCommand()<cr>
-let g:silent_custom_command = 0
-" helpers for dealing with other people's code
-" nmap \t :set ts=4 sts=4 sw=4 noet<cr>
-" nmap \s :set ts=4 sts=4 sw=4 et<cr>
-" nmap <leader>w :setf textile<cr> :Goyo<cr>
-nmap <leader>w :Goyo<cr>
-" highlight interesting words
-nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
-" clear all matches
-nnoremap <leader>0 :call clearmatches()<cr>
-" escape html
-nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
 " vim-commentary defaults: gc{motion} or gcc. gc is awkard for me.
 nmap \ gc
-
-
-"""""""""""""""
-"""FUNCTIONS"""
-"""""""""""""""
-
 " Typing <C-v><C-h> yields <BS> which is the emacs readline binding for <C-h>
 " OSX includes wrong terminfo for xterm-256color see https://github.com/neovim/neovim/issues/2048 
 " Likely due to programs ignoring the kbs description. A quick patch is:
 " infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 " tic $TERM.ti
 " However, this seems like overkill to change to whole terminal. Instead,
- if has('nvim')
-     nmap <BS> <C-W>h
- endif
+if has('nvim')
+    nmap <BS> <C-W>h
+endif
+
+
+"""""""""""""""
+"""FUNCTIONS"""
+"""""""""""""""
+
+" function! RnuToggle()
+" 	if g:rnu_on
+" 		setlocal nornu
+" 		let g:rnu_on = 0
+" 	else
+" 		setlocal rnu
+" 		let g:rnu_on = 1
+" 	endif
+" endfunction
+"
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window
 function! WinMove(key)
@@ -400,6 +487,7 @@ function! ApplyLocalSettings(dirname)
         exec ':source' . l:settingsFile
     endif
 endfunction
+call ApplyLocalSettings(expand('.'))
 " smart tab completion
 function! Smart_TabComplete()
     let line = getline('.')                         " current line
@@ -463,117 +551,3 @@ function! HtmlUnEscape()
   silent s/&amp;/\&/eg
 endfunction
 
-
-""""""""""""""
-"""NERDTREE"""
-""""""""""""""
-
-" close NERDTree after a file is opened
-let g:NERDTreeQuitOnOpen=0
-" show hidden files in NERDTree
-let NERDTreeShowHidden=1
-" remove some files by extension
-let NERDTreeIgnore = ['\.js.map$']
-" Toggle NERDTree
-nmap <silent> <leader>n :NERDTreeToggle<cr>
-" expand to the path of the file in the current buffer
-nmap <silent> <leader>y :NERDTreeFind<cr>
-
-"""""""""""""
-""""ACK""""""
-"""""""""""""
-
-" Use Ack! to not go to first file
-nnoremap <Leader>a :Ack! <Space> 
-
-
-""""""""""""""
-"""FUGITIVE"""
-""""""""""""""
-
-nmap <silent> <leader>gs :Gstatus<cr>
-nmap <leader>ge :Gedit<cr>
-nmap <silent><leader>gr :Gread<cr>
-nmap <silent><leader>gb :Gblame<cr>
-
-
-nmap <leader>m :MarkedOpen!<cr>
-nmap <leader>mq :MarkedQuit<cr>
-
-"""""""""""""""
-"""LIMELIGHT"""
-"""""""""""""""
-
-nmap <leader>f :Limelight!!<cr>
-
-"""""""""""""
-"""NEOMAKE"""
-"""""""""""""
-
-let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--verbose'],
-    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-\ }
-let g:neomake_typescript_tsc_maker = {
-    \ 'args': ['-m', 'commonjs', '--noEmit' ],
-    \ 'append_file': 0,
-    \ 'errorformat':
-        \ '%E%f %#(%l\,%c): error %m,' .
-        \ '%E%f %#(%l\,%c): %m,' .
-        \ '%Eerror %m,' .
-        \ '%C%\s%\+%m'
-\ }
-" autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
-let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
-
-"""""""""""
-"""CTRLP"""
-"""""""""""
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
-let g:ctrlp_follow_symlinks = 1
-nmap <silent> <leader>r :CtrlPBuffer<cr>
-nmap <leader>t :CtrlP<cr>
-let g:ctrlp_map='<leader>t'
-" let g:ctrlp_dotfiles=1
-let g:ctrlp_working_path_mode = 'ra'
-" CtrlP ignore patterns
-" let g:ctrlp_custom_ignore = {
-"             \ 'dir': '\.git$\|node_modules$\|bower_components$\|\.hg$\|\.svn$',
-"             \ 'file': '\.exe$\|\.so$'
-"             \ }
-" only show files that are not ignored by git
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" search the nearest ancestor that contains .git, .hg, .svn
-" let g:ctrlp_working_path_mode = 2
-
-"""""""""""""
-"""AIRLINE"""
-"""""""""""""
-
-let g:airline_powerline_fonts=1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_theme='base16'
-
-" don't hide quotes in json files
-let g:vim_json_syntax_conceal = 0
-
-
-let g:SuperTabCrMapping = 0
-
-if (has("gui_running"))
-    set guioptions=egmrt
-    set background=light
-    colorscheme solarized
-    let g:airline_left_sep=''
-    let g:airline_right_sep=''
-    let g:airline_powerline_fonts=0
-    let g:airline_theme='solarized'
-endif
-
-call ApplyLocalSettings(expand('.'))
-
-" }}}
-
-
-" vim:foldmethod=marker:foldlevel=0

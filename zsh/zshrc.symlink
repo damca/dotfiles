@@ -110,3 +110,4 @@ source $BASE16_SHELL
 
 # Using new JAVA_HOME for pims.Bioformats
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home
+export PATH="/Users/damca/anaconda3/bin:$PATH"

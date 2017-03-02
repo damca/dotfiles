@@ -8,6 +8,8 @@ fi
 echo -e "\n\nInstalling homebrew packages..."
 echo "=============================="
 
+brew update
+
 # cli tools
 brew install ack
 # brew install tree  # find seems to work fine
@@ -36,6 +38,7 @@ brew install neovim/neovim/neovim
 # other tools
 brew install cask
 brew cask install fiji  # FIJI is just ImageJ
+
 
 # Blogging
 brew cask install marked  # markdown writing app
