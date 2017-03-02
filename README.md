@@ -5,7 +5,8 @@ Check out nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his e
 ## Contents
 
 + [Workflow](#workflow)
-+ [ZSH Details](#zsh-details)
++ [Install](#Install)
++ [Details](#Details)
 + [Vim and Neovim Setup](#vim-and-neovim-setup)
 + [Fonts](#fonts)
 + [Anaconda](#anaconda)
@@ -23,10 +24,21 @@ colorizations and supports some ligature fonts like FiraCode).
 
 Know thine editor. Turns out editing is more important than dumping content. Neovim has been the best version of Vim that I've found.
 
-## ZSH Details 
+## Install
 
-ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. The following occurs in this file:
+```
+cd ~
+git clone https://github.com/damca/dotfiles
+mv dotfiles .dotfiles
+bash .dotfiles/install.sh
+```
 
+## Details 
+
+### ZSH
+ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. Read/edit it with `,ez` within an nvim session (assuming it installed corretly)
+
+Brief overview of zshrc:
 * set the `EDITOR` to nvim
 * Load any `~/.terminfo` setup
 * Set the `CODE_DIR` variable, pointing to the location where the code projects exist for exclusive autocompletion with the `c` command
@@ -62,7 +74,7 @@ The prompt will also display a ✱ character in the `RPROMPT` indicating that th
 
 ## Vim and Neovim Setup
 
-[Neovim](https://neovim.io/) is a fork and drop-in replacement for vim. in most cases, you would not notice a difference between the two, other than Neovim allows plugins to run asynchronously so that they do not freeze the editor, which is the main reason I have switched over to it. Vim and Neovim both use Vimscript and most plugins will work in both (all of the plugins I use do work in both Vim and Neovim). For this reason, they share the same configuration files in this setup. Neovim uses the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) which means it won't look for a `.vimrc` in your home directory. Instead, its configuration looks like the following:
+[Neovim](https://neovim.io/) is a fork and drop-in replacement for vim. In most cases, you would not notice a difference between the two, other than Neovim allows plugins to run asynchronously so that they do not freeze the editor, which is the main reason I have switched over to it. Vim and Neovim both use Vimscript and most plugins will work in both (all of the plugins I use do work in both Vim and Neovim). For this reason, they share the same configuration files in this setup. Neovim uses the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) which means it won't look for a `.vimrc` in your home directory. Instead, its configuration looks like the following:
 
 |                         | Vim        | Neovim                    |
 |-------------------------|------------|---------------------------|
@@ -86,9 +98,9 @@ Or once in neovim run :PlugInstall
 
 ## Fonts
 
-iterm2 supports ascii and non-ascii fonts, see the image below. nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) for ascii characters. However, this font doesn't support Powerline or non-ascii characters. 
+ nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) for ascii characters. However, this font is expensive.
 
-A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). You'll want a font that supports italics. If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, configure the fonts in this way in iTerm2. FiraCode italics will be supported in iTerm2 version 3.1
+A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). But currently it does not support italics. 
 
 ![](http://nicknisi.com/share/iterm-fonts-config.png)
 
