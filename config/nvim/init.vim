@@ -29,7 +29,7 @@ Plug 'benmills/vimux' " tmux integration for vim
 Plug 'vim-airline/vim-airline' " fancy statusline: see :help statusline
 Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
 " Plug 'scrooloose/syntastic' " syntax checking for vim
-Plug 'benekastah/neomake' " neovim replacement for syntastic using neovim's job control functonality
+" Plug 'benekastah/neomake' " neovim replacement for syntastic using neovim's job control functonality
 Plug 'tpope/vim-fugitive' " amazing git wrapper for vim
 Plug 'tpope/vim-characterize'  " ga to characterize unicode characters
 Plug 'tpope/vim-repeat' " enables repeating other supported plugins with the . command
@@ -49,6 +49,7 @@ Plug 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
 Plug 'sickill/vim-pasta' " context-aware pasting
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " distraction-free writing
 Plug 'junegunn/limelight.vim', { 'on': 'Limelight' } " focus tool. Good for presentating with vim
+Plug 'darfink/vim-plist' " Support plist. 
 " language-specific plugins
 " Plug 'mattn/emmet-vim', { 'for': 'html' } " emmet support for vim - easily create markdup wth CSS-like syntax
 " Plug 'gregsexton/MatchTag', { 'for': 'html' } " match tags in html, similar to paren support
@@ -116,9 +117,11 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " tell vim to keep backups
 " set backup
 " tell vim where to put backup files
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" If edited outside, update changes. Can also do :e!
+set autoread
 " tell vim where to put swap files
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set laststatus=2 " show the satus line all the time
 " Can toggle local cursorline with leader ll
 " set cursorline "can make scrolling too slow
@@ -142,13 +145,14 @@ augroup configgroup
     autocmd FileType *.md.js :call SyntasticReset<cr>
     autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
-    autocmd FileType crontab setlocal nobackup nowritebackup
+    " autocmd FileType .plist setlocal nobackup nowritebackup " Using plugin now
     " automatically resize panes on resize
     autocmd VimResized * exe 'normal! \<c-w>='
     autocmd BufWritePost .vimrc source %
     autocmd BufWritePost .vimrc.local source %
     " save all files on focus lost, ignoring warnings about untitled buffers
     autocmd FocusLost * silent! wa
+    " autocmd BufNewFile,BufRead *.plist set filetype=xml " Using plugin now
     autocmd BufNewFile,BufRead *.ejs set filetype=html
     autocmd BufNewFile,BufRead *.ino set filetype=c
     autocmd BufNewFile,BufRead *.svg set filetype=xml
@@ -163,7 +167,7 @@ augroup configgroup
     let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'json=javascript', 'stylus', 'html']
     " autocmd! BufEnter * call ApplyLocalSettings(expand('<afile>:p:h'))
     autocmd BufNewFile,BufRead,BufWrite *.md syntax match Comment /\%^---\_.\{-}---$/
-    autocmd! BufWritePost * Neomake
+    " autocmd! BufWritePost * Neomake
 augroup END
 
 

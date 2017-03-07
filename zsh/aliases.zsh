@@ -18,6 +18,7 @@ alias .....="cd ../../../.."
 
 alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"
+alias ls="ls -G"
 alias ll="ls -lFh ${colorflag}"
 alias lld="ls -l | grep ^d"
 alias rmf="rm -rf"
@@ -29,6 +30,7 @@ alias du='du -h -c' # calculate disk usage for a folder
 
 # Applications
 alias ios='open -a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+alias ma="open -a Marked\ 2.app "
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
