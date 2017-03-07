@@ -271,7 +271,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " search the nearest ancestor that contains .git, .hg, .svn
 " let g:ctrlp_working_path_mode = 2
 " airline
-let g:airline_powerline_fonts=0
+let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16_atelierlakeside'
@@ -419,10 +419,10 @@ nmap ;;s :set invspell spelllang=en<cr>
 " hi SpellBad ctermfg=015 ctermbg=000
 " enable . command in visual mode
 vnoremap . :normal .<cr>
-map <silent> <C-h> :call WinMove('h')<cr>
-map <silent> <C-j> :call WinMove('j')<cr>
-map <silent> <C-k> :call WinMove('k')<cr>
-map <silent> <C-l> :call WinMove('l')<cr>
+map  <C-h> :call WinMove('h')<cr>
+map  <C-j> :call WinMove('j')<cr>
+map  <C-k> :call WinMove('k')<cr>
+map  <C-l> :call WinMove('l')<cr>
 " scroll the viewport faster
 nnoremap <C-e> 5<C-e>
 nnoremap <C-y> 5<C-y>
@@ -439,9 +439,9 @@ nmap \ gc
 " infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
 " tic $TERM.ti
 " However, this seems like overkill to change to whole terminal. Instead,
-if has('nvim')
-    nmap <BS> <C-W>h
-endif
+" if has('nvim')
+"     nmap <BS> <C-W>h
+" endif
 
 
 """""""""""""""
