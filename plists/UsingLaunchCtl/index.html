@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Using launchctl as an anacron replacement</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.">
+    <link rel="canonical" href="http://jcomo.github.io/2015/11/28/using-launchctl-as-an-anacron-replacement/">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/grids-units-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+
+</head>
+
+
+    <body>
+
+      <div class="pure-g">
+        <div class="site-nav pure-u-1 pure-u-lg-5-24">
+          <header>
+    <a class="site-title" href="/">
+    	<span class="first-name">Jonathan</span> Como
+    </a>
+
+    <div class="contact">
+		<ul>
+			<li><a href="http://github.com/jcomo">github</a></li>
+			<li><a href="http://twitter.com/jonathancomo">twitter</a></li>
+			<li><a href="mailto:jonathan.como@gmail.com">email</a></li>
+			<li><a href="/about/">about</a></li>
+		</ul>    	
+    </div>
+
+</header>
+
+        </div>
+        <div class="pure-u-1 pure-u-lg-1-24"></div>
+        <div class="pure-u-1 pure-u-lg-17-24">
+          <div class="post">
+
+  <header class="post-header">
+    <h1>Using launchctl as an anacron replacement</h1>
+    <p class="meta">November 28, 2015</p>
+  </header>
+
+  <article class="post-content">
+  	<p>I have a lot of scripts that automate the boring parts of my life. Recently
+an article was posted about one system administrator who automated everything
+down to <a href="https://www.jitbit.com/alexblog/249-now-thats-what-i-call-a-hacker/">scripting the coffee maker to produce cups of coffee for him</a>.
+I don’t go quite that far with my automation, but it inspired me to write about a
+lesser known tool in OSX - <code>launchd</code> and its interfacing agent: <code>launchctl</code>.</p>
+
+<p>You may be familiar with <code>launchctl</code> if you’ve ever run a database or cache server
+on a Mac locally. Or, you may know it indirectly through the use of a wrapper
+called <a href="https://github.com/eddiezane/lunchy">lunchy</a>, which makes working with
+<code>launchctl</code> a much more sane experience.</p>
+
+<p>At a high level, <code>launchctl</code> aims to make it easy to run daemonized processes
+on Mac. It can manage these processes for a user or for the system as a whole.
+Many of the services on Mac that you interface with every day are managed by
+<code>launchd</code> such as Spotlight and AirPlay.</p>
+
+<p>To explore the world of <code>launchd</code> and <code>launchctl</code>, I’m going to examine a specific
+use case I had for using the service: updating <a href="http://brew.sh/">brew</a>. I have
+a bad habit of forgetting to update my brew formulas for weeks (sometimes months)
+at a time. The reminder usually comes in the form of an error when trying to
+install a formula that mysteriously doesn’t exist. I thought: “This is a perfect
+use case for cron!” and I was probably right except for the minor (read: show-stopping)
+issue of being on a laptop.</p>
+
+<p>I needed a way to be able to update my brew formulas automatically in the background
+on a rough schedule. If my laptop was off when the update was scheduled to run,
+I would expect it to run the next time I turned on my laptop. On a more fine level,
+I would like to retry the update if it failed and I would like the output to be
+logged to a file in order to check on the status of previous runs. Enter <code>launchd</code>.</p>
+
+<p>Every <code>launchd</code> service is configured using a plist file. Multiple
+options can be specified in the plist file. The documentation for those options
+can be found in the man pages (gasp!) under the <code>launchd.plist</code> entry. These configuration
+files usually live in <code>~/Library/LaunchAgents</code>. If your user has no custom services
+yet running via <code>launchd</code>, you will need to create that folder. A benefit of this
+is that files for all of the daemons live in one location, which makes it easy to
+organize and keep track of the different services.</p>
+
+<p>Generally, the configuration files are named using a combination of your domain and
+the name of the service. I decided to be creative and call this service brewd.
+Below is the plist file that satisfied my requirements located at
+<code>~/Library/LaunchAgents/me.jcomo.brewd.plist</code>.</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple Computer//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>Label<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>me.jcomo.brewd<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;key&gt;</span>KeepAlive<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>SuccessfulExit<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;false</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>ThrottleInterval<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;integer&gt;</span>60<span class="nt">&lt;/integer&gt;</span>
+    <span class="nt">&lt;key&gt;</span>StartCalendarInterval<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+      <span class="nt">&lt;key&gt;</span>Minute<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;integer&gt;</span>0<span class="nt">&lt;/integer&gt;</span>
+      <span class="nt">&lt;key&gt;</span>Hour<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;integer&gt;</span>10<span class="nt">&lt;/integer&gt;</span>
+      <span class="nt">&lt;key&gt;</span>Weekday<span class="nt">&lt;/key&gt;</span>
+      <span class="nt">&lt;integer&gt;</span>2<span class="nt">&lt;/integer&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>ProgramArguments<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;array&gt;</span>
+      <span class="nt">&lt;string&gt;</span>/usr/local/bin/brew<span class="nt">&lt;/string&gt;</span>
+      <span class="nt">&lt;string&gt;</span>update<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+    <span class="nt">&lt;key&gt;</span>StandardOutPath<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/usr/local/var/brewd/output.log<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;key&gt;</span>StandardErrorPath<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/usr/local/var/brewd/error.log<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span></code></pre></div>
+
+<p>I’m not going to go into too much depth on each of the options since the descriptions
+and parameters can all be found in the man page. However, the crucial part in
+this file, and the point of this post, is under the key <code>StartCalendarInterval</code>.
+Here, you can define a cron-like schedule to run the service. According to the docs,</p>
+
+<blockquote>
+  <p>Unlike cron which skips job invocations when the computer is asleep, launchd will
+start the job the next time the computer wakes up.  If multiple intervals transpire
+before the computer is woken, those events will be coalesced into one event upon wake
+from sleep.</p>
+</blockquote>
+
+<p>Bingo! The other options in the configuration specify where to direct stderr and
+stdout, how often to retry if the program fails, and finally, the actual command
+that should be scheduled and run.</p>
+
+<p>The last step is to make <code>launchd</code> aware of this configuration. To do that, <code>launchctl</code>
+must be used to load the plist. This can be done by running
+<code>launchctl load ~/Library/LaunchAgents/me.jcomo.brewd.plist</code>. If I no longer
+want a service to be running, I can simply unload it.</p>
+
+<p>Now my brew formulas will be updated approximately every Monday morning at 10am.
+The emphasis is on approximately; this would be a bad replacement for cron for
+a task that needed to run on a strict schedule.</p>
+
+<p>There is a lot more depth to <code>launchd</code> and it fits more use cases than the one
+presented in this post. For more information, I’d encourage exploring the man
+pages for both <code>launchd.plist</code> and <code>launchctl</code> as it was hard to find specific
+help online.</p>
+
+<p>Disclaimer: there are likely other solutions to this problem. While <code>launchd</code>
+and <code>launchctl</code> certainly have their quirks, I find them to be a great solution
+for running daemon processes on my laptop.</p>
+
+  </article>
+
+</div>
+        </div>
+      </div>
+
+    <footer>
+	&copy; 2015 Jonathan Como
+</footer>
+
+
+    <!-- Google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52140647-1', 'jcomo.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+    </body>
+</html>
