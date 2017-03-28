@@ -9,3 +9,6 @@ config/nvim/plugged
 vim/vim.symlink/spell/
 vim/vim.symlink/plugged/
 bash_install_report.txt
+backup.log
+backuperr.log
+ipython.symlink/*

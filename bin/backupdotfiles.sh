@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/local/bin/zsh
 osascript -e "display notification \"Pausing Dropbox.\" with title \"Backing up ~/.dotfiles\""
 dropbox-pause-unpause.sh --pause
 cp -rf ~/.dotfiles ~/Dropbox/dotfiles 2> ~/.dotfiles/backuperr.log

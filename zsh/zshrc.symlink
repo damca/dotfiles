@@ -33,8 +33,9 @@ for config ($ZSH/**/*.zsh) source $config
 
 export EDITOR='nvim'
 
-# Make hombrew stuff available
-export PATH=/usr/local/bin:$PATH
+# Make hombrew stuff available. Prepend to PATH to make preferred over system bindings.
+# For example homebrew ctags (/usr/local/bin/ctags) is better than system's (/usr/bin/ctags)
+export PATH=$PATH:/usr/local/bin
 
 # add /usr/local/sbin, this sbin is for scripts that need superuser priveledges. We don't need that right now.
 # if [[ -d /usr/local/sbin ]]; then
