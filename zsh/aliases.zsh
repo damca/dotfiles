@@ -9,6 +9,7 @@ else # OS X `ls`
 fi
 
 alias vim="nvim"
+alias vi="nvim"
 
 # Filesystem aliases
 alias ..='cd ..'

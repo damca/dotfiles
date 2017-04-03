@@ -23,6 +23,8 @@
 		<integer>10</integer>
 		<key>Minute</key>
 		<integer>0</integer>
+		<key>Weekday</key>
+		<integer>3</integer>
 	</dict>
 	<key>ThrottleInterval</key>
 	<integer>60</integer>

@@ -394,8 +394,8 @@ imap <C-F> <Plug>(IPy-Complete)
 map ;s <Plug>(IPy-Run)
 nmap ;b {V}<Plug>(IPy-Run)}
 nmap ;i <Plug>(IPy-Interrupt)
-imap jb <esc>{V}<Plug>(IPy-Run)
-imap js <esc><Plug>(IPy-Run)
+" imap jb <esc>{V}<Plug>(IPy-Run)
+" imap js <esc><Plug>(IPy-Run)
 " map <leader>s :call SetCustomCommand()<cr>
 nmap \s :set ts=4 sts=4 sw=4 et<cr>
 " nmap <leader>w :setf textile<cr> :Goyo<cr>
