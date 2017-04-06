@@ -1,11 +1,17 @@
 #!/usr/local/bin/zsh
 
-python has_been_week.py
+if [ $EUID != 0 ]; then
+    osascript -e "display notification \"Requesting administrator priveledges for $0\" with title \"Backing up ~/git\""
+    osascript -e "do shell script \"$0 $@\" with administrator privileges"
+    exit $?
+fi
+
+python has_been_week.py /Users/damca/git/backup.log
 if [ $? -eq 0 ]; then
     osascript -e "display notification \"Pausing Dropbox.\" with title \"Backing up ~/git\""
     dropbox-pause-unpause.sh --pause
-    cp -rf ~/git ~/Dropbox 2> ~/git/backuperr.log
-    echo "Backed up git $(date +%d.%m.%y-%H:%M:%S)" >> ~/git/backup.log
+    sudo rsync -ah --delete --stats --compress-level=0 --inplace /Volumes/e500/git /Volumes/dbmRED | sed '0,/^$/d' | tee ~/git/rsync.log 2> ~/git/backuperr.log
+    echo "Backed up git on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/git/backup.log
     dropbox-pause-unpause.sh --unpause
     osascript -e "display notification \"Unpausing Dropbox.\" with title \"Finished backing up ~/git\""
 else;
