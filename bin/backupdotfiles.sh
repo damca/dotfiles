@@ -6,16 +6,20 @@ if [ $EUID != 0 ]; then
     exit $?
 fi
 
-python has_been_week.py /Users/damca/.dotfiles/backup.log
+# python has_been_week.py /Users/damca/.dotfiles/backup.log
 if [ $? -eq 0 ]; then
-    osascript -e "display notification \"Pausing Dropbox.\" with title \"Backing up ~/.dotfiles\""
-    dropbox-pause-unpause.sh --pause
-    sudo rsync -ah --delete --stats --compress-level=0 --inplace ~/.dotfiles /Volumes/dbmRED | sed '0,/^$/d' | tee ~/.dotfiles/rsync.log 2> ~/git/backuperr.log
-    echo "Backed up dotfiles on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/.dotfiles/backup.log
-    dropbox-pause-unpause.sh --unpause
-    osascript -e "display notification \"Unpausing Dropbox.\" with title \"Finished backing up ~/.dotfiles\""
+    echo "Backing up on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/.dotfiles/rsync.log
+    if [ -d /Volumes/dbmRED ]; then
+        back="/Volumes/dbmRED"
+    fi
+    if [ -d /Volumes/e500/Dropbox ]; then
+        back="/Volumes/e500/Dropbox"
+    fi
+    echo "Found $back backing up to it..."
+    sudo rsync -ah --delete --stats --compress-level=0 --inplace ~/.dotfiles $back | sed '0,/^$/d' | tee ~/.dotfiles/backuprsync.log 2> ~/.dotfiles/backuperr.log
+    echo "Backed up .dotfiles on: $(date +%d.%m.%y-%H:%M:%S)"
+    echo "Backed up .dotfiles on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/.dotfiles/backup.log
 else;
     msg="Attempted backup $(date +%d.%m.%y-%H:%M:%S), hasn't been week since last backup in log" 
-    echo $msg >> ~/.dotfiles/backuperr.log
     echo $msg
 fi

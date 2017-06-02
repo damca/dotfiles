@@ -1,3 +1,7 @@
+# Anaconda
+alias sae="source activate"  # source activate "environment", sa not available
+alias sde="source deactivate"
+
 # reload zsh config
 alias reload!='source ~/.zshrc'
 
@@ -10,6 +14,7 @@ fi
 
 alias vim="nvim"
 alias vi="nvim"
+alias ee="exit"
 
 # Filesystem aliases
 alias ..='cd ..'

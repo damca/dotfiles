@@ -1,4 +1,4 @@
-" :help runtime, :echo $VIMRUNTIME
+"'/Volumes/Evo256/anaconda3/bin/python' :help runtime, :echo $VIMRUNTIME
 " :help plugins
 " :scriptnames   show all scripts loaded in the current session.
 "                generally follows: plugins, ftplugin, after/ftplugin, syntax, after/syntax
@@ -21,7 +21,7 @@ Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack
 Plug 'rking/ag.vim' " Ag commands
 Plug 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'tpope/vim-commentary' " comment stuff out, gcc: line, gc: selection
-Plug 'tpope/vim-unimpaired' " mappings which are simply short normal mode aliases for commonly used ex commands
+Plug 'tpope/vim-unimpaired' " READ which are simply short normal mode aliases for commonly used ex commands
 " Plug 'tpope/vim-endwise' " automatically add end in ruby
 Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
 Plug 'tpope/vim-surround' " mappings to easily delete, change and add such surroundings in pairs, such as quotes, parens, etc.
@@ -29,7 +29,7 @@ Plug 'benmills/vimux' " tmux integration for vim
 Plug 'vim-airline/vim-airline' " fancy statusline: see :help statusline
 Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
 " Plug 'scrooloose/syntastic' " syntax checking for vim
-" Plug 'benekastah/neomake' " neovim replacement for syntastic using neovim's job control functonality
+Plug 'benekastah/neomake' " neovim replacement for syntastic using neovim's job control functonality
 Plug 'tpope/vim-fugitive' " amazing git wrapper for vim
 Plug 'tpope/vim-characterize'  " ga to characterize unicode characters
 Plug 'tpope/vim-repeat' " enables repeating other supported plugins with the . command
@@ -89,6 +89,7 @@ abbr teh the
 abbr tempalte template
 abbr fitler filter
 set nocompatible " not compatible with vi
+set splitright " default right with :vnew
 set autoread " detect when a file is changed
 " make backspace behave in a sane manner
 set backspace=indent,eol,start
@@ -123,8 +124,8 @@ set autoread
 " tell vim where to put swap files
 " set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set laststatus=2 " show the satus line all the time
-" Can toggle local cursorline with leader ll
-" set cursorline "can make scrolling too slow
+" cursorline mappings in unimpaired
+" set cursorline " can make scrolling too slow
 
 
 """""""""""""""""""""
@@ -143,7 +144,7 @@ augroup configgroup
     autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
     autocmd FileType python setlocal expandtab
     autocmd FileType *.md.js :call SyntasticReset<cr>
-    autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap spell
+    autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap " spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
     " autocmd FileType .plist setlocal nobackup nowritebackup " Using plugin now
     " automatically resize panes on resize
@@ -223,16 +224,23 @@ set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
 set autoindent " automatically set indent of new line
-" set paste toggle: see leader v
-set pastetoggle=<F6>
+" paste toggle (yO, see unimpaired)
 " set smartindent
-let g:python3_host_prog = '/Users/damca/anaconda3/bin/python'
+
+
+function! ChompedSystem( ... )
+    return substitute(call('system', a:000), '\n\+$', '', '')
+endfunction
+
+let g:python3_host_prog = ChompedSystem("which python")
+let g:python_host_prog = '/Users/damca/evo/anaconda3/envs/py27/bin/python'
 let g:nvim_ipy_perform_mappings = 0
 let g:silent_custom_command = 0
 " let g:rnu_on = 0
+" set rnu
 " toggle invisible characters
 set invlist
-set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮  " col, unimpaire
 " make the highlighting of tabs less annoying
 highlight SpecialKey ctermbg=none
 set showbreak=↪
@@ -258,11 +266,11 @@ let g:neomake_typescript_tsc_maker = {
         \ '%C%\s%\+%m'
 \ }
 " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
-let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
+" let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
 " ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
 let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_map='<leader>t'
+let g:ctrlp_map='<C-p>'
 " let g:ctrlp_dotfiles=1
 let g:ctrlp_working_path_mode = 'ra'
 " CtrlP ignore patterns
@@ -275,7 +283,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " search the nearest ancestor that contains .git, .hg, .svn
 " let g:ctrlp_working_path_mode = 2
 " airline
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16_atelierlakeside'
@@ -309,7 +317,7 @@ nmap <leader>md :%!markdown --html4tags <cr>
 " remove extra whitespace
 nmap <leader><space> :%s/\s\+$<cr>
 " then wipes the last buffer. This retains split windows.
-nmap <silent> <leader>b :bp\|bd#<cr>
+nmap <silent> <leader>b :Bclose<cr>
 " shortcut to save
 nmap <leader><leader> :w<cr>
 " wipout buffer. bp selects previous (just needs to be different)
@@ -328,8 +336,7 @@ map <leader>et :e! ~/.tmux.conf<cr>
 map <leader>es :e! ~/.config/nvim/snippets/
 " view tmux cheatsheet
 map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
-" toggle cursor line
-nnoremap <leader>ll :set cursorline!<cr>
+" toggle cursor line coc (unimpaired)
 " Textmate style indentation
 vmap <leader>[ <gv
 " switch between current and last buffer
@@ -343,7 +350,8 @@ nmap <leader>w :Goyo<cr>
 nnoremap <leader>0 :call clearmatches()<cr>
 " escape html
 nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
-" nnoremap <leader>z :call RnuToggle()<cr>
+" rnu toggle (cor, unimpaired)
+" number toggle (con, unimpaired)
 " NERDTree
 nmap <silent> <leader>n :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
@@ -359,7 +367,7 @@ nmap <leader>j :res +10<cr>
 nmap <leader>k :res -10<cr>
 nmap <leader>l :vertical :res -10<cr>
 nmap <leader>h :vertical :res +10<cr>
-map <leader>wc :wincmd q<cr>
+" map <leader>wc :wincmd q<cr>
 " custom highlighters: see functions section
 " highlight interesting words
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
@@ -378,12 +386,10 @@ nmap <leader>m :MarkedOpen!<cr>
 nmap <leader>mq :MarkedQuit<cr>
 " limelight
 nmap <leader>f :Limelight!!<cr>
-" ctrlp
-nmap <silent> <leader>r :CtrlPBuffer<cr>
-nmap <leader>t :CtrlP<cr>
+" nmap <silent> <leader>r :CtrlPBuffer<cr>
 " ipython: :IPython<CR>
-imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
-map <leader>i <Plug>(IPy-WordObjInfo) 
+" imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
+" map <leader>i <Plug>(IPy-WordObjInfo) 
 
 """""""""""""""
 """MAPPTINGS"""
@@ -393,7 +399,9 @@ map <leader>i <Plug>(IPy-WordObjInfo)
 imap <C-F> <Plug>(IPy-Complete)
 map ;s <Plug>(IPy-Run)
 nmap ;b {V}<Plug>(IPy-Run)}
-nmap ;i <Plug>(IPy-Interrupt)
+imap ;i <esc>h<Plug>(IPy-WordObjInfo) 
+map ;i <Plug>(IPy-WordObjInfo) 
+nmap \i <Plug>(IPy-Interrupt)
 " imap jb <esc>{V}<Plug>(IPy-Run)
 " imap js <esc><Plug>(IPy-Run)
 " map <leader>s :call SetCustomCommand()<cr>
@@ -402,22 +410,19 @@ nmap \s :set ts=4 sts=4 sw=4 et<cr>
 nmap \t :set ts=4 sts=4 sw=4 noet<cr>
 " latex
 " write file, then compile. %=filename, %:r=root
-nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %;<CR>
+" nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %;<CR>
 " view
-nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
+" nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
 " best way to restart is to close then send and reply 'yes' to prompt
 map <space>c <Plug>(IPy-Terminate)
 " Terminal
 tnoremap <esc> <C-\><C-n>
-" buffers
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprevious<CR>
 " remap esc
-inoremap jk <esc>
+inoremap ;a <esc>
 " disable Ex mode
 noremap Q <NOP>
-" clear highlighted search
-noremap <space>s :set hlsearch! hlsearch?<cr>
+" clear highlighted search (coh, unimpaired)
+" noremap <space>s :set hlsearch! hlsearch?<cr>
 " activate spell-checking alternatives
 nmap ;;s :set invspell spelllang=en<cr>
 " hi SpellBad ctermfg=015 ctermbg=000
@@ -452,15 +457,92 @@ nmap \ gc
 """FUNCTIONS"""
 """""""""""""""
 
-" function! RnuToggle()
-" 	if g:rnu_on
-" 		setlocal nornu
-" 		let g:rnu_on = 0
-" 	else
-" 		setlocal rnu
-" 		let g:rnu_on = 1
-" 	endif
-" endfunction
+" Delete buffer while keeping window layout (don't close buffer's windows).
+" Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
+if v:version < 700 || exists('loaded_bclose') || &cp
+  finish
+endif
+let loaded_bclose = 1
+if !exists('bclose_multiple')
+  let bclose_multiple = 1
+endif
+
+" Display an error message.
+function! s:Warn(msg)
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl NONE
+endfunction
+
+" Command ':Bclose' executes ':bd' to delete buffer in current window.
+" The window will show the alternate buffer (Ctrl-^) if it exists,
+" or the previous buffer (:bp), or a blank buffer if no previous.
+" Command ':Bclose!' is the same, but executes ':bd!' (discard changes).
+" An optional argument can specify which buffer to close (name or number).
+function! s:Bclose(bang, buffer)
+  if empty(a:buffer)
+    let btarget = bufnr('%')
+  elseif a:buffer =~ '^\d\+$'
+    let btarget = bufnr(str2nr(a:buffer))
+  else
+    let btarget = bufnr(a:buffer)
+  endif
+  if btarget < 0
+    call s:Warn('No matching buffer for '.a:buffer)
+    return
+  endif
+  if empty(a:bang) && getbufvar(btarget, '&modified')
+    call s:Warn('No write since last change for buffer '.btarget.' (use :Bclose!)')
+    return
+  endif
+  " Numbers of windows that view target buffer which we will delete.
+  let wnums = filter(range(1, winnr('$')), 'winbufnr(v:val) == btarget')
+  if !g:bclose_multiple && len(wnums) > 1
+    call s:Warn('Buffer is in multiple windows (use ":let bclose_multiple=1")')
+    return
+  endif
+  let wcurrent = winnr()
+  for w in wnums
+    execute w.'wincmd w'
+    let prevbuf = bufnr('#')
+    if prevbuf > 0 && buflisted(prevbuf) && prevbuf != w
+      buffer #
+    else
+      bprevious
+    endif
+    if btarget == bufnr('%')
+      " Numbers of listed buffers which are not the target to be deleted.
+      let blisted = filter(range(1, bufnr('$')), 'buflisted(v:val) && v:val != btarget')
+      " Listed, not target, and not displayed.
+      let bhidden = filter(copy(blisted), 'bufwinnr(v:val) < 0')
+      " Take the first buffer, if any (could be more intelligent).
+      let bjump = (bhidden + blisted + [-1])[0]
+      if bjump > 0
+        execute 'buffer '.bjump
+      else
+        execute 'enew'.a:bang
+      endif
+    endif
+  endfor
+  execute 'bdelete'.a:bang.' '.btarget
+  execute wcurrent.'wincmd w'
+endfunction
+command! -bang -complete=buffer -nargs=? Bclose call s:Bclose('<bang>', '<args>')
+nnoremap <silent> <Leader>bd :Bclose<CR>
+
+" Move barrier using resize commands
+function! WinMove(key)
+    let t:curwin = winnr()
+    exec "wincmd ".a:key
+    if (t:curwin == winnr())
+        if (match(a:key,'[jk]'))
+            wincmd v
+        else
+            wincmd s
+        endif
+        exec "wincmd ".a:key
+    endif
+endfunction
 "
 " Window movement shortcuts
 " move to the window in the direction shown, or create a new window

@@ -1,12 +1,31 @@
-snippet fig
-	fig, ax = plt.subplots()
+snippet fm
+	with fm(${0}) as (fig, ax):
+	    ${1}
 
 snippet "
 	"""
 
 	Parameters
 	----------
+	${0}
 
 	Returns
 	------
+	${1}
 	"""
+
+snippet pdb
+	import pdb
+	pdb.set_trace()
+
+snippet imp
+	import matplotlib.pyplot as plt
+	import numpy as np
+	import pandas as pd
+
+	plt.switch_backend('qt5agg')
+	plt.ioff()
+
+snippet pre
+	tight = {'tight_layout_rect': [0.04, 0.04, 1, 1]}
+	bc, bcs = imtrack.load_all_from('.')
