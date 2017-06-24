@@ -1,0 +1,6 @@
+[submodule ".config/base16-shell"]
+	path = .config/base16-shell
+	url = git@github.com:chriskempson/base16-shell.git
+[submodule ".config/base16-builder-php"]
+	path = .config/base16-builder-php
+	url = https://github.com/vbwx/base16-builder-php.git
