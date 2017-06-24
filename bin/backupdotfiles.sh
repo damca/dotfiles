@@ -16,7 +16,7 @@ if [ $? -eq 0 ]; then
         back="/Volumes/e500/Dropbox"
     fi
     echo "Found $back backing up to it..."
-    sudo rsync -ah --delete --stats --compress-level=0 --inplace ~/.dotfiles $back | sed '0,/^$/d' | tee ~/.dotfiles/backuprsync.log 2> ~/.dotfiles/backuperr.log
+    sudo rsync -ah --delete --stats --compress-level=0 --inplace ~/.dotfiles $back/dotfiles/ | sed '0,/^$/d' | tee ~/.dotfiles/backuprsync.log 2> ~/.dotfiles/backuperr.log
     echo "Backed up .dotfiles on: $(date +%d.%m.%y-%H:%M:%S)"
     echo "Backed up .dotfiles on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/.dotfiles/backup.log
 else;

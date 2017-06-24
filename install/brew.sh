@@ -46,4 +46,8 @@ brew install ruby
 gem install jekyll bundler
 brew install wget
 
+# Fonts
+brew tap caskroom/fonts
+brew install font-droid-sans-mono-for-powerline
+
 exit 0

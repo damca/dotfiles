@@ -1,13 +1,13 @@
-"'/Volumes/Evo256/anaconda3/bin/python' :help runtime, :echo $VIMRUNTIME
+
 " :help plugins
 " :scriptnames   show all scripts loaded in the current session.
 "                generally follows: plugins, ftplugin, after/ftplugin, syntax, after/syntax
 " :set ro        be careful with important files
 
+
 """""""""""""
 ""PLUGINS"""
 """""""""""""
-
 call plug#begin('~/.config/nvim/plugged')
 """ON DEMAND LOADING""" so its not slow (like webstorm):  Plug 'plugin' { 'on': ['cmd1', 'cmd2']}
 """GROUP DEPENDENCIES""" Plug 'independent' | Plug 'dependent'
@@ -15,8 +15,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'chriskempson/base16-vim'
 " utilities
 Plug 'bfredl/nvim-ipy' " send/recieve code to IPython kernel
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, mapped to <leader>r
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'ryanoasis/vim-devicons' " file drawer
+Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
+Plug 'ryanoasis/vim-devicons' " file drawer
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
 Plug 'rking/ag.vim' " Ag commands
 Plug 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc.
@@ -76,25 +77,25 @@ Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open m
 " Plug 'fatih/vim-go', { 'for': 'go' } " go support
 " Plug 'timcharper/textile.vim', { 'for': 'textile' } " textile support
 " Plug 'tclem/vim-arduino' " arduino support - compile wihtout needing to open the arduino IDE
-
 call plug#end()
+
 
 """""""""""""""""""""""""""
 """GENERAL CONFIGURATION"""
 """""""""""""""""""""""""""
-
 " Abbreviations
 abbr funciton function
 abbr teh the
 abbr tempalte template
 abbr fitler filter
+" Terminal settings
 set nocompatible " not compatible with vi
 set splitright " default right with :vnew
 set autoread " detect when a file is changed
 " make backspace behave in a sane manner
 set backspace=indent,eol,start
 " set a map leader for more key combos
-let g:mapleader = ','
+let g:mapleader = " "
 set history=1000 " change history to 1000
 set textwidth=120
 " Tab control
@@ -131,7 +132,6 @@ set laststatus=2 " show the satus line all the time
 """""""""""""""""""""
 """""AUTOGROUPS"""""
 """""""""""""""""""""
-
 " :help autocmd
 " :set filetype? (see what filetype has been detected)
 " :help ftplugin-overrule
@@ -175,9 +175,7 @@ augroup END
 """"""""""""""""""""
 """USER INTERFACE"""
 """"""""""""""""""""
-
 " see :help option-list
-
 " code folding settings
 set foldmethod=syntax " fold based on indent
 set foldnestmax=10 " deepest fold is 10 levels
@@ -190,7 +188,9 @@ set showcmd " show incomplete commands
 set noshowmode " don't show which mode disabled for PowerLine
 set wildmode=list:longest " complete files like a shell
 set scrolloff=3 " lines of text around cursor
-set shell=$SHELL
+" Terminal
+set shell=/usr/local/bin/zsh  " CtrlP acting weird with this shell
+" set shell=/bin/bash
 set cmdheight=1 " command bar height
 set title " set terminal title
 " Searching
@@ -210,15 +210,17 @@ set tm=500
 " switch syntax highlighting on
 syntax on
 set encoding=utf8
-" let base16colorspace=256  " Access colors present in 256 colorspace"
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+
+" let base16colorspace=256  " Access colors present in 256 colorspace"
 " execute "set background=".$BACKGROUND
-" execute "colorscheme ".$THEME
+" execute "colorscheme  base16-atelier-lakeside"
 " if you have italic supported font and terminal
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
+" highlight CursorLine term=bold cterm=bold
 set number " show line numbers
-" set relativenumber " show relative line numbers, see leader z
+set relativenumber " show relative line numbers, see leader z
 set wrap "turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
@@ -233,7 +235,7 @@ function! ChompedSystem( ... )
 endfunction
 
 let g:python3_host_prog = ChompedSystem("which python")
-let g:python_host_prog = '/Users/damca/evo/anaconda3/envs/py27/bin/python'
+let g:python_host_prog = globpath('~/anaconda3/envs/py27/bin', 'python')
 let g:nvim_ipy_perform_mappings = 0
 let g:silent_custom_command = 0
 " let g:rnu_on = 0
@@ -268,10 +270,14 @@ let g:neomake_typescript_tsc_maker = {
 " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
 " let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
 " ctrlp
+" Find tags 
+set tags+=doc/tags
+set tags+=.git/tags
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_map='<C-p>'
 " let g:ctrlp_dotfiles=1
+" search the nearest ancestor that contains .git, .hg, .svn
 let g:ctrlp_working_path_mode = 'ra'
 " CtrlP ignore patterns
 " let g:ctrlp_custom_ignore = {
@@ -280,10 +286,9 @@ let g:ctrlp_working_path_mode = 'ra'
 "             \ }
 " only show files that are not ignored by git
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" search the nearest ancestor that contains .git, .hg, .svn
-" let g:ctrlp_working_path_mode = 2
+let g:ctrlp_extensions = ['tag']
 " airline
-let g:airline_powerline_fonts=0
+let g:airline_powerline_fonts=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16_atelierlakeside'
@@ -302,28 +307,30 @@ if (has("gui_running"))
 endif
 
 
-
 """""""""""""""""""""
 """LEADER MAPPINGS"""
 """""""""""""""""""""
-
 " find all commented leader mappings: /".*\_s.*<leader>
 " ipy
-nnoremap <leader>c :call IPyRun('plt.close("all")',1)<cr>
+" nnoremap <leader>c :call IPyRun('plt.close("all")',1)<cr>
 " select whole block
 nmap <leader>p {V}
+" last tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
 " markdown to html
 nmap <leader>md :%!markdown --html4tags <cr>
 " remove extra whitespace
 nmap <leader><space> :%s/\s\+$<cr>
 " then wipes the last buffer. This retains split windows.
-nmap <silent> <leader>b :Bclose<cr>
-" shortcut to save
-nmap <leader><leader> :w<cr>
-" wipout buffer. bp selects previous (just needs to be different)
+nmap <silent> <leader>c :Bclose<cr>
+" shortcut to write
+nmap <leader>w :w<cr>
+" wipout buffr. bp selects previous (just needs to be different)
 nmap <leader>q :q<cr>
-" toggle paste mode
-map <leader>v :set paste!<cr>
+" toggle paste mode:   unimpaired yo
+" map <leader>v :set paste!<cr>
 " edit ~/.config/nvim/init.vim
 map <leader>ev :e! ~/.config/nvim/init.vim<cr>
 " edit gitconfig
@@ -340,16 +347,10 @@ map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
 " Textmate style indentation
 vmap <leader>[ <gv
 " switch between current and last buffer
-nmap <leader>. <c-^>
+nmap <leader><leader> <c-^>
 " search for word under the cursor
-nnoremap <leader>/ "fyiw :/<c-r>f<cr>
-" inoremap <tab> <c-r>=Smart_TabComplete()<CR>
-map <leader>r :call RunCustomCommand()<cr>
-nmap <leader>w :Goyo<cr>
-" clear all matches
-nnoremap <leader>0 :call clearmatches()<cr>
-" escape html
-nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
+nnoremap <leader>s "fyiw :/<c-r>f<cr>
+nmap <leader>o :Goyo<cr>
 " rnu toggle (cor, unimpaired)
 " number toggle (con, unimpaired)
 " NERDTree
@@ -363,10 +364,10 @@ vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 " resize windows
-nmap <leader>j :res +10<cr>
-nmap <leader>k :res -10<cr>
-nmap <leader>l :vertical :res -10<cr>
-nmap <leader>h :vertical :res +10<cr>
+nmap <up> :res +10<cr>
+nmap <down> :res -10<cr>
+nmap <left> :vertical :res -10<cr>
+nmap <right> :vertical :res +10<cr>
 " map <leader>wc :wincmd q<cr>
 " custom highlighters: see functions section
 " highlight interesting words
@@ -386,45 +387,44 @@ nmap <leader>m :MarkedOpen!<cr>
 nmap <leader>mq :MarkedQuit<cr>
 " limelight
 nmap <leader>f :Limelight!!<cr>
-" nmap <silent> <leader>r :CtrlPBuffer<cr>
-" ipython: :IPython<CR>
-" imap <leader>i <esc>h<Plug>(IPy-WordObjInfo) 
-" map <leader>i <Plug>(IPy-WordObjInfo) 
+" map <leader>s :call SetCustomCommand()<cr>
+" inoremap <tab> <c-r>=Smart_TabComplete()<CR>
+" map <leader>r :call RunCustomCommand()<cr>
+" clear all matches
+nnoremap <leader>0 :call clearmatches()<cr>
+" escape html
+nnoremap <silent> <leader>u :call HtmlUnEscape()<cr>
 
 """""""""""""""
 """MAPPTINGS"""
 """""""""""""""
-
+" remap esc
+inoremap ;a <esc>
+" Terminal
+tnoremap <esc> <C-\><C-n>
+" disable Ex mode
+noremap Q <NOP>
+" clear highlighted search (coh, unimpaired)
+" activate spell-checking alternatives
+nmap ;;s :set invspell spelllang=en<cr>
 " ipython
 imap <C-F> <Plug>(IPy-Complete)
 map ;s <Plug>(IPy-Run)
-nmap ;b {V}<Plug>(IPy-Run)}
+nmap ;d {jV}k<Plug>(IPy-Run)}j
 imap ;i <esc>h<Plug>(IPy-WordObjInfo) 
 map ;i <Plug>(IPy-WordObjInfo) 
 nmap \i <Plug>(IPy-Interrupt)
-" imap jb <esc>{V}<Plug>(IPy-Run)
-" imap js <esc><Plug>(IPy-Run)
-" map <leader>s :call SetCustomCommand()<cr>
+" best way to restart is to close then send and reply 'yes' to prompt
+map ;c <Plug>(IPy-Terminate)
 nmap \s :set ts=4 sts=4 sw=4 et<cr>
 " nmap <leader>w :setf textile<cr> :Goyo<cr>
 nmap \t :set ts=4 sts=4 sw=4 noet<cr>
+nnoremap <space> i<space><esc>
 " latex
 " write file, then compile. %=filename, %:r=root
 " nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %;<CR>
 " view
 " nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
-" best way to restart is to close then send and reply 'yes' to prompt
-map <space>c <Plug>(IPy-Terminate)
-" Terminal
-tnoremap <esc> <C-\><C-n>
-" remap esc
-inoremap ;a <esc>
-" disable Ex mode
-noremap Q <NOP>
-" clear highlighted search (coh, unimpaired)
-" noremap <space>s :set hlsearch! hlsearch?<cr>
-" activate spell-checking alternatives
-nmap ;;s :set invspell spelllang=en<cr>
 " hi SpellBad ctermfg=015 ctermbg=000
 " enable . command in visual mode
 vnoremap . :normal .<cr>
@@ -456,7 +456,6 @@ nmap \ gc
 """""""""""""""
 """FUNCTIONS"""
 """""""""""""""
-
 " Delete buffer while keeping window layout (don't close buffer's windows).
 " Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
 if v:version < 700 || exists('loaded_bclose') || &cp
@@ -528,7 +527,6 @@ function! s:Bclose(bang, buffer)
   execute wcurrent.'wincmd w'
 endfunction
 command! -bang -complete=buffer -nargs=? Bclose call s:Bclose('<bang>', '<args>')
-nnoremap <silent> <Leader>bd :Bclose<CR>
 
 " Move barrier using resize commands
 function! WinMove(key)
@@ -558,6 +556,7 @@ function! WinMove(key)
         exec "wincmd ".a:key
     endif
 endfunction
+
 " recursively search up from dirname, sourcing all .vimrc.local files along the way
 function! ApplyLocalSettings(dirname)
     " convert windows paths to unix style
@@ -575,6 +574,7 @@ function! ApplyLocalSettings(dirname)
     endif
 endfunction
 call ApplyLocalSettings(expand('.'))
+
 " smart tab completion
 function! Smart_TabComplete()
     let line = getline('.')                         " current line
@@ -595,6 +595,7 @@ function! Smart_TabComplete()
         return '\<C-X>\<C-O>'                         " plugin matching
     endif
 endfunction
+
 " execute a custom command
 function! RunCustomCommand()
     up
@@ -604,12 +605,21 @@ function! RunCustomCommand()
         execute '!' . s:customcommand
     endif
 endfunction
+
 function! SetCustomCommand()
     let s:customcommand = input('Enter Custom Command$ ')
 endfunction
+
 function! TrimWhiteSpace()
     %s/\s\+$//e
 endfunction
+
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 function! HiInterestingWord(n)
     " Save our location.
     normal! mz
@@ -626,12 +636,7 @@ function! HiInterestingWord(n)
     " Move back to our original location.
     normal! `z
 endfunction
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
 function! HtmlUnEscape()
   silent s/&lt;/</eg
   silent s/&gt;/>/eg
