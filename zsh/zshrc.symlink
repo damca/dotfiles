@@ -93,18 +93,13 @@ fi
 # export NVM_DIR="/Users/damca/.nvm"
 # . "/usr/local/opt/nvm/nvm.sh"
 
-# # Base16 Shell
-# if [ -z "$THEME" ]; then
-#     export THEME="base16-atelier-lakeside"
-# fi
-# if [ -z "$BACKGROUND" ]; then
-#     export BACKGROUND="dark"
-# fi
+# Base16 Shell
 
 # BASE16_SHELL="$DOTFILES/.config/base16-shell/$THEME.$BACKGROUND.sh"
 # [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 # source $BASE16_SHELL
 
+# Will declare BASE16_THEME, from base16_theme -> BASE16_SHELL/__shell
 BASE16_SHELL=$DOTFILES/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
@@ -114,4 +109,5 @@ BASE16_SHELL=$DOTFILES/.config/base16-shell/
 
 # Using new JAVA_HOME for pims.Bioformats
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home
+
 export PATH="/Users/damca/anaconda3/bin:$PATH"

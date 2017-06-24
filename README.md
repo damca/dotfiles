@@ -13,6 +13,10 @@ Check out nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his e
 
 ## Workflow
 
+Next steps:
+
+Incorporate installing Anaconda and custom pip list (including neovim package)
+
 ### Terminal
 
 In the past I've used [iterm2](https://www.iterm2.com/). Which works great,

@@ -211,14 +211,15 @@ set tm=500
 syntax on
 set encoding=utf8
 set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
-
-" let base16colorspace=256  " Access colors present in 256 colorspace"
-" execute "set background=".$BACKGROUND
-" execute "colorscheme  base16-atelier-lakeside"
 " if you have italic supported font and terminal
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
-" highlight CursorLine term=bold cterm=bold
+highlight CursorLine term=bold cterm=bold ctermbg=darkblue
+" base16
+if filereadable(expand("~/.vimrc_background"))
+  " let base16colorspace=256
+  source ~/.vimrc_background
+endif
 set number " show line numbers
 set relativenumber " show relative line numbers, see leader z
 set wrap "turn on line wrapping
