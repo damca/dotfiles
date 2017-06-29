@@ -16,7 +16,7 @@ Plug 'chriskempson/base16-vim'
 " utilities
 Plug 'bfredl/nvim-ipy' " send/recieve code to IPython kernel
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
-Plug 'ryanoasis/vim-devicons' " file drawer
+" Plug 'ryanoasis/vim-devicons' " file drawer, these can be pretty distracting
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
 Plug 'rking/ag.vim' " Ag commands
@@ -210,16 +210,17 @@ set tm=500
 " switch syntax highlighting on
 syntax on
 set encoding=utf8
-set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors"
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 " if you have italic supported font and terminal
-highlight Comment cterm=italic
-highlight htmlArg cterm=italic
 highlight CursorLine term=bold cterm=bold ctermbg=darkblue
 " base16
 if filereadable(expand("~/.vimrc_background"))
   " let base16colorspace=256
   source ~/.vimrc_background
 endif
+" Setting italics must come after setting the colorscheme
+highlight Comment cterm=italic
+highlight htmlArg cterm=italic
 set number " show line numbers
 set relativenumber " show relative line numbers, see leader z
 set wrap "turn on line wrapping
@@ -289,7 +290,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_extensions = ['tag']
 " airline
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme='base16_atelierlakeside'
@@ -411,9 +412,9 @@ nmap ;;s :set invspell spelllang=en<cr>
 " ipython
 imap <C-F> <Plug>(IPy-Complete)
 map ;s <Plug>(IPy-Run)
-nmap ;d {jV}k<Plug>(IPy-Run)}j
-imap ;i <esc>h<Plug>(IPy-WordObjInfo) 
-map ;i <Plug>(IPy-WordObjInfo) 
+nmap ;d {V}<Plug>(IPy-Run)}j
+imap ;i <Plug>(IPy-WordObjInfo)
+map ;i <Plug>(IPy-WordObjInfo)
 nmap \i <Plug>(IPy-Interrupt)
 " best way to restart is to close then send and reply 'yes' to prompt
 map ;c <Plug>(IPy-Terminate)

@@ -111,3 +111,5 @@ BASE16_SHELL=$DOTFILES/.config/base16-shell/
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home
 
 export PATH="/Users/damca/anaconda3/bin:$PATH"
+
+
