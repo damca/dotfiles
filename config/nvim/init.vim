@@ -84,6 +84,11 @@ call plug#end()
 """""""""""""""""""""""""""
 """GENERAL CONFIGURATION"""
 """""""""""""""""""""""""""
+
+function! ChompedSystem( ... )
+    return substitute(call('system', a:000), '\n\+$', '', '')
+endfunction
+
 " Abbreviations
 abbr funciton function
 abbr teh the
@@ -190,6 +195,7 @@ set noshowmode " don't show which mode disabled for PowerLine
 set wildmode=list:longest " complete files like a shell
 set scrolloff=3 " lines of text around cursor
 " Terminal
+set shell=ChompedSystem("which zsh")
 set shell=/usr/local/bin/zsh  " CtrlP acting weird with this shell
 " set shell=/bin/bash
 set cmdheight=1 " command bar height
@@ -234,10 +240,6 @@ set autoindent " automatically set indent of new line
 filetype plugin indent on
 
 
-
-function! ChompedSystem( ... )
-    return substitute(call('system', a:000), '\n\+$', '', '')
-endfunction
 
 let g:python3_host_prog = ChompedSystem("which python")
 let g:python_host_prog = globpath('~/anaconda3/envs/py27/bin', 'python')
