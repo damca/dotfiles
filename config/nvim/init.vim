@@ -195,9 +195,7 @@ set noshowmode " don't show which mode disabled for PowerLine
 set wildmode=list:longest " complete files like a shell
 set scrolloff=3 " lines of text around cursor
 " Terminal
-let s:shell = ChompedSystem("which zsh")  " can't set options with function
-set shell=shell
-set shell=/usr/local/bin/zsh  " CtrlP acting weird with this shell
+let &shell=ChompedSystem("which zsh")  " way to use variables or output to set options
 " set shell=/bin/bash
 set cmdheight=1 " command bar height
 set title " set terminal title
