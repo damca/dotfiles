@@ -2,17 +2,20 @@ snippet fm
 	with fm(${0}) as (fig, ax):
 	    ${1}
 
+snippet fig
+	fig, ax = plt.subplots(${0})
+	ax.${1}
+
+# The first " will autogenerate a second, so the last line only has two ""
 snippet "
 	"""
-
 	Parameters
 	----------
 	${0}
-
 	Returns
 	------
 	${1}
-	"""
+	""
 
 snippet pdb
 	import pdb

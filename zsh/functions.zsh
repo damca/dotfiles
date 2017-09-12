@@ -14,6 +14,11 @@ function colours() {
     done
 }
 
+# wget
+function wg() {
+    wget --execute robots=off --recursive --no-parent --continue --no-clobber "$1"
+}
+
 # Create a new directory and enter it
 function md() {
     mkdir -p "$@" && cd "$@"
@@ -25,7 +30,7 @@ function hist() {
 
 # find shorthand
 function f() {
-    find . -name "$1"
+    find . -iname "$1"
 }
 
 function ng-stop() {

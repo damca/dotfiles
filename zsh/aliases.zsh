@@ -2,6 +2,7 @@
 alias sae="source activate"  # source activate "environment", sa not available
 alias sde="source deactivate"
 
+
 # reload zsh config
 alias reload!='source ~/.zshrc'
 

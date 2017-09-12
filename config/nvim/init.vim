@@ -15,7 +15,8 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'chriskempson/base16-vim'
 " utilities
 Plug 'bfredl/nvim-ipy' " send/recieve code to IPython kernel
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
+" Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 " Plug 'ryanoasis/vim-devicons' " file drawer, these can be pretty distracting
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
@@ -100,7 +101,7 @@ set history=1000 " change history to 1000
 set textwidth=120
 " Tab control
 set noexpandtab " insert tabs rather than spaces for <Tab>
-set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
+" set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
 set tabstop=4 " the visible width of tabs
 set softtabstop=4 " edit as if the tabs are 4 characters wide
 set shiftwidth=4 " number of spaces to use for indent and unindent
@@ -222,7 +223,7 @@ endif
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
 set number " show line numbers
-set relativenumber " show relative line numbers, see leader z
+" set relativenumber " show relative line numbers, see leader z
 set wrap "turn on line wrapping
 set wrapmargin=8 " wrap lines when coming within n characters from side
 set linebreak " set soft wrapping
@@ -230,6 +231,8 @@ set showbreak=… " show ellipsis at breaking
 set autoindent " automatically set indent of new line
 " paste toggle (yO, see unimpaired)
 " set smartindent
+filetype plugin indent on
+
 
 
 function! ChompedSystem( ... )
@@ -240,8 +243,6 @@ let g:python3_host_prog = ChompedSystem("which python")
 let g:python_host_prog = globpath('~/anaconda3/envs/py27/bin', 'python')
 let g:nvim_ipy_perform_mappings = 0
 let g:silent_custom_command = 0
-" let g:rnu_on = 0
-" set rnu
 " toggle invisible characters
 set invlist
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮  " col, unimpaire
@@ -271,24 +272,10 @@ let g:neomake_typescript_tsc_maker = {
 \ }
 " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
 " let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
-" ctrlp
 " Find tags 
 set tags+=doc/tags
 set tags+=.git/tags
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
-let g:ctrlp_follow_symlinks = 1
-let g:ctrlp_map='<C-p>'
-" let g:ctrlp_dotfiles=1
-" search the nearest ancestor that contains .git, .hg, .svn
-let g:ctrlp_working_path_mode = 'ra'
-" CtrlP ignore patterns
-" let g:ctrlp_custom_ignore = {
-"             \ 'dir': '\.git$\|node_modules$\|bower_components$\|\.hg$\|\.svn$',
-"             \ 'file': '\.exe$\|\.so$'
-"             \ }
-" only show files that are not ignored by git
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_extensions = ['tag']
 " airline
 let g:airline_powerline_fonts=0
 let g:airline_left_sep=''
@@ -315,6 +302,9 @@ endif
 " find all commented leader mappings: /".*\_s.*<leader>
 " ipy
 " nnoremap <leader>c :call IPyRun('plt.close("all")',1)<cr>
+
+" The default inline backend for jupyter console doesn't work with nvim-ipy, override with env var
+" let $MPLBACKEND = "macosx"
 " select whole block
 nmap <leader>p {V}
 " last tab
@@ -341,6 +331,8 @@ map <leader>eg :e! ~/.gitconfig<cr>
 map <leader>ez :e! ~/.zshrc<cr>
 " edit tmux
 map <leader>et :e! ~/.tmux.conf<cr>
+" edit aliases 
+map <leader>ea :e! ~/.dotfiles/zsh/aliases.zsh<cr>
 " edit snippets
 map <leader>es :e! ~/.config/nvim/snippets/
 " view tmux cheatsheet
@@ -411,8 +403,10 @@ noremap Q <NOP>
 nmap ;;s :set invspell spelllang=en<cr>
 " ipython
 imap <C-F> <Plug>(IPy-Complete)
+" send line or selection
 map ;s <Plug>(IPy-Run)
-nmap ;d {V}<Plug>(IPy-Run)}j
+" send paragraph, the /. helps execute indented blocks
+nmap ;d V}<Plug>(IPy-Run)}j
 imap ;i <Plug>(IPy-WordObjInfo)
 map ;i <Plug>(IPy-WordObjInfo)
 nmap \i <Plug>(IPy-Interrupt)
@@ -458,6 +452,20 @@ nmap \ gc
 """""""""""""""
 """FUNCTIONS"""
 """""""""""""""
+
+" The bang ! will suppress output when sourced.
+" s: makes the function accessible within the vimrc, not outside
+
+" thanks to @xolox on stackoverflow
+function! s:Get_visual_selection()
+    let [lnum1, col1] = getpos("'<")[1:2]
+    let [lnum2, col2] = getpos("'>")[1:2]
+    let lines = getline(lnum1, lnum2)
+    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
+    let lines[0] = lines[0][col1 - 1:]
+    return join(lines, "\n")
+endfunction
+
 " Delete buffer while keeping window layout (don't close buffer's windows).
 " Version 2008-11-18 from http://vim.wikia.com/wiki/VimTip165
 if v:version < 700 || exists('loaded_bclose') || &cp

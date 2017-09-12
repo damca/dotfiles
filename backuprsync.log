@@ -1,15 +1,15 @@
 
-Number of files: 5758
-Number of files transferred: 3446
-Total file size: 81.75M bytes
-Total transferred file size: 81.75M bytes
-Literal data: 81.75M bytes
+Number of files: 13925
+Number of files transferred: 6708
+Total file size: 71.29M bytes
+Total transferred file size: 54.95M bytes
+Literal data: 54.95M bytes
 Matched data: 0 bytes
-File list size: 139500
-File list generation time: 0.060 seconds
+File list size: 333017
+File list generation time: 0.384 seconds
 File list transfer time: 0.000 seconds
-Total bytes sent: 82.07M
-Total bytes received: 89.70K
+Total bytes sent: 55.64M
+Total bytes received: 190.90K
 
-sent 82.07M bytes  received 89.70K bytes  32.86M bytes/sec
-total size is 81.75M  speedup is 1.00
+sent 55.64M bytes  received 190.90K bytes  3.19M bytes/sec
+total size is 71.29M  speedup is 1.28
