@@ -12,3 +12,4 @@ bash_install_report.txt
 backup.log
 backuperr.log
 ipython.symlink/*
+*.otf

@@ -12,8 +12,8 @@ if [ $? -eq 0 ]; then
     if [ -d /Volumes/dbmRED ]; then
         back="/Volumes/dbmRED"
     fi
-    if [ -d /Volumes/e500/Dropbox ]; then
-        back="/Volumes/e500/Dropbox"
+    if [ -d /Users/Dropbox ]; then
+        back="/Users/Dropbox"
     fi
     echo "Found $back backing up to it..."
     sudo rsync -ah --delete --stats --compress-level=0 --inplace ~/.dotfiles $back/dotfiles/ | sed '0,/^$/d' | tee ~/.dotfiles/backuprsync.log 2> ~/.dotfiles/backuperr.log

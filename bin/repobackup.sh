@@ -14,11 +14,11 @@ if [ $? -eq 0 ]; then
     if [ -d /Volumes/dbmRED ]; then
         back="/Volumes/dbmRED"
     fi
-    if [ -d /Volumes/e500/Dropbox ]; then
-        back="/Volumes/e500/Dropbox"
+    if [ -d /Users/Dropbox ]; then
+        back="/Users/Dropbox"
     fi
     echo "Found $back backing up to it..."
-    sudo rsync -ah --delete --stats --compress-level=0 --inplace /Volumes/e500/repos $back | sed '0,/^$/d' | tee ~/repos/backuprsync.log 2> ~/repos/backuperr.log
+    sudo rsync -ah --delete --stats --compress-level=0 --inplace /Users/repos $back | sed '0,/^$/d' | tee ~/repos/backuprsync.log 2> ~/repos/backuperr.log
     echo "Backed up repos on: $(date +%d.%m.%y-%H:%M:%S)"
     echo "Backed up repos on: $(date +%d.%m.%y-%H:%M:%S)" >> ~/repos/backup.log
     # dropbox-pause-unpause.sh --unpause

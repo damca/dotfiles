@@ -1,1 +1,0 @@
-cd ~/Library/Fonts && curl -fLo "Fira Nerd Font.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/FiraCode/Retina/complete/Fura%20Code%20Retina%20Nerd%20Font%20Complete%20Mono.otf

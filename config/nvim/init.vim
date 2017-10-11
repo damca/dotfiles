@@ -148,7 +148,9 @@ augroup configgroup
     autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
     autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-    autocmd FileType python setlocal expandtab
+    autocmd FileType python
+                        \ syn keyword Structure self
+                        \ setlocal expandtab
     autocmd FileType *.md.js :call SyntasticReset<cr>
     autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap " spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
@@ -220,10 +222,8 @@ set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 " if you have italic supported font and terminal
 highlight CursorLine term=bold cterm=bold ctermbg=darkblue
 " base16
-if filereadable(expand("~/.vimrc_background"))
-  " let base16colorspace=256
-  source ~/.vimrc_background
-endif
+colorscheme base16-atelier-lakeside
+" let base16colorspace=256
 " Setting italics must come after setting the colorscheme
 highlight Comment cterm=italic
 highlight htmlArg cterm=italic
