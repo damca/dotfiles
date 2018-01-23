@@ -12,15 +12,18 @@ call plug#begin('~/.config/nvim/plugged')
 """ON DEMAND LOADING""" so its not slow (like webstorm):  Plug 'plugin' { 'on': ['cmd1', 'cmd2']}
 """GROUP DEPENDENCIES""" Plug 'independent' | Plug 'dependent'
 " colorschemes
-Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'  "http://chriskempson.com/projects/base16/
 " utilities
 Plug 'bfredl/nvim-ipy' " send/recieve code to IPython kernel
-" Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
-Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
 " Plug 'ryanoasis/vim-devicons' " file drawer, these can be pretty distracting
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] } | Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
-Plug 'rking/ag.vim' " Ag commands
+
+" FILE FINDING
+" Plug 'ctrlpvim/ctrlp.vim' " fuzzy file finder, 
+Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
+" Plug 'mileszs/ack.vim' " search inside files using ack. Same as command line ack utility, but use :Ack
+" Plug 'rking/ag.vim' " Ag commands
+
 Plug 'Raimondi/delimitMate' " automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'tpope/vim-commentary' " comment stuff out, gcc: line, gc: selection
 Plug 'tpope/vim-unimpaired' " READ which are simply short normal mode aliases for commonly used ex commands
@@ -148,9 +151,7 @@ augroup configgroup
     autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
     autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
     autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-    autocmd FileType python
-                        \ syn keyword Structure self
-                        \ setlocal expandtab
+    autocmd FileType python setlocal sw=4 expandtab
     autocmd FileType *.md.js :call SyntasticReset<cr>
     autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap " spell
     autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
@@ -222,7 +223,9 @@ set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 " if you have italic supported font and terminal
 highlight CursorLine term=bold cterm=bold ctermbg=darkblue
 " base16
-colorscheme base16-atelier-lakeside
+" The following are uneeded if using terminal.app built by base16-builder-php
+" let s:cscheme = $COLORSCHEME
+colorscheme base16-gruvbox-light-hard
 " let base16colorspace=256
 " Setting italics must come after setting the colorscheme
 highlight Comment cterm=italic
@@ -273,15 +276,20 @@ let g:neomake_typescript_tsc_maker = {
 \ }
 " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
 " let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
-" Find tags 
-set tags+=doc/tags
-set tags+=.git/tags
+
+" tags
+" from within ~/tags for a particular conda env do: ctags -R -f envtags /path/to/env --python-kinds=-i
+" -f option must preceed directory
+let conda_env = $CONDA_DEFAULT_ENV
+" need to use let &option for string output, also '~/tags/' is not interpreted, need $HOME
+let &tags=$HOME . "/tags/" . conda_env . "tags"  
+set tags+=./tags;$HOME  " semicolon looks for tags file from current directory up to $HOME.
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb     " MacOSX/Linux
 " airline
 let g:airline_powerline_fonts=0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme='base16_atelierlakeside'
+" set background=light
 " don't hide quotes in json files
 let g:vim_json_syntax_conceal = 0
 let g:SuperTabCrMapping = 0
@@ -336,6 +344,8 @@ map <leader>et :e! ~/.tmux.conf<cr>
 map <leader>ea :e! ~/.dotfiles/zsh/aliases.zsh<cr>
 " edit snippets
 map <leader>es :e! ~/.config/nvim/snippets/
+" view markdown example
+map <leader>em :e! ~/Documents/code/markdown_template.md
 " view tmux cheatsheet
 map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
 " toggle cursor line coc (unimpaired)
@@ -359,10 +369,10 @@ vmap <leader>] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
 " resize windows
-nmap <up> :res +10<cr>
-nmap <down> :res -10<cr>
-nmap <left> :vertical :res -10<cr>
-nmap <right> :vertical :res +10<cr>
+nmap <up> :res +5<cr>
+nmap <down> :res -5<cr>
+nmap <left> :vertical :res -5<cr>
+nmap <right> :vertical :res +5<cr>
 " map <leader>wc :wincmd q<cr>
 " custom highlighters: see functions section
 " highlight interesting words

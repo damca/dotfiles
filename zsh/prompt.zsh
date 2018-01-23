@@ -61,10 +61,11 @@ suspended_jobs() {
     fi
 }
 
+# precmd is the info above the prompt line
 precmd() {
     vcs_info
-    print -P '\n%F{205}%~'
+    print -P '\n%F{blue}%~'
 }
 
-export PROMPT='%(?.%F{205}.%F{red})❯%f '
-export RPROMPT='`git_dirty`%F{241}$vcs_info_msg_0_%f `git_arrows``suspended_jobs`'
+export PROMPT='%(?.%F{blue}.%F{blue})❯%f '
+export RPROMPT='`git_dirty`%F{blue}$vcs_info_msg_0_%f `git_arrows``suspended_jobs`'

@@ -7,6 +7,7 @@ echo "Finder: show all filename extensions"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 echo "show hidden files by default"
+# This can now be accomplished with "Cmd + Shift + ." in a finder window
 defaults write com.apple.Finder AppleShowAllFiles -bool false
 
 echo "only use UTF-8 in Terminal.app"

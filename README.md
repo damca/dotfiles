@@ -19,14 +19,9 @@ Incorporate installing Anaconda and custom pip list (including neovim package)
 
 ### Terminal
 
-In the past I've used [iterm2](https://www.iterm2.com/). Which works great,
-but I found that I didn't need all the features. And in favor of simplicity
-I've adopted using OSX's Terminal.app (which can still do all the fancy
-colorizations and supports some ligature fonts like FiraCode). 
+In the past I've used [iterm2](https://www.iterm2.com/). Which works great, but I found that I didn't need all the features. And in favor of simplicity I've adopted using OSX's Terminal.app (which can still do all the fancy colorizations and supports some ligature fonts like FiraCode).
 
-### Editor
-
-Know thine editor. Turns out editing is more important than dumping content. Neovim has been the best version of Vim that I've found.
+Even better: use [vbwx's base16-builder](https://github.com/vbwx/base16-builder-php) which will generate Terminal.app profiles for each base16 scheme. Make sure to use the non-256-color profiles since the Terminal.app says it supports it, but it really doesn't.
 
 ## Install
 
@@ -76,7 +71,7 @@ The prompt will also display a ✱ character in the `RPROMPT` indicating that th
 
 ![](http://nicknisi.com/share/suspended-jobs.png)
 
-## Vim and Neovim Setup
+## Vim and Neovim
 
 [Neovim](https://neovim.io/) is a fork and drop-in replacement for vim. In most cases, you would not notice a difference between the two, other than Neovim allows plugins to run asynchronously so that they do not freeze the editor, which is the main reason I have switched over to it. Vim and Neovim both use Vimscript and most plugins will work in both (all of the plugins I use do work in both Vim and Neovim). For this reason, they share the same configuration files in this setup. Neovim uses the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) which means it won't look for a `.vimrc` in your home directory. Instead, its configuration looks like the following:
 
@@ -85,7 +80,8 @@ The prompt will also display a ✱ character in the `RPROMPT` indicating that th
 | Main Configuratin File  | `~/.vimrc` | `~/.config/nvim/init.vim` |
 | Configuration directory | `~/.vim`   | `~/.config/nvim`          |
 
-### Installation
+
+### Neovim setup
 
 Vim is likely already installed on your system. If using a Mac, MacVim will be installed from Homebrew. Neovim will also be installed from Homebrew by default on a Mac. For other systems, you may need to install Neovim manually. See their [web site](https://neovim.io) for more information.
 
@@ -95,17 +91,26 @@ Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `
 
 vim and neovim should just work once the correct plugins are installed. To install the plugins, you will need to open Neovim in the following way:
 
-```bash
+```zsh
 nvim +PlugInstall
 ```
 Or once in neovim run :PlugInstall
+
+To get *colorscheme* working in vim ensure that *Plug 'chriskempson/base16-vim'* is in the config/nvim/init.vim, and the commands ``
 
 ## Fonts
 
  nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) for ascii characters. However, this font is expensive.
 
-A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). But currently it does not support italics. 
+A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). But currently it does not support italics.
+SF Mono is nice and supports italics.
 
 ## Anaconda
 
 Homebrew and [Anaconda](https://www.continuum.io/downloads) sometimes can mess each other up with dependencies found the PATH. To avoid this my default shell in iterm2 is the updated bash, and whenever I want to use brew, I'll start zsh. But within zsh, anaconda can be activated by toggling it in the PATH with the con script.
+
+## Keyboard
+
+One of the best tips I've had: remap CAPSLOCK to CONTROL. Settings > Keyborad > Modifier Keys. It is on the home row and makes so many things in vim easier. As well as EMACS style control in many text input sources (e.g. CTRL-A, CTRL-E, CTRL-K).
+
+In addition, I use a Microsoft Sculpt keyboard that is ergonomic. In the same modifier keys menu there is a drop down source to choose the keyboard for remapping. I switch CMD <> OPTION and map CAPSLOCK > CNTRL. This is to allow the positioning of the keys to be the same as on a mac (CMD just left of the space bar). For the rest I use "better touch tool" that allows nice OS keyboard mapping functionality (mission control, etc.).
