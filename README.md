@@ -19,9 +19,11 @@ Incorporate installing Anaconda and custom pip list (including neovim package)
 
 ### Terminal
 
-In the past I've used [iterm2](https://www.iterm2.com/). Which works great, but I found that I didn't need all the features. And in favor of simplicity I've adopted using OSX's Terminal.app (which can still do all the fancy colorizations and supports some ligature fonts like FiraCode).
+1. Terminal.app
+    * Using [vbwx's base16-builder](https://github.com/vbwx/base16-builder-php) will generate Terminal.app profiles for each base16 scheme. Make sure to use the non-256-color profiles since the Terminal.app doesn't really support xterm-256-color.
+2. [iterm2](https://www.iterm2.com/)
+    * Works great, but I found that I didn't need all the features. And in favor of simplicity I've adopted using OSX's Terminal.app (which can still do all the fancy colorizations and supports some ligature fonts like FiraCode). Many terminal emulator color schemes can be modulated with *colors* can be modulated with [base16-shell](https://github.com/chriskempson/base16-shell)
 
-Even better: use [vbwx's base16-builder](https://github.com/vbwx/base16-builder-php) which will generate Terminal.app profiles for each base16 scheme. Make sure to use the non-256-color profiles since the Terminal.app says it supports it, but it really doesn't.
 
 ## Install
 

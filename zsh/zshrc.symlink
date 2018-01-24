@@ -1,5 +1,6 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
+export SHELL=/usr/local/bin/zsh
 
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
