@@ -24,7 +24,9 @@ call plug#begin('~/.config/nvim/plugged')
     " find all commented leader mappings: /".*\_s.*<leader>
     let g:mapleader = " "
 
+    " get currently active python 3
     let g:python3_host_prog = functions#ChompedSystem("which python")
+    " get python 2
     let g:python_host_prog = globpath('~/anaconda3/envs/py27/bin', 'python')
 
     " git
@@ -374,7 +376,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-scripts/matchit.zip' " extended % matching
     Plug 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
     Plug 'darfink/vim-plist' " Support plist. 
-    
+
     " Writing in vim
     Plug 'sickill/vim-pasta' " context-aware pasting
     Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " distraction-free writing
@@ -437,14 +439,22 @@ call plug#begin('~/.config/nvim/plugged')
 call plug#end()
 
 " Colorscheme and final setup
-" This call must happen after the plug#end() call to ensure
-" that the colorschemes have been loaded
+" This call must happen after the plug#end() call to ensure they've all been loaded
 if filereadable(expand("~/.vimrc_background"))
     let base16colorspace=256
     source ~/.vimrc_background
-else
-    colorscheme $COLORSCHEME
 endif
+
+" 
+if empty($COLORSCHEME)
+    colorscheme default
+else
+    let cs0=split($COLORSCHEME, " ")
+    let bs0=tolower(join(['base16']+cs0, "-"))
+    " can't do 'colorscheme variable', need to use execute
+    execute 'colorscheme' bs0
+endif
+
 syntax on
 filetype plugin indent on
 " make the highlighting of tabs and other non-text less annoying
@@ -452,6 +462,9 @@ highlight SpecialKey ctermfg=236
 highlight NonText ctermfg=236
 " highlight conflicts
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" switch syntax highlighting on
+syntax on
+" highlights after syntax=on to avoid options resetting
 " make the highlighting of tabs less annoying
 highlight SpecialKey ctermbg=none
 highlight NonText ctermbg=none
@@ -462,8 +475,6 @@ highlight xmlAttrib cterm=italic
 highlight Type cterm=italic
 highlight Normal ctermbg=none
 " hi SpellBad ctermfg=015 ctermbg=000
-" switch syntax highlighting on
-syntax on
 " vim struggles to highlight vimscript correctly, Especially line continuations.
 let g:vimsyn_noerror = 1  " see help
 

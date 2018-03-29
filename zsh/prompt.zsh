@@ -1,3 +1,8 @@
+# to look at zsh's native prompts do the following
+# autoload -Uz promptinit
+# > promptinit
+# > prompt -p
+
 # heavily inspired by the wonderful pure theme
 # https://github.com/sindresorhus/pure
 
@@ -9,7 +14,8 @@ zstyle ':vcs_info:git*' max-exports 2
 zstyle ':vcs_info:git*' formats ' %b' 'x%R'
 zstyle ':vcs_info:git*' actionformats ' %b|%a' 'x%R'
 
-autoload colors && colors
+# this is pretty slow
+# autoload colors && colors
 
 git_dirty() {
     # check if we're in a git repo

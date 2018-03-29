@@ -1,8 +1,6 @@
 .netrwhist
 npm-debug.log
-
 plug.vim.old
-
 config/nvim/spell
 config/nvim/shada
 config/nvim/plugged
@@ -11,5 +9,5 @@ vim/vim.symlink/plugged/
 bash_install_report.txt
 backup.log
 backuperr.log
-ipython.symlink/*
+*history*
 *.otf
