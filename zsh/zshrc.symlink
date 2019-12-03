@@ -18,41 +18,16 @@ export SHELL=/usr/local/bin/zsh
 # adding path directory for custom scripts
 export PATH=$DOTFILES/bin:$PATH
 
-# TeX
-export PATH=/Volumes/sand/texlive/2019/bin/x86_64-darwin:$PATH
-# could also edit /etc/manpaths
-export MANPATH=/Volumes/sand/texlive/2019/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/Volumes/sand/texlive/2019/texmf-dist/doc/info:$INFOPATH
 # check for custom bin directory and add to path
 if [[ -d ~/bin ]]; then
     export PATH=~/bin:$PATH
 fi
 
 # global scripts
-# export PYTHONPATH="$HOME/bin"
 export V=$HOME/venvs
 
 # VENV and BREW are better than CONDA. Inherit from parent environment with --system-site-packages, and only add what
 # is needed with (env)> pip install -U package
-# export PATH="$HOME/anaconda3/bin:$PATH"  
-
-# add /usr/local/sbin, this sbin is for scripts that need superuser priveledges. We don't need that right now.
-# if [[ -d /usr/local/sbin ]]; then
-#    export PATH=/usr/local/sbin:$PATH
-# fi
-
-# If Ruby Virtual Machine installed. Add appropriate paths
-if [[ -d ~/.rvm ]]; then
-    PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-    source ~/.rvm/scripts/rvm
-fi
-
-
-# define the code directory
-# This is where my code exists and where I want the `c` autocomplete to work from exclusively
-if [[ -d ~/code ]]; then
-    export CODE_DIR=~/code
-fi
 
 
 # display how long all tasks over 10 seconds take
@@ -67,15 +42,10 @@ set HIST_IGNORE_SPACE
 [[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
 
 
-
-# if [[ -a ~/.localrc ]]; then
-    # source ~/.localrc
-# fi
-
-
 # initialize autocomplete
-# autoload -U compinit add-zsh-hook
-# compinit
+# compinit is kind of slow though
+autoload -U compinit add-zsh-hook
+compinit
 
 # hub adds bash-completion. Check bash install report
 # for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
@@ -88,47 +58,30 @@ export EDITOR='nvim'
 [ -z "$SSH_TTY"] && export TERM=xterm-256color  # SSH into linux needs correct TERM definitions
 export COLORTERM=gnome-terminal  # Fixes a scrolling issue in neovim, apparently some terminals false advertise as xterm
 
-# If rbenv installed. Initiate
-if hash rbenv 2>/dev/null; then
-    eval "$(rbenv init -)"
-fi
 
 # alias git to hub
+# hash checks wether the argument is in the command hash table
 if hash hub 2>/dev/null; then
     eval "$(hub alias -s)"
 fi
 
-# NODE STUFF
 
-# source nvm
-# export NVM_DIR=~/.nvm
-
-# load-nvmrc() {
-#    if [[ -f .nvmrc && -r .nvmrc ]]; then
-#        nvm use
-#    fi
-#}
 
 # add-zsh-hook chpwd load-nvmrc
 
+# have brew loaded nvm
 # if hash brew 2>/dev/null; then
 #    source $(brew --prefix nvm)/nvm.sh
 #    source `brew --prefix`/etc/profile.d/z.sh
 #    # when sourcing, check and ensure that the correct Node version is set
 #    load-nvmrc
-#
-# export NVM_DIR="/Users/damca/.nvm"
-# . "/usr/local/opt/nvm/nvm.sh"
+
 
 # If you are using the fzf plugin
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
 # APPLE TERMINAL PREFERENCES
-
-# Will declare BASE16_THEME, from base16_theme -> BASE16_SHELL/__shell
-# BASE16_SHELL=$DOTFILES/.config/base16-shell/
-# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Tell the terminal about the working directory whenever it changes and load the COLORSCHEME
 if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
@@ -168,16 +121,12 @@ if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
     # Tell the terminal about the initial directory.
     update_terminal_cwd
 
-    # Load the COLORSCHEME of the profile. Assumes that name of Terminal profile is base16
+    # Load the COLORSCHEME of the profile. Assumes that name of Terminal profile is a base16 colorscheme
     # e.g. Classic Dark
     cs0=`osascript -e "tell application \"Terminal\" to return name of current settings in selected tab of window 1"`
     # This is used by NVIM to coordinate COLORSCHEME
     export COLORSCHEME=$cs0
 fi
-
-# # compinit is kind of slow
-# autoload -Uz compinit
-# compinit
 
 # emacs style keybindings. Don't normally need this, but zsh in tmux does need it.
 bindkey -e
@@ -190,5 +139,5 @@ for config ($ZSH/**/*.zsh) source $config
 
 export PATH="/usr/local/sbin:$PATH"
 
-# The default inline backend for jupyter console doesn't work with nvim-ipy, override with env var
+# The default inline backend for jupyter console is bad
 export MPLBACKEND="macosx"
