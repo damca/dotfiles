@@ -161,3 +161,8 @@
   prompt = false
 [alias]
   wdiff = diff --word-diff=color --unified=1
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

@@ -1,6 +1,6 @@
-# Anaconda
-alias sae="source activate"  # source activate "environment", sa not available
-alias sde="source deactivate"
+# python
+alias pipl='pip list --format columns'  # works with grep
+alias -g G='| grep'
 
 
 # reload zsh config

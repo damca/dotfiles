@@ -25,9 +25,14 @@ call plug#begin('~/.config/nvim/plugged')
     let g:mapleader = " "
 
     " get currently active python 3
-    let g:python3_host_prog = functions#ChompedSystem("which python")
+    let g:python3_host_prog = functions#ChompedSystem("which python3")
     " get python 2
-    let g:python_host_prog = globpath('~/anaconda3/envs/py27/bin', 'python')
+    let g:python_host_prog = functions#ChompedSystem("which python2")
+
+    " R markdown
+    " Plug 'vim-pandoc/vim-pandoc'
+    " Plug 'vim-pandoc/vim-pandoc-syntax'
+    " Plug 'vim-pandoc/vim-rmarkdown'
 
     " git
     Plug 'tpope/vim-fugitive' " amazing git wrapper for vim
@@ -38,26 +43,27 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <silent><leader>gb :Gblame<cr>
 
     " code linting
-    Plug 'w0rp/ale' " Asynchonous linting engine
-    let g:ale_change_sign_column_color = 1
-    let g:ale_sign_column_always = 1
-    let g:ale_sign_error = '✖'
-    let g:ale_sign_warning = '⚠'
+    " Plug 'w0rp/ale' " Asynchonous linting engine
+    " let g:ale_change_sign_column_color = 1
+    " let g:ale_sign_column_always = 1
+    " let g:ale_sign_error = '✖'
+    " let g:ale_sign_warning = '⚠'
 
-    let g:ale_linters = {
-    \   'javascript': ['eslint'],
-    \   'typescript': ['tsserver', 'tslint'],
-    \   'html': [],
-    \   'python': ['pylint']
-    \}
+    " let g:ale_linters = {
+    " \   'javascript': ['eslint'],
+    " \   'typescript': ['tsserver', 'tslint'],
+    " \   'html': [],
+    " \   'python': ['pylint']
+    " \}
 
     " tags
     " within ~/tags for a particular conda env
        " ctags -R -f envtags /path/to/env --python-kinds=-i
        " -f option must preceed directory
-    let conda_env = $CONDA_DEFAULT_ENV
     " need to use let &option for string output, also '~/tags/' is not interpreted, need $HOME
-    let &tags=$HOME . "/tags/" . conda_env . "tags"  
+    if !empty($VIRTUAL_ENV)
+        let &tags=$VIRTUAL_ENV . "/tags"
+    endif
     set tags+=./tags;$HOME  " semicolon looks 'up to' $HOME.
     set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*checkpoint.ipynb  " MacOSX/Linux
 
@@ -78,6 +84,7 @@ call plug#begin('~/.config/nvim/plugged')
     set noerrorbells
     set visualbell
     set tm=500  " timeout time in milliseconds
+    set encoding=UTF-8
 
     " Searching
     " search for word under the cursor
@@ -127,6 +134,10 @@ call plug#begin('~/.config/nvim/plugged')
     set title " set terminal title
     " let &shell=functions#ChompedSystem("which zsh")  " way to use variables or output to set options
     set shell=$SHELL
+    hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
+    if has('nvim')
+          tnoremap <expr> <A-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+    endif
 
     " Backups
     " set backup
@@ -144,10 +155,9 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Appearance
     let g:silent_custom_command = 0
-    " toggle invisible characters
-    set invlist
+    set invlist " toggle invisible characters
     set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮  " col, unimpaire
-    set showbreak=↪
+    let &showbreak='..'
     " autocmd FileType javascript let g:neomake_javascript_enabled_makers = findfile('.jshintrc', '.;') != '' ? ['jshint'] : ['eslint']
     " let g:neomake_javascript_enabled_makers = ['jshint', 'jscs']
     set showmatch " show matching braces
@@ -159,25 +169,24 @@ call plug#begin('~/.config/nvim/plugged')
     set number " show line numbers
     " set relativenumber " show relative line numbers, see leader z
     set wrap "turn on line wrapping
-    set wrapmargin=8 " wrap lines when coming within n characters from side
+    " set wrapmargin=8 " wrap lines when coming within n characters from side
     set linebreak " set soft wrapping
-    set showbreak=… " show ellipsis at breaking
-    set autoindent " automatically set indent of new line
-    " paste toggle (yO, see unimpaired)
-    " indentation
-    " set smartindent
-    filetype plugin indent on
     set splitright " default right with :vnew
     set backspace=indent,eol,start " make backspace behave in a sane manner
     set history=1000 " change history to 1000
-    set textwidth=120
+    set textwidth=0
+    " paste toggle (yO, see unimpaired)
+    " Indent control
+    set autoindent " keep indent from previous line
+    " set smartindent
+    filetype plugin indent on " this turns on 'filetype' detection, loading 'plugin' files for the ft, loading 'indent' files
     " Tab control
     set expandtab " insert tabs rather than spaces for <Tab>
-    set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
+    set smarttab " tab respects /tabstop', 'shiftwidth', and 'softtabstop'
     set tabstop=4 " the visible width of tabs
     set softtabstop=4 " edit as if the tabs are 4 characters wide
     set shiftwidth=4 " number of spaces to use for indent and unindent
-    set shiftround " round indent to a multiple of 'shiftwidth'
+    " set shiftround " round indent to a multiple of 'shiftwidth'
 
     set completeopt+=longest  "only insert the longest common text for completion
     set encoding=utf8
@@ -187,33 +196,33 @@ call plug#begin('~/.config/nvim/plugged')
     " set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
 
     " Airline
-    Plug 'vim-airline/vim-airline' " fancy statusline: see :help statusline
-    Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
-    let g:airline_powerline_fonts=0
-    let g:airline_left_sep=''
-    let g:airline_right_sep=''
-    " don't hide quotes in json files
-    let g:vim_json_syntax_conceal = 0
-    let g:SuperTabCrMapping = 0
-    " let g:airline_theme='sol'  " automatically picks up base16 color scheme
-    let g:airline#extensions#tabline#show_splits = 0
-    let g:airline#extensions#whitespace#enabled = 0
-    " enable airline tabline
-    let g:airline#extensions#tabline#enabled = 1
-    " only show tabline if tabs are being used (more than 1 tab open)
-    let g:airline#extensions#tabline#tab_min_count = 2
-    " do not show open buffers in tabline
-    let g:airline#extensions#tabline#show_buffers = 0
-    " gui
-    if (has("gui_running"))
-        set guioptions=egmrt
-        set background=light
-        colorscheme solarized
-        let g:airline_left_sep=''
-        let g:airline_right_sep=''
-        let g:airline_powerline_fonts=0
-        let g:airline_theme='solarized'
-    endif
+    " Plug 'vim-airline/vim-airline' " fancy statusline: see :help statusline
+    " Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
+    " let g:airline_powerline_fonts=0
+    " let g:airline_left_sep=''
+    " let g:airline_right_sep=''
+    " " don't hide quotes in json files
+    " let g:vim_json_syntax_conceal = 0
+    " let g:SuperTabCrMapping = 0
+    " " let g:airline_theme='sol'  " automatically picks up base16 color scheme
+    " let g:airline#extensions#tabline#show_splits = 0
+    " let g:airline#extensions#whitespace#enabled = 0
+    " " enable airline tabline
+    " let g:airline#extensions#tabline#enabled = 1
+    " " only show tabline if tabs are being used (more than 1 tab open)
+    " let g:airline#extensions#tabline#tab_min_count = 2
+    " " do not show open buffers in tabline
+    " let g:airline#extensions#tabline#show_buffers = 0
+    " " gui
+    " if has("gui_running") || has("gui_vimr")
+    "     " set guioptions=egmrt
+    "     " set background=light
+    "     colorscheme solarized
+    "     " let g:airline_left_sep=''
+    "     " let g:airline_right_sep=''
+    "     " let g:airline_powerline_fonts=0
+    "     " let g:airline_theme='solarized'
+    " endif
 
 " General Mappings
     Plug 'tpope/vim-unimpaired' " READ which are simply short normal mode aliases for commonly used ex commands
@@ -224,9 +233,10 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
     au TabLeave * let g:lasttab = tabpagenr()
     " remove extra whitespace
-    nmap <leader><space> :%s/\s\+$<cr>
+    nmap <leader>d :%s/\s\+$<cr>
     " then wipes the last buffer. This retains split windows.
-    nmap <silent> <leader>c :Bclose<cr>
+    " defined in autoload/functions.vim
+    nnoremap <silent> <leader>c :Bclose<CR>
     " shortcut to write
     nmap <leader>w :w<cr>
     " wipout buffr. bp selects previous (just needs to be different)
@@ -273,11 +283,6 @@ call plug#begin('~/.config/nvim/plugged')
     nnoremap <Leader>a :Ack! <Space> 
     nmap <leader>li :set list!<cr>
 
-    " Textmate style indentation
-    vmap <leader>[ <gv
-    vmap <leader>] >gv
-    nmap <leader>[ <<
-    nmap <leader>] >>
     " resize windows
     nmap <up> :res +5<cr>
     nmap <down> :res -5<cr>
@@ -285,8 +290,8 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <right> :vertical :res +5<cr>
     " find highlighting group under cursor
     map <leader>( :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-    \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-    \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+        \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+        \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
     " clear all matches
     nnoremap <leader>0 :call functions#clearmatches()<cr>
     " escape html
@@ -299,18 +304,15 @@ call plug#begin('~/.config/nvim/plugged')
     noremap Q <NOP>
     " clear highlighted search (coh, unimpaired)
     " activate spell-checking alternatives
-    nmap ;;s :set invspell spelllang=en<cr>
     nmap \s :set ts=4 sts=4 sw=4 et<cr>
     " nmap <leader>w :setf textile<cr> :Goyo<cr>
     nmap \t :set ts=4 sts=4 sw=4 noet<cr>
     nnoremap <space> i<space><esc>
     " latex
     " write file, then compile. %=filename, %:r=root
-    " nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %;<CR>
+    nnoremap \c :w<CR>:!rm *.aux *.blg *.bcf *.bbl *.run.xml; pdflatex %; biber %:r; pdflatex %; pdflatex %; open %:r.pdf<CR>
     " view
     " nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
-    " vim-commentary defaults: gc{motion} or gcc. gc is awkard for me.
-    nmap \ gc
     " Typing <C-v><C-h> yields <BS> which is the emacs readline binding for <C-h>
     " OSX includes wrong terminfo for xterm-256color see https://github.com/neovim/neovim/issues/2048 
     " Likely due to programs ignoring the kbs description. A quick patch is:
@@ -332,7 +334,7 @@ call plug#begin('~/.config/nvim/plugged')
         autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
         autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
         autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-        autocmd FileType python setlocal sw=4 expandtab
+        autocmd FileType python setlocal sw=4 expandtab tags+=/usr/local/lib/python3.6/tags
         autocmd FileType *.md.js :call SyntasticReset<cr>
         autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap " spell
         autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
@@ -351,6 +353,7 @@ call plug#begin('~/.config/nvim/plugged')
         autocmd BufNewFile,BufRead .jshintrc set filetype=json
         autocmd BufNewFile,BufRead .eslintrc set filetype=json
         autocmd BufNewFile,BufRead *.es6 set filetype=javascript
+        autocmd BufNewFile,BufRead *.tex set filetype=tex
         " make quickfix windows take all the lower section of the screen
         " when there are multiple windows open
         autocmd FileType qf wincmd J
@@ -364,24 +367,25 @@ call plug#begin('~/.config/nvim/plugged')
 " General functionality
     Plug 'tpope/vim-repeat' " enables repeating other supported plugins with the . command
     vnoremap . :normal .<cr>
-    Plug 'jiangmiao/auto-pairs' " automatic closing of quotes, parenthesis, brackets, etc.
+    " Plug 'jiangmiao/auto-pairs' " automatic closing of quotes, parenthesis, brackets, etc.
     Plug 'tpope/vim-commentary' " comment stuff out, gcc: line, gc: selection
     Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
     Plug 'tpope/vim-surround' " mappings to easily delete, change and add such surroundings in pairs, such as quotes, parens, etc.
     Plug 'tpope/vim-characterize'  " ga to characterize unicode characters
-    " Plug 'garbas/vim-snipmate' " snippet manager
+    Plug 'garbas/vim-snipmate' " snippet manager
+    Plug 'MarcWeber/vim-addon-mw-utils'  " needed for snipmate
+    Plug 'tomtom/tlib_vim'  " needed for snipmate
     Plug 'editorconfig/editorconfig-vim' " .editorconfig support
-    Plug 'tpope/vim-dispatch' " asynchronous build and test dispatcher
+    " Plug 'tpope/vim-dispatch' " asynchronous build and test dispatcher
     Plug 'AndrewRadev/splitjoin.vim' " single/multi line code handler: gS - split one line into multiple, gJ - combine multiple lines into one
     Plug 'vim-scripts/matchit.zip' " extended % matching
-    Plug 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
+    " Plug 'tpope/vim-sleuth' " detect indent style (tabs vs. spaces)
     Plug 'darfink/vim-plist' " Support plist. 
 
     " Writing in vim
     Plug 'sickill/vim-pasta' " context-aware pasting
     Plug 'junegunn/goyo.vim', { 'on': 'Goyo' } " distraction-free writing
     Plug 'junegunn/limelight.vim', { 'on': 'Limelight' } " focus tool. Good for presentating with vim
-    nmap <leader>f :Limelight!!<cr>
 
 " language-specific plugins
     " html
@@ -391,28 +395,18 @@ call plug#begin('~/.config/nvim/plugged')
 
     " javascript
     Plug 'pangloss/vim-javascript', { 'for': 'javascript' } " JavaScript support
-    Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
+    " Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
     Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
     Plug 'moll/vim-node', { 'for': 'javascript' } " node support
     Plug 'mxw/vim-jsx', { 'for': 'jsx' } " JSX support
     Plug 'elzr/vim-json', { 'for': 'json' } " JSON support
 
-    " python
-    Plug 'bfredl/nvim-ipy' " send/recieve code to IPython kernel
-    let g:nvim_ipy_perform_mappings = 0
-    " ipython
-    imap <C-F> <Plug>(IPy-Complete)
-    " send line or selection
-    map ;s <Plug>(IPy-Run)
-    " send paragraph, the /. helps execute indented blocks
-    nmap ;d V}<Plug>(IPy-Run)}j
-    imap ;i <Plug>(IPy-WordObjInfo)
-    map ;i <Plug>(IPy-WordObjInfo)
-    nmap \i <Plug>(IPy-Interrupt)
-    " best way to restart is to close then send and reply 'yes' to prompt
-    map ;c <Plug>(IPy-Terminate)
-    " The default inline backend for jupyter console doesn't work with nvim-ipy, override with env var
-    " let $MPLBACKEND = "macosx"
+    " instead use NVIM's terminal,  :vsplit | terminal
+    " IPython
+    nmap ;ii :vsplit \| terminal<CR>aipython --no-autoindent<CR><C-\><C-n><C-h>
+    nmap ;d :let @i=''<CR>V}"iy:call functions#AddIPy()<CR><C-l>"ipa<CR><C-\><C-n><C-h>:let @i=''<CR>}
+    nmap ;s yy<C-l>pa<CR><C-\><C-n><C-h>
+    vmap ;s "iy:call functions#AddIPy()<CR><C-l>"ipa<CR><C-\><C-n><C-h>:let @i=''<CR>
 
 
     " markdown
@@ -452,7 +446,11 @@ else
     let cs0=split($COLORSCHEME, " ")
     let bs0=tolower(join(['base16']+cs0, "-"))
     " can't do 'colorscheme variable', need to use execute
-    execute 'colorscheme' bs0
+    try
+        execute 'colorscheme' bs0
+    catch /.*/
+        colorscheme base16-classic-dark
+    endtry
 endif
 
 syntax on
@@ -477,4 +475,3 @@ highlight Normal ctermbg=none
 " hi SpellBad ctermfg=015 ctermbg=000
 " vim struggles to highlight vimscript correctly, Especially line continuations.
 let g:vimsyn_noerror = 1  " see help
-

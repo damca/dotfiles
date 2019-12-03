@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+px() {
+  pdflatex "$1"; biber "$1"; pdflatex "$1"; open "$1";
+}

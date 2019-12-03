@@ -1,19 +1,18 @@
+###############
+# Preferences #
+###############
+
 set -g default-command /usr/local/bin/zsh
-# # tmux display things in 256 colors
-set -g default-terminal "screen-256color"
-
+# May need to use more common TERM if sshing: "screen-256color"
+set -g default-terminal "xterm-256color"
+set-window-option -g xterm-keys on
 set -g history-limit 20000
-
 # automatically renumber tmux windows
 set -g renumber-windows on
 
-# unbind default prefix and set it to Ctrl+a
-unbind C-b
-set -g prefix C-a
-bind C-a send-prefix
-
-# for nested tmux sessions
-bind-key a send-prefix
+# enable mouse support for switching panes/windows
+setw -g mouse on
+# set-option -g -q mouse on
 
 # Activity Monitoring
 setw -g monitor-activity off
@@ -24,17 +23,13 @@ set -g visual-activity off
 # client connected to *that window*. Much more reasonable.
 setw -g aggressive-resize on
 
+# Keep the window's name fixed
+# cf. http://blog.yagni.jp/archives/498 (in japanese)
+# cf. http://stackoverflow.com/questions/6041178/keep-the-windows-name-fixed-in-tmux
+# set-option -g allow-rename off
+
 # make delay shorter
 set -sg escape-time 0
-
-# tile all windows
-unbind =
-bind = select-layout tiled
-
-# cycle through panes
-unbind C-a
-unbind o # this is the default key for cycling panes
-bind ^A select-pane -t:.+
 
 # make window/pane index start with 1
 set -g base-index 1
@@ -48,6 +43,24 @@ set-window-option -g automatic-rename on
 #### Key Bindings ####
 ######################
 
+# unbind default prefix and set it to C-a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# tile all windows
+unbind =
+bind = select-layout tiled
+
+# cycle through panes. Interferes with emacs style terminal nav (Ctrl + A)
+# unbind C-a
+# unbind o # this is the default key for cycling panes
+# bind ^A select-pane -t:.+
+
+
+# for nested tmux sessions
+bind-key a send-prefix
+
 # reload config file
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 
@@ -59,7 +72,7 @@ bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 
 # synchronize all panes in a window
-bind y setw synchronize-panes
+# bind y setw synchronize-panes
 
 # pane movement shortcuts
 bind h select-pane -L
@@ -67,6 +80,7 @@ bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
 
+# "bind -r" allows for "repeated" key motions
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
@@ -76,18 +90,18 @@ bind -r J resize-pane -D 10
 bind -r K resize-pane -U 10
 bind -r L resize-pane -R 10
 
-# enable mouse support for switching panes/windows
-setw -g mouse on
-# set-option -g -q mouse on
 
+# "-T root" means these can be pressed WITHOUT the prefix
+# "-T" specifies the key table: prefix (default), root, copy, vi-copy
+# PPage = page up, NPage = page down keys
 bind-key -T root PPage if-shell -F "#{alternate_on}" "send-keys PPage" "copy-mode -e; send-keys PPage"
-bind-key -t vi-copy PPage page-up
-bind-key -t vi-copy NPage page-down
+# bind-key -t vi-copy PPage page-up
+# bind-key -t vi-copy NPage page-down
 
 bind -T root WheelUpPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
 bind -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; send-keys -M"
-bind-key -t vi-copy WheelUpPane halfpage-up
-bind-key -t vi-copy WheelDownPane halfpage-down
+# bind-key -t vi-copy WheelUpPane halfpage-up
+# bind-key -t vi-copy WheelDownPane halfpage-down
 
 # maximizing and restoring windows
 unbind Up
@@ -96,16 +110,23 @@ unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 
 # set vi mode for copy mode
-# setw -g mode-keys emacs
+setw -g mode-keys vi
 # more settings to make copy-mode more vim-like
 # unbind [
 # bind Escape copy-mode
 # unbind p
 # bind p paste-buffer
-# bind -t vi-copy 'v' begin-selection
-# bind -t vi-copy 'y' copy-selection
+# bind -T copy-mode-vi v send-keys -X begin-selection
+# bind -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
 
 # Buffers to/from Mac clipboard, yay tmux book from pragprog
+# set -g set-clipboard external
 # No longer necessary with > sierra
 # bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 # bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
@@ -115,3 +136,4 @@ bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 ##############################
 
 source ~/.dotfiles/tmux/theme.sh
+run -b '~/.tmux/plugins/tpm/tpm'

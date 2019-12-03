@@ -33,6 +33,10 @@ git_dirty() {
 # get the status of the current branch and it's remote
 # If there are changes upstream, display a ⇣
 # If there are changes that have been committed but not yet pushed, display a ⇡
+
+# Alternative command that works
+# [ $(git rev-parse --abbrev-ref HEAD) = "master" ] && ([ $(git fetch -q origin master && git log --oneline master...origin/master | wc -l) -gt 0 ] && echo "Not equal" || echo "equal") || echo "Not on master"
+
 git_arrows() {
     # do nothing if there is no upstream configured
     command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return

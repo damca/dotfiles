@@ -22,9 +22,11 @@
    Find all NON tif or xml files. 
 * `for i in c[0-9]; do; (cd $i; cd data_final; mkdir ~/git/lat/$i; echo *.(tif|xml); cp *.(tif|xml) ~/git/lat/$i); echo $PWD; done`
    Find each directories with c[some number]. Open a subshell with parentheses; which exits back to the CD after closing paranetheses. Go into the data_final folder, make a new dir, copy all tif and xml files to it
+* `find . -type f | awk -F. {print } | sort | uniq -c| sort -g | tail`
+  List all file extensions in folder
 
 # ack
-* `ack -l 'pattern' | xargs perl -pi -E 's/pattern/replacement/g'`
+* `ack -l 'pattern' --print0 | xargs -0 perl -pi -E 's/pattern/replacement/g'`
    Replace all instances of 'pattern' in file contents
 
 # misc

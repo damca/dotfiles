@@ -1,5 +1,17 @@
-# Some vim macros
-## Make a list
+# Navigate
+## Help
+
+`:help topic`
+`CTL-T`
+`CTL-]`
+
+## Windows
+
+`C-W L`  capital HJKL to move windows
+
+
+## Some vim macros
+### Make a list
 *  `'k0"pywndt "ppa. jk0x@Q`
     1.  Setup: place a 0 somewhere. Clear register q with qqq.
     2.  Go to mark k.  Increment the number. Go to beginning of line (when incrementing 9 to 10, the one is inserted before).

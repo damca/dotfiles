@@ -19,6 +19,12 @@ function wg() {
     wget --execute robots=off --recursive --no-parent --continue --no-clobber "$1"
 }
 
+# venvsys
+function venvsys() {
+    # ${@[2, -1]} get 2nd to last arguments
+    python3 -m venv "$V/$1" --symlinks --system-site-packages
+}
+
 # Create a new directory and enter it
 function md() {
     mkdir -p "$@" && cd "$@"
@@ -30,7 +36,7 @@ function hist() {
 
 # find shorthand
 function f() {
-    find . -iname "$1"
+    find . -iname "$1" 2> /dev/null
 }
 
 function ng-stop() {
@@ -44,6 +50,12 @@ function ng-restart() {
      sudo launchctl start homebrew.mxcl.nginx
 }
 
+function mtex() {
+    # make a tex file in a directory of the same name
+    mkdir "$1"
+    cd "$1"
+    vim "$1".tex
+}
 
 # Start an HTTP server from a directory, optionally specifying the port
 function server() {
@@ -108,11 +120,6 @@ function extract() {
     fi
 }
 
-function scpp() {
-    scp "$1" nicknisi@nicknisi.com:/var/www/nicknisi.com/public_html/share;
-    echo "http://nicknisi.com/share/$1" | pbcopy;
-    echo "Copied to clipboard: http://nicknisi.com/share/$1"
-}
 
 # syntax highlight the contents of a file or the clipboard and place the result on the clipboard
 function hl() {

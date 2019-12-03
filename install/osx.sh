@@ -19,6 +19,41 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 echo "show the ~/Library folder in Finder"
 chflags nohidden ~/Library
 
+echo "make TextEdit open directly to new documents instead of finder window. Make TE useable for quick throw away text, e.g. plain text, dictation (works faster in TextEdit, etc."
+defaults write com.apple.TextEdit NSShowAppCentricOpenPanelInsteadOfUntitledFile -bool false
+# can delete with
+# defaults delete com.apple.TextEdit NSShowAppCentricOpenPanelInsteadOfUntitledFile
+
+echo "Use current directory as default search scope in Finder"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+echo "Show Path bar in Finder"
+defaults write com.apple.finder ShowPathbar -bool true
+
+echo "Show Status bar in Finder"
+defaults write com.apple.finder ShowStatusBar -bool true
+
+echo "Disable press-and-hold for keys in favor of key repeat"
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+echo "Set a blazingly fast keyboard repeat rate"
+defaults write NSGlobalDomain KeyRepeat -int 2
+
+echo "Set a shorter Delay until key repeat"
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+echo "Enable tap to click (Trackpad)"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+
+echo "Enable Safari’s debug menu"
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
+
+echo "Kill affected applications"
+for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done
+
+# echo "Display full POSIX path as Finder window title"
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
 # When you quit an application and re-open it, Resume restores all windows as they were at the time the application was closed.
 # On a broader level, when you restart your Mac, all applications are restored to the exact state they were in at the time of shutdown.
 # Resume is extremely useful, but there are times when it can be annoying.
@@ -62,15 +97,6 @@ chflags nohidden ~/Library
 # Disable window animations and Get Info animations in Finder
 # defaults write com.apple.finder DisableAllAnimations -bool true
 
-echo "Use current directory as default search scope in Finder"
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-
-echo "Show Path bar in Finder"
-defaults write com.apple.finder ShowPathbar -bool true
-
-echo "Show Status bar in Finder"
-defaults write com.apple.finder ShowStatusBar -bool true
-
 # echo "Expand print panel by default"
 # defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 
@@ -96,15 +122,6 @@ defaults write com.apple.finder ShowStatusBar -bool true
 # Try e.g. `cd /tmp; unidecode "\x{0000}" > cc.txt; open -e cc.txt`
 #defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true
 
-echo "Disable press-and-hold for keys in favor of key repeat"
-defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
-
-echo "Set a blazingly fast keyboard repeat rate"
-defaults write NSGlobalDomain KeyRepeat -int 2
-
-echo "Set a shorter Delay until key repeat"
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
-
 #echo "Disable auto-correct"
 #defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
@@ -120,9 +137,6 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
 # defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 # defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
-
-# echo "Display full POSIX path as Finder window title"
-# defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
 # Increase window resize speed for Cocoa applications
 # defaults write NSGlobalDomain NSWindowResizeTime -float 0.001
@@ -149,18 +163,12 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 #defaults write com.apple.screensaver askForPassword -int 1
 #defaults write com.apple.screensaver askForPasswordDelay -int 0
 
-echo "Enable tap to click (Trackpad)"
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-
 #echo "Map bottom right Trackpad corner to right-click"
 #defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
 #defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
 
 # echo "Disable Safari’s thumbnail cache for History and Top Sites"
 # defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
-
-echo "Enable Safari’s debug menu"
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
 # echo "Make Safari’s search banners default to Contains instead of Starts With"
 # defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false
@@ -212,6 +220,3 @@ defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 #Fix for the ancient UTF-8 bug in QuickLook (http://mths.be/bbo)
 # Commented out, as this is known to cause problems when saving files in Adobe Illustrator CS5 :(
 #echo "0x08000100:0" > ~/.CFUserTextEncoding
-
-echo "Kill affected applications"
-for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done

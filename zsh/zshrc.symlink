@@ -1,17 +1,52 @@
 # time  zsh -i -c exit
 # zmodload zsh/zprof  # profile startupt time
+
+
+# PATH modifications
+# Note that `cat /etc/paths`, and `ls /etc/paths.d` will reveal the default paths. These are often included by default.
+# Some builds of ZSH require --enable-etcdir. If your Terminal runs bash by default and the runs a zsh command, zsh
+# will inherit the PATH
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
 export SHELL=/usr/local/bin/zsh
 
-# display how long all tasks over 10 seconds take
-export REPORTTIME=10
+# Make hombrew stuff available. Prepend (X:$PATH) to make preferred over system bindings.
+# For example homebrew ctags (/usr/local/bin/ctags) is better than system's (/usr/bin/ctags)
+# Note that modern homebrew adds /usr/local/bin to /etc/paths
+# export PATH=/usr/local/bin:$PATH
 
-# The terminfo database contains the description of the terminal capabilities.
-# Used by programs like 'vi' and 'curses' to control the screen. Usually kept at /usr/share/lib/terminfo
-# Functionally equivalent to the individual entries in the 'termcap' file, but is compiled, not ASCII.
-# Practically, this is used by persons who do a lot of remote access and want to preserve environments
-[[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
+# adding path directory for custom scripts
+export PATH=$DOTFILES/bin:$PATH
+
+# TeX
+export PATH=/Volumes/sand/texlive/2019/bin/x86_64-darwin:$PATH
+# could also edit /etc/manpaths
+export MANPATH=/Volumes/sand/texlive/2019/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/Volumes/sand/texlive/2019/texmf-dist/doc/info:$INFOPATH
+# check for custom bin directory and add to path
+if [[ -d ~/bin ]]; then
+    export PATH=~/bin:$PATH
+fi
+
+# global scripts
+# export PYTHONPATH="$HOME/bin"
+export V=$HOME/venvs
+
+# VENV and BREW are better than CONDA. Inherit from parent environment with --system-site-packages, and only add what
+# is needed with (env)> pip install -U package
+# export PATH="$HOME/anaconda3/bin:$PATH"  
+
+# add /usr/local/sbin, this sbin is for scripts that need superuser priveledges. We don't need that right now.
+# if [[ -d /usr/local/sbin ]]; then
+#    export PATH=/usr/local/sbin:$PATH
+# fi
+
+# If Ruby Virtual Machine installed. Add appropriate paths
+if [[ -d ~/.rvm ]]; then
+    PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
+    source ~/.rvm/scripts/rvm
+fi
+
 
 # define the code directory
 # This is where my code exists and where I want the `c` autocomplete to work from exclusively
@@ -19,8 +54,19 @@ if [[ -d ~/code ]]; then
     export CODE_DIR=~/code
 fi
 
-# source all .zsh files inside of the zsh/ directory
-for config ($ZSH/**/*.zsh) source $config
+
+# display how long all tasks over 10 seconds take
+export REPORTTIME=10
+
+set HIST_IGNORE_SPACE
+
+# The terminfo database contains the description of the terminal capabilities.
+# Used by programs like 'vi' and 'curses' to control the screen. Usually kept at /usr/share/lib/terminfo
+# Functionally equivalent to the individual entries in the 'termcap' file, but is compiled, not ASCII.
+# Practically, this is used by persons who do a lot of remote access and want to preserve environments
+[[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
+
+
 
 # if [[ -a ~/.localrc ]]; then
     # source ~/.localrc
@@ -36,40 +82,15 @@ for config ($ZSH/**/*.zsh) source $config
 
 export EDITOR='nvim'
 
-
-# PATH
-
-# Make hombrew stuff available. Prepend to PATH to make preferred over system bindings.
-# For example homebrew ctags (/usr/local/bin/ctags) is better than system's (/usr/bin/ctags)
-export PATH=/usr/local/bin:$PATH
-# adding path directory for custom scripts
-export PATH=$DOTFILES/bin:$PATH
-# check for custom bin directory and add to path
-if [[ -d ~/bin ]]; then
-    export PATH=~/bin:$PATH
-fi
-export PATH="$HOME/anaconda3/bin:$PATH"
-export PYTHONPATH="$HOME/bin"
-# add /usr/local/sbin, this sbin is for scripts that need superuser priveledges. We don't need that right now.
-# if [[ -d /usr/local/sbin ]]; then
-#    export PATH=/usr/local/sbin:$PATH
-# fi
-
-
 # This syntax is a 'if [ ] then' shorthand.
-# The first evaluates if the string is null.
+# The first evaluates to true of the variable is null.
 [ -z "$TMUX" ] && export TERM=xterm-256color-italic
+[ -z "$SSH_TTY"] && export TERM=xterm-256color  # SSH into linux needs correct TERM definitions
 export COLORTERM=gnome-terminal  # Fixes a scrolling issue in neovim, apparently some terminals false advertise as xterm
 
 # If rbenv installed. Initiate
 if hash rbenv 2>/dev/null; then
     eval "$(rbenv init -)"
-fi
-
-# If Ruby Virtual Machine installed. Add appropriate paths
-if [[ -d ~/.rvm ]]; then
-    PATH=$HOME/.rvm/bin:$PATH # Add RVM to PATH for scripting
-    source ~/.rvm/scripts/rvm
 fi
 
 # alias git to hub
@@ -147,7 +168,8 @@ if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
     # Tell the terminal about the initial directory.
     update_terminal_cwd
 
-    # Load the COLORSCHEME of the profile
+    # Load the COLORSCHEME of the profile. Assumes that name of Terminal profile is base16
+    # e.g. Classic Dark
     cs0=`osascript -e "tell application \"Terminal\" to return name of current settings in selected tab of window 1"`
     # This is used by NVIM to coordinate COLORSCHEME
     export COLORSCHEME=$cs0
@@ -157,5 +179,16 @@ fi
 # autoload -Uz compinit
 # compinit
 
+# emacs style keybindings. Don't normally need this, but zsh in tmux does need it.
+bindkey -e
 
 # zprof  # profile startup time
+
+# source all .zsh files inside of the zsh/ directory.
+# May depend on variables above
+for config ($ZSH/**/*.zsh) source $config
+
+export PATH="/usr/local/sbin:$PATH"
+
+# The default inline backend for jupyter console doesn't work with nvim-ipy, override with env var
+export MPLBACKEND="macosx"
