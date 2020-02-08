@@ -3,8 +3,11 @@
 " the <CR> get copied as null characters
 " DOUBLE QUOTES allows for interpolation, will break if
 function! functions#AddIPy()
-    let @i=substitute(@i, ':\n', ':', 'g')
-    let @i=substitute(@i, '\n', '', 'g')
+    " Even with ipython --no-autoindent Ctrl-O Ctrl-n will
+    " not go to BOL after : and comments (#) within functions
+    let @j=substitute(@i, '\n', '', 'g')
+    " Make the last newline character a normal input
+    let @j=substitute(@j, '$', '', 'g')
 endfunction
 
 " Window movement shortcuts
