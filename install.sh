@@ -19,7 +19,7 @@ if [ "$(uname)" == "Darwin" ]; then
     echo $(which zsh) >> /etc/shells
     chsh -s $(which zsh)
     # Make italic terminfo available
-    tic $DOTFILES/resources/xterm-256color-italic
+    tic $DOTFILES/terminal/terminfo/xterm-256color-italic.terminfo
     # Need to restart
 fi
 
