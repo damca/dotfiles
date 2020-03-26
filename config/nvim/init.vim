@@ -43,18 +43,17 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <silent><leader>gb :Gblame<cr>
 
     " code linting
-    " Plug 'w0rp/ale' " Asynchonous linting engine
-    " let g:ale_change_sign_column_color = 1
-    " let g:ale_sign_column_always = 1
-    " let g:ale_sign_error = '✖'
-    " let g:ale_sign_warning = '⚠'
+    Plug 'vim-syntastic/syntastic' 
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
 
-    " let g:ale_linters = {
-    " \   'javascript': ['eslint'],
-    " \   'typescript': ['tsserver', 'tslint'],
-    " \   'html': [],
-    " \   'python': ['pylint']
-    " \}
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+    let g:syntastic_python_python_exec = 'python3'
+    let g:syntastic_python_checkers = ['python']
 
     " tags
     " within ~/tags for a particular conda env
@@ -135,8 +134,9 @@ call plug#begin('~/.config/nvim/plugged')
     " let &shell=functions#ChompedSystem("which zsh")  " way to use variables or output to set options
     set shell=$SHELL
     hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
+    tnoremap <Esc> <C-\><C-n>
     if has('nvim')
-          tnoremap <expr> <A-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+          tnoremap <expr> <A-r> '<Esc>"'.nr2char(getchar()).'pi'
     endif
 
     " Backups

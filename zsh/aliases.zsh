@@ -1,7 +1,9 @@
 # python
 alias pipl='pip list --format columns'  # works with grep
-alias -g G='| grep'
+alias python=/usr/local/bin/python3
+alias pip=/usr/local/bin/pip3
 
+alias fiji=/Applications/Fiji.app/Contents/MacOS/ImageJ-macosx
 
 # reload zsh config
 alias reload!='source ~/.zshrc'
@@ -37,7 +39,6 @@ alias du='du -h -c' # calculate disk usage for a folder
 
 # Applications
 alias ios='open -a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
-alias ma="open -a Marked\ 2.app "
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -84,4 +85,4 @@ alias pumpitup="osascript -e 'set volume 10'"
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
 alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chrome"
-alias canary="/Applications/Google\\ Chrome\\ Canary.app/Contents/MacOS/Google\\ Chrome\\ Canary"
+# alias canary="/Applications/Google\\ Chrome\\ Canary.app/Contents/MacOS/Google\\ Chrome\\ Canary"

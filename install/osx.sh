@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# Also see https://github.com/kevinSuttle/macOS-Defaults/blob/master/.macos
+
 echo -e "\n\nSetting OS X settings"
 echo "=============================="
 
@@ -10,11 +12,19 @@ echo "show hidden files by default"
 # This can now be accomplished with "Cmd + Shift + ." in a finder window
 defaults write com.apple.Finder AppleShowAllFiles -bool false
 
-echo "only use UTF-8 in Terminal.app"
-defaults write com.apple.terminal StringEncodings -array 4
+# echo "only use UTF-8 in Terminal.app"
+# defaults write com.apple.terminal StringEncodings -array 4
 
 echo "expand save dialog by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+echo "expand print dialog by default"
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+echo "Automatically quit printer app once the print jobs complete"
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
 echo "show the ~/Library folder in Finder"
 chflags nohidden ~/Library
@@ -53,6 +63,22 @@ for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 
 
 # echo "Display full POSIX path as Finder window title"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+
+# Disable automatic capitalization as it’s annoying when typing code
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+
+# Disable smart dashes as they’re annoying when typing code
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+
+# Disable automatic period substitution as it’s annoying when typing code
+defaults write NSGlobalDomain NSAutomaticPer iodSubstitutionEnabled -bool false
+
+# Disable smart quotes as they’re annoying when typing code
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # When you quit an application and re-open it, Resume restores all windows as they were at the time the application was closed.
 # On a broader level, when you restart your Mac, all applications are restored to the exact state they were in at the time of shutdown.
@@ -192,8 +218,11 @@ defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 # defaults write com.apple.iTunes NSUserKeyEquivalents -dict-add "Target Search Field" "@F"
 
 # Disable send and reply animations in Mail.app
-# defaults write com.apple.Mail DisableReplyAnimations -bool true
-# defaults write com.apple.Mail DisableSendAnimations -bool true
+echo "Disable send and reply Mail.app animations"
+defaults write com.apple.Mail DisableReplyAnimations -bool true
+defaults write com.apple.Mail DisableSendAnimations -bool true
+echo "When copying email address, ONLY copy email address (not name)"
+defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 # Disable Resume system-wide
 # defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false

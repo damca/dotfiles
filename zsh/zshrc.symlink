@@ -17,6 +17,9 @@ export SHELL=/usr/local/bin/zsh
 
 # adding path directory for custom scripts
 export PATH=$DOTFILES/bin:$PATH
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
 
 # check for custom bin directory and add to path
 if [[ -d ~/bin ]]; then
@@ -44,8 +47,8 @@ set HIST_IGNORE_SPACE
 
 # initialize autocomplete
 # compinit is kind of slow though
-autoload -U compinit add-zsh-hook
-compinit
+# autoload -U compinit add-zsh-hook
+# compinit
 
 # hub adds bash-completion. Check bash install report
 # for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
@@ -137,7 +140,6 @@ bindkey -e
 # May depend on variables above
 for config ($ZSH/**/*.zsh) source $config
 
-export PATH="/usr/local/sbin:$PATH"
 
 # The default inline backend for jupyter console is bad
 export MPLBACKEND="macosx"
