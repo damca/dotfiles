@@ -3,10 +3,8 @@
 echo "Installing dotfiles"
 
 
-source install/link.sh
-
-
 if [ "$(uname)" == "Linux" ]; then
+    source install/link.sh
     echo -e "\n\nRunning on Linux"
     source install/apt.sh
     # set up git ssh
@@ -18,6 +16,7 @@ if [ "$(uname)" == "Linux" ]; then
     echo "Configuring zsh as default shell"
     echo $(which zsh) >> /etc/shells
     chsh -s $(which zsh)
+    nvim +PlugInstall +CheckHealth
 fi
 
 echo "Done."
