@@ -2,7 +2,6 @@
 # Preferences #
 ###############
 
-set -g default-command /usr/local/bin/zsh
 # May need to use more common TERM if sshing: "screen-256color"
 set -g default-terminal "xterm-256color"
 set-window-option -g xterm-keys on
