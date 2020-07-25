@@ -77,5 +77,6 @@ precmd() {
     print -P '\n%F{blue}%~'
 }
 
-export PROMPT='%(?.%F{blue}.%F{blue})❯%f '
+# export PROMPT='%(?.%F{blue}.%F{blue})❯%f '
+export PROMPT='%(!.%{%F{yellow}%}.%{%F{yellow}%})$USER @ %F{blue}%M ❯%f '
 export RPROMPT='`git_dirty`%F{blue}$vcs_info_msg_0_%f `git_arrows``suspended_jobs`'
