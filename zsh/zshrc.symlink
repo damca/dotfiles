@@ -8,7 +8,7 @@
 # will inherit the PATH
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
-export SHELL=/usr/local/bin/zsh
+export SHELL=/usr/bin/zsh
 
 # Make hombrew stuff available. Prepend (X:$PATH) to make preferred over system bindings.
 # For example homebrew ctags (/usr/local/bin/ctags) is better than system's (/usr/bin/ctags)
@@ -38,13 +38,6 @@ export REPORTTIME=10
 
 set HIST_IGNORE_SPACE
 
-# The terminfo database contains the description of the terminal capabilities.
-# Used by programs like 'vi' and 'curses' to control the screen. Usually kept at /usr/share/lib/terminfo
-# Functionally equivalent to the individual entries in the 'termcap' file, but is compiled, not ASCII.
-# Practically, this is used by persons who do a lot of remote access and want to preserve environments
-[[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
-
-
 # initialize autocomplete
 # compinit is kind of slow though
 # autoload -U compinit add-zsh-hook
@@ -54,13 +47,6 @@ set HIST_IGNORE_SPACE
 # for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
 
 export EDITOR='nvim'
-
-# This syntax is a 'if [ ] then' shorthand.
-# The first evaluates to true of the variable is null.
-[ -z "$TMUX" ] && export TERM=xterm-256color-italic
-[ -z "$SSH_TTY"] && export TERM=xterm-256color  # SSH into linux needs correct TERM definitions
-export COLORTERM=gnome-terminal  # Fixes a scrolling issue in neovim, apparently some terminals false advertise as xterm
-
 
 # alias git to hub
 # hash checks wether the argument is in the command hash table
@@ -83,53 +69,7 @@ fi
 # If you are using the fzf plugin
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-# APPLE TERMINAL PREFERENCES
-
-# Tell the terminal about the working directory whenever it changes and load the COLORSCHEME
-if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
-
-    update_terminal_cwd() {
-        # Identify the directory using a "file:" scheme URL, including
-        # the host name to disambiguate local vs. remote paths.
-
-        # Percent-encode the pathname.
-        local URL_PATH=''
-        {
-            # Use LC_CTYPE=C to process text byte-by-byte.
-            local i ch hexch LC_CTYPE=C
-            for ((i = 1; i <= ${#PWD}; ++i)); do
-                ch="$PWD[i]"
-                if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
-                    URL_PATH+="$ch"
-                else
-                    hexch=$(printf "%02X" "'$ch")
-                    URL_PATH+="%$hexch"
-                fi
-            done
-        }
-
-        # HOST environment variable defines within zsh
-        local PWD_URL="file://$HOST$URL_PATH"
-        #echo "$PWD_URL"        # testing
-        # Terminal > Preferences > Tab > Escape Sequence tool tip: ESC ] PS; Pt BEL
-        printf '\e]7;%s\a' "$PWD_URL"
-    }
-
-    # Register the function so it is called whenever the working
-    # directory changes.
-    autoload add-zsh-hook
-    add-zsh-hook chpwd update_terminal_cwd
-
-    # Tell the terminal about the initial directory.
-    update_terminal_cwd
-
-    # Load the COLORSCHEME of the profile. Assumes that name of Terminal profile is a base16 colorscheme
-    # e.g. Classic Dark
-    cs0=`osascript -e "tell application \"Terminal\" to return name of current settings in selected tab of window 1"`
-    # This is used by NVIM to coordinate COLORSCHEME
-    export COLORSCHEME=$cs0
-fi
+export COLORSCHEME="base16-classic-dark"
 
 # emacs style keybindings. Don't normally need this, but zsh in tmux does need it.
 bindkey -e
@@ -140,6 +80,12 @@ bindkey -e
 # May depend on variables above
 for config ($ZSH/**/*.zsh) source $config
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
 
-# The default inline backend for jupyter console is bad
-export MPLBACKEND="macosx"
+# X11, test with 'xeyes' program (x11-apps package)
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1

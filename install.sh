@@ -6,9 +6,9 @@ echo "Installing dotfiles"
 source install/link.sh
 
 
-if [ "$(uname)" == "Darwin" ]; then
-    echo -e "\n\nRunning on OSX"
-    source install/brew.sh
+if [ "$(uname)" == "Linux" ]; then
+    echo -e "\n\nRunning on Linux"
+    source install/apt.sh
     # set up git ssh
     echo "Initializing submodule(s)"
     git submodule update --init --recursive
@@ -18,9 +18,6 @@ if [ "$(uname)" == "Darwin" ]; then
     echo "Configuring zsh as default shell"
     echo $(which zsh) >> /etc/shells
     chsh -s $(which zsh)
-    # Make italic terminfo available
-    tic $DOTFILES/terminal/terminfo/xterm-256color-italic.terminfo
-    # Need to restart
 fi
 
 echo "Done."

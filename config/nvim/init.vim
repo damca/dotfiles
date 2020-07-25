@@ -43,17 +43,17 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <silent><leader>gb :Gblame<cr>
 
     " code linting
-    Plug 'vim-syntastic/syntastic' 
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+    " Plug 'vim-syntastic/syntastic' 
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
 
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    let g:syntastic_check_on_open = 1
-    let g:syntastic_check_on_wq = 0
-    let g:syntastic_python_python_exec = 'python3'
-    let g:syntastic_python_checkers = ['python']
+    " let g:syntastic_always_populate_loc_list = 1
+    " let g:syntastic_auto_loc_list = 1
+    " let g:syntastic_check_on_open = 1
+    " let g:syntastic_check_on_wq = 0
+    " let g:syntastic_python_python_exec = 'python3'
+    " let g:syntastic_python_checkers = ['python3']
 
     " tags
     " within ~/tags for a particular conda env
@@ -102,15 +102,6 @@ call plug#begin('~/.config/nvim/plugged')
     imap <c-x><c-f> <plug>(fzf-complete-path)
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     imap <c-x><c-l> <plug>(fzf-complete-line)
-    " search colorschemes
-    nnoremap <silent> <Leader>C :call fzf#run({
-            \   'source':
-            \     map(split(globpath(&rtp, "colors/*.vim"), "\n"),
-            \         "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-            \   'sink':    'colo',
-            \   'options': '+m',
-            \   'left':    30
-            \ })<CR>
 
     command! FZFMru call fzf#run({
     \  'source':  v:oldfiles,
@@ -129,7 +120,6 @@ call plug#begin('~/.config/nvim/plugged')
     set cursorline  " toggle with coc (see Plug unimpaired)
 
     " Terminal settings
-    set t_vb=  " sets terminal capabilities, not used in nvim
     set title " set terminal title
     " let &shell=functions#ChompedSystem("which zsh")  " way to use variables or output to set options
     set shell=$SHELL
@@ -193,36 +183,6 @@ call plug#begin('~/.config/nvim/plugged')
 
     " Colors, load plug here, set colorscheme outside Plug
     Plug 'chriskempson/base16-vim'
-    " set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
-
-    " Airline
-    " Plug 'vim-airline/vim-airline' " fancy statusline: see :help statusline
-    " Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
-    " let g:airline_powerline_fonts=0
-    " let g:airline_left_sep=''
-    " let g:airline_right_sep=''
-    " " don't hide quotes in json files
-    " let g:vim_json_syntax_conceal = 0
-    " let g:SuperTabCrMapping = 0
-    " " let g:airline_theme='sol'  " automatically picks up base16 color scheme
-    " let g:airline#extensions#tabline#show_splits = 0
-    " let g:airline#extensions#whitespace#enabled = 0
-    " " enable airline tabline
-    " let g:airline#extensions#tabline#enabled = 1
-    " " only show tabline if tabs are being used (more than 1 tab open)
-    " let g:airline#extensions#tabline#tab_min_count = 2
-    " " do not show open buffers in tabline
-    " let g:airline#extensions#tabline#show_buffers = 0
-    " " gui
-    " if has("gui_running") || has("gui_vimr")
-    "     " set guioptions=egmrt
-    "     " set background=light
-    "     colorscheme solarized
-    "     " let g:airline_left_sep=''
-    "     " let g:airline_right_sep=''
-    "     " let g:airline_powerline_fonts=0
-    "     " let g:airline_theme='solarized'
-    " endif
 
 " General Mappings
     Plug 'tpope/vim-unimpaired' " READ which are simply short normal mode aliases for commonly used ex commands
@@ -256,7 +216,6 @@ call plug#begin('~/.config/nvim/plugged')
     map <leader>ea :e! ~/.dotfiles/zsh/aliases.zsh<cr>
     " edit snippets
     map <leader>es :e! ~/.config/nvim/snippets/
-    " view tmux cheatsheet
 
     " Qucik views
     map <leader>vt :e! ~/.tmux-cheatsheet.markdown<cr>
@@ -299,7 +258,7 @@ call plug#begin('~/.config/nvim/plugged')
     " remap esc
     inoremap ;a <esc>
     " Terminal
-    tnoremap <esc> <C-\><C-n>
+    tnoremap <C-w> <C-\><C-n>
     " disable Ex mode
     noremap Q <NOP>
     " clear highlighted search (coh, unimpaired)
@@ -314,7 +273,6 @@ call plug#begin('~/.config/nvim/plugged')
     " view
     " nnoremap \v :!open -a Preview %:r.pdf &<CR><CR>
     " Typing <C-v><C-h> yields <BS> which is the emacs readline binding for <C-h>
-    " OSX includes wrong terminfo for xterm-256color see https://github.com/neovim/neovim/issues/2048 
     " Likely due to programs ignoring the kbs description. A quick patch is:
     " infocmp $TERM | sed 's/kbs=^[hH]/kbs=\\177/' > $TERM.ti
     " tic $TERM.ti
@@ -334,7 +292,7 @@ call plug#begin('~/.config/nvim/plugged')
         autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
         autocmd FileType html setlocal ts=4 sts=4 sw=4 noexpandtab indentkeys-=*<return>
         autocmd FileType jade setlocal ts=2 sts=2 sw=2 noexpandtab
-        autocmd FileType python setlocal sw=4 expandtab tags+=/usr/local/lib/python3.6/tags
+        " autocmd FileType python setlocal sw=4 expandtab tags+=/usr/local/lib/python3.7/tags
         autocmd FileType *.md.js :call SyntasticReset<cr>
         autocmd FileType markdown,textile setlocal textwidth=0 wrapmargin=0 wrap " spell
         autocmd FileType .xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
@@ -432,25 +390,10 @@ call plug#begin('~/.config/nvim/plugged')
 
 call plug#end()
 
-" Colorscheme and final setup
-" This call must happen after the plug#end() call to ensure they've all been loaded
+" Use base16-shell
 if filereadable(expand("~/.vimrc_background"))
-    let base16colorspace=256
+  let base16colorspace=256
     source ~/.vimrc_background
-endif
-
-" 
-if empty($COLORSCHEME)
-    colorscheme default
-else
-    let cs0=split($COLORSCHEME, " ")
-    let bs0=tolower(join(['base16']+cs0, "-"))
-    " can't do 'colorscheme variable', need to use execute
-    try
-        execute 'colorscheme' bs0
-    catch /.*/
-        colorscheme base16-classic-dark
-    endtry
 endif
 
 syntax on
@@ -475,3 +418,66 @@ highlight Normal ctermbg=none
 " hi SpellBad ctermfg=015 ctermbg=000
 " vim struggles to highlight vimscript correctly, Especially line continuations.
 let g:vimsyn_noerror = 1  " see help
+
+
+""""
+"""" GRAVEYARD
+""""
+
+" get currently active python 3
+" let g:python3_host_prog = functions#ChompedSystem("which python3")
+" get python 2
+" let g:python_host_prog = functions#ChompedSystem("which python2")
+
+" R markdown
+
+
+" tags
+" within ~/tags for a particular conda env
+   " ctags -R -f envtags /path/to/env --python-kinds=-i
+   " -f option must preceed directory
+" need to use let &option for string output, also '~/tags/' is not interpreted, need $HOME
+if !empty($VIRTUAL_ENV)
+    let &tags=$VIRTUAL_ENV . "/tags"
+endif
+set tags+=./tags;$HOME  " semicolon looks 'up to' $HOME.
+
+" Airline
+" let g:airline_powerline_fonts=0
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+" " don't hide quotes in json files
+" let g:vim_json_syntax_conceal = 0
+" let g:SuperTabCrMapping = 0
+" " let g:airline_theme='sol'  " automatically picks up base16 color scheme
+" let g:airline#extensions#tabline#show_splits = 0
+" let g:airline#extensions#whitespace#enabled = 0
+" " enable airline tabline
+" let g:airline#extensions#tabline#enabled = 1
+" " only show tabline if tabs are being used (more than 1 tab open)
+" let g:airline#extensions#tabline#tab_min_count = 2
+" " do not show open buffers in tabline
+" let g:airline#extensions#tabline#show_buffers = 0
+" " gui
+" if has("gui_running") || has("gui_vimr")
+"     " set guioptions=egmrt
+"     " set background=light
+"     colorscheme solarized
+"     " let g:airline_left_sep=''
+"     " let g:airline_right_sep=''
+"     " let g:airline_powerline_fonts=0
+"     " let g:airline_theme='solarized'
+" endif
+
+" code linting
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_python_python_exec = 'python'
+" let g:syntastic_python_checkers = ['python']
+
