@@ -1,29 +1,12 @@
 # Dotfiles
 
-Check out nicknisi's [dotfiles](https://github.com/nicknisi/dotfiles). See his excellent video at [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ). 
-
 ## Contents
 
-+ [Workflow](#workflow)
 + [Install](#Install)
-+ [Details](#Details)
-+ [Vim and Neovim Setup](#vim-and-neovim-setup)
-+ [Fonts](#fonts)
-+ [Anaconda](#anaconda)
-
-## Workflow
-
-Next steps:
-
-Incorporate installing Anaconda and custom pip list (including neovim package)
-
-### Terminal
-
-1. Terminal.app
-    * Using [vbwx's base16-builder](https://github.com/vbwx/base16-builder-php) will generate Terminal.app profiles for each base16 scheme. Make sure to use the non-256-color profiles since the Terminal.app doesn't really support xterm-256-color.
-2. [iterm2](https://www.iterm2.com/)
-    * Works great, but I found that I didn't need all the features. And in favor of simplicity I've adopted using OSX's Terminal.app (which can still do all the fancy colorizations and supports some ligature fonts like FiraCode). Many terminal emulator color schemes can be modulated with *colors* can be modulated with [base16-shell](https://github.com/chriskempson/base16-shell)
-
++ [Terminal](#Terminal)
++ [Shell](#Shell)
++ [Editor](#Editor)
++ [Keeping Parallel Branches](#keeping-parallel-branches)
 
 ## Install
 
@@ -34,9 +17,18 @@ mv dotfiles .dotfiles
 bash .dotfiles/install.sh
 ```
 
-## Details 
 
-### ZSH
+## Terminal
+
+  * `MacOS`: Terminal.app, see terminal folder for some beautiful color schemes
+    * Using [vbwx's base16-builder](https://github.com/vbwx/base16-builder-php) will generate Terminal.app profiles for each base16 scheme. Make sure to use the non-256-color profiles since the Terminal.app doesn't really support xterm-256-color.
+  * `Linux`: Gnome is great
+    * [base16-shell](https://github.com/chriskempson/base16-shell)
+  * `Windows`: Windows Terminal
+
+
+## Shell
+
 ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. Read/edit it with `,ez` within an nvim session (assuming it installed corretly)
 
 Brief overview of zshrc:
@@ -49,7 +41,8 @@ Brief overview of zshrc:
 * Setup NVM, RVM, and hub if they exist
 * And more...
 
-### Prompt
+
+#### Prompt
 
 The prompt is meant to be simple while still providing a lot of information to the user, particularly about the status of the git project, if the PWD is a git project. This prompt sets `precmd`, `PROMPT` and `RPROMPT`.
 
@@ -73,7 +66,7 @@ The prompt will also display a ✱ character in the `RPROMPT` indicating that th
 
 ![](http://nicknisi.com/share/suspended-jobs.png)
 
-## Vim and Neovim
+## Editor
 
 [Neovim](https://neovim.io/) is a fork and drop-in replacement for vim. In most cases, you would not notice a difference between the two, other than Neovim allows plugins to run asynchronously so that they do not freeze the editor, which is the main reason I have switched over to it. Vim and Neovim both use Vimscript and most plugins will work in both (all of the plugins I use do work in both Vim and Neovim). For this reason, they share the same configuration files in this setup. Neovim uses the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) which means it won't look for a `.vimrc` in your home directory. Instead, its configuration looks like the following:
 
@@ -85,7 +78,7 @@ The prompt will also display a ✱ character in the `RPROMPT` indicating that th
 
 ### Neovim setup
 
-Vim is likely already installed on your system. If using a Mac, MacVim will be installed from Homebrew. Neovim will also be installed from Homebrew by default on a Mac. For other systems, you may need to install Neovim manually. See their [web site](https://neovim.io) for more information.
+Vim is likely already installed on your system. If using a Mac, MacVim will be installed from Homebrew. Neovim will also be installed from the `install.sh`. For other systems, you may need to install Neovim manually. See their [web site](https://neovim.io) for more information.
 
 [`link.sh`](install/link.sh) will symlink the XDG configuration directory into your home directory and will then create symlinks for `.vimrc` and `.vim` over to the Neovim configuration so that Vim and Neovim will both be configured in the same way from the same files. The benefit of this configuration is that you only have to maintain a single vim configuration for both, so that if Neovim (which is still alpha software) has issues, you can very seamlessly transition back to vim with no big impact to your productivity.
 
@@ -93,26 +86,39 @@ Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `
 
 vim and neovim should just work once the correct plugins are installed. To install the plugins, you will need to open Neovim in the following way:
 
-```zsh
-nvim +PlugInstall
-```
 Or once in neovim run :PlugInstall
-
-To get *colorscheme* working in vim ensure that *Plug 'chriskempson/base16-vim'* is in the config/nvim/init.vim, and the commands ``
 
 ## Fonts
 
- nicknisi's original .dotfiles uses a nice developer-designed font called  [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) for ascii characters. However, this font is expensive.
+* [Operator Mono](https://www.typography.com/fonts/operator/styles) is great, I enjoy it a lot. But it lacks extensive unicode support.
 
-A great substitute is [FiraCode](https://github.com/tonsky/FiraCode). But currently it does not support italics.
-SF Mono is nice and supports italics.
+## Keeping Parallel Branches
 
-## Anaconda
+This repo is organized into three parallel branches - master (MacOS), linux, and windows. And is meant to provide a similar work environment across the three systems.
 
-Homebrew and [Anaconda](https://www.continuum.io/downloads) sometimes can mess each other up with dependencies found the PATH. To avoid this my default shell in iterm2 is the updated bash, and whenever I want to use brew, I'll start zsh. But within zsh, anaconda can be activated by toggling it in the PATH with the con script.
+Useful snippets for maintaining parallel branches:
+    ```
+    # Pull file from another branch
+    $ git checkout master
+    $ git checkout feature-branch -- src/js/some-file.js
+    # The tree is now dirty
+    $ git status
+    On branch master
+    Changes to be committed:
+      (use "git reset HEAD <file>..." to unstage)
 
-## Keyboard
+          new file:   src/js/some-file.js
 
-One of the best tips I've had: remap CAPSLOCK to CONTROL. Settings > Keyborad > Modifier Keys. It is on the home row and makes so many things in vim easier. As well as EMACS style control in many text input sources (e.g. CTRL-A, CTRL-E, CTRL-K).
+          # Then commit in normal fashion
+          $ git commit -m "Get a file from the feature branch"
+    ```
 
-In addition, I use a Microsoft Sculpt keyboard that is ergonomic. In the same modifier keys menu there is a drop down source to choose the keyboard for remapping. I switch CMD <> OPTION and map CAPSLOCK > CNTRL. This is to allow the positioning of the keys to be the same as on a mac (CMD just left of the space bar). For the rest I use "better touch tool" that allows nice OS keyboard mapping functionality (mission control, etc.).
+[StackOverflow Tip](https://stackoverflow.com/a/24978991)
+The idea is you use one common branch, and two (or as many as you need) customer specific branches. All common changes go into the master, and each customer branch gets changes that pertain only to that customer. Periodically (when master is considered to be at a stable point), you'll merge changes from master into the customer branch (`git checkout custA; git merge master`). This brings in newer "common" code into the customer branch. You will never merge the other way -- that would pollute master with customer-specific code.
+
+When you make a delivery to customer A, you checkout the "custA" branch and send that. And of course similarly for other customers.
+
+Now let's say you acquire a new customer, "C", and a bit later find a feature that customers A and C want, but B doesn't. You create (aka "fork") a branch off of master (`git checkout -b AC_feature master`), code/test it, making commits as you go, and then merge it into A and C (`git checkout A; git merge AC_feature and similarly for customer C`). You do not code it in A and then rely on merging A into C, because that would get all of A into C.
+
+If, sometime later, you find a minor bug in that feature, you make the change in the same branch (`git checkout AC_feature; edit/test/commit`), and then you merge it into custA and custC as above.
+
