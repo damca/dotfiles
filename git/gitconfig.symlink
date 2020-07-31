@@ -153,9 +153,6 @@
 	trustexitcode = true
 [rebase]
 	instructionFormat = "[%an - %ar] %s"
-[pager]
-    diff = "diff-so-fancy | less --tabs=4 -RFX"
-    show = "diff-so-fancy | less --tabs=4 -RFX"
 [diff "pandoc"]
   textconv=pandoc --to=markdown
   prompt = false

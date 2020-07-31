@@ -1,10 +1,3 @@
-# python
-alias pipl='pip list --format columns'  # works with grep
-alias python=/usr/local/bin/python3
-alias pip=/usr/local/bin/pip3
-
-alias fiji=/Applications/Fiji.app/Contents/MacOS/ImageJ-macosx
-
 # reload zsh config
 alias reload!='source ~/.zshrc'
 

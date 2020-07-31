@@ -2,7 +2,6 @@
 # Preferences #
 ###############
 
-set -g default-command /usr/local/bin/zsh
 # May need to use more common TERM if sshing: "screen-256color"
 set -g default-terminal "xterm-256color"
 set-window-option -g xterm-keys on
@@ -121,9 +120,9 @@ setw -g mode-keys vi
 
 
 # List of plugins
-set -g @plugin 'tmux-plugins/tmux-yank'
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-sensible'
+# set -g @plugin 'tmux-plugins/tmux-yank'
+# set -g @plugin 'tmux-plugins/tpm'
+# set -g @plugin 'tmux-plugins/tmux-sensible'
 
 # Buffers to/from Mac clipboard, yay tmux book from pragprog
 # set -g set-clipboard external
@@ -135,5 +134,5 @@ set -g @plugin 'tmux-plugins/tmux-sensible'
 ### Color & Style Settings ###
 ##############################
 
-source ~/.dotfiles/tmux/theme.sh
-run -b '~/.tmux/plugins/tpm/tpm'
+# source ~/.dotfiles/tmux/theme.sh
+# run -b '~/.tmux/plugins/tpm/tpm'
