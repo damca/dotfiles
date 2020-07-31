@@ -38,6 +38,8 @@ Changes to be committed:
       $ git commit -m "Get a file from the feature branch"
 ```
 
+See the file differences between branches `git diff --name-status master`
+
 [StackOverflow Tip](https://stackoverflow.com/a/24978991)
 The idea is you use one common branch, and two (or as many as you need) customer specific branches. All common changes go into the master, and each customer branch gets changes that pertain only to that customer. Periodically (when master is considered to be at a stable point), you'll merge changes from master into the customer branch (`git checkout custA; git merge master`). This brings in newer "common" code into the customer branch. You will never merge the other way -- that would pollute master with customer-specific code.
 
