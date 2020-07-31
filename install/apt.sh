@@ -7,7 +7,7 @@ sudo apt update
 sudo apt upgrade
 
 # cli tools
-sudo apt install ack tree curl man-db manpages
+sudo apt install ack tree curl man-db manpages fzf
 
 # development server setup
 sudo apt install nginx dnsmasq dnsutils ftp vsftpd nmap
@@ -28,7 +28,5 @@ rm -rf nvim-linux64.tar.gz
 
 # base16-shell
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-base16_classic-dark
-
 
 exit 0
