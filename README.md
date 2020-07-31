@@ -3,10 +3,10 @@
 ## Contents
 
 + [Install](#Install)
++ [Keeping Parallel Branches](#keeping-parallel-branches)
 + [Terminal](#Terminal)
 + [Shell](#Shell)
 + [Editor](#Editor)
-+ [Keeping Parallel Branches](#keeping-parallel-branches)
 
 ## Install
 
@@ -16,6 +16,36 @@ git clone https://github.com/damca/dotfiles
 mv dotfiles .dotfiles
 bash .dotfiles/install.sh
 ```
+
+## Keeping Parallel Branches
+
+This repo is organized into three parallel branches - master (MacOS), linux, and windows. And is meant to provide a similar work environment across the three systems.
+
+Useful snippets for maintaining parallel branches:
+```
+# Pull file from another branch
+$ git checkout master
+$ git checkout feature-branch -- src/js/some-file.js
+# The tree is now dirty
+$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+      new file:   src/js/some-file.js
+
+      # Then commit in normal fashion
+      $ git commit -m "Get a file from the feature branch"
+```
+
+[StackOverflow Tip](https://stackoverflow.com/a/24978991)
+The idea is you use one common branch, and two (or as many as you need) customer specific branches. All common changes go into the master, and each customer branch gets changes that pertain only to that customer. Periodically (when master is considered to be at a stable point), you'll merge changes from master into the customer branch (`git checkout custA; git merge master`). This brings in newer "common" code into the customer branch. You will never merge the other way -- that would pollute master with customer-specific code.
+
+When you make a delivery to customer A, you checkout the "custA" branch and send that. And of course similarly for other customers.
+
+Now let's say you acquire a new customer, "C", and a bit later find a feature that customers A and C want, but B doesn't. You create (aka "fork") a branch off of master (`git checkout -b AC_feature master`), code/test it, making commits as you go, and then merge it into A and C (`git checkout A; git merge AC_feature and similarly for customer C`). You do not code it in A and then rely on merging A into C, because that would get all of A into C.
+
+If, sometime later, you find a minor bug in that feature, you make the change in the same branch (`git checkout AC_feature; edit/test/commit`), and then you merge it into custA and custC as above.
 
 
 ## Terminal
@@ -91,34 +121,4 @@ Or once in neovim run :PlugInstall
 ## Fonts
 
 * [Operator Mono](https://www.typography.com/fonts/operator/styles) is great, I enjoy it a lot. But it lacks extensive unicode support.
-
-## Keeping Parallel Branches
-
-This repo is organized into three parallel branches - master (MacOS), linux, and windows. And is meant to provide a similar work environment across the three systems.
-
-Useful snippets for maintaining parallel branches:
-    ```
-    # Pull file from another branch
-    $ git checkout master
-    $ git checkout feature-branch -- src/js/some-file.js
-    # The tree is now dirty
-    $ git status
-    On branch master
-    Changes to be committed:
-      (use "git reset HEAD <file>..." to unstage)
-
-          new file:   src/js/some-file.js
-
-          # Then commit in normal fashion
-          $ git commit -m "Get a file from the feature branch"
-    ```
-
-[StackOverflow Tip](https://stackoverflow.com/a/24978991)
-The idea is you use one common branch, and two (or as many as you need) customer specific branches. All common changes go into the master, and each customer branch gets changes that pertain only to that customer. Periodically (when master is considered to be at a stable point), you'll merge changes from master into the customer branch (`git checkout custA; git merge master`). This brings in newer "common" code into the customer branch. You will never merge the other way -- that would pollute master with customer-specific code.
-
-When you make a delivery to customer A, you checkout the "custA" branch and send that. And of course similarly for other customers.
-
-Now let's say you acquire a new customer, "C", and a bit later find a feature that customers A and C want, but B doesn't. You create (aka "fork") a branch off of master (`git checkout -b AC_feature master`), code/test it, making commits as you go, and then merge it into A and C (`git checkout A; git merge AC_feature and similarly for customer C`). You do not code it in A and then rely on merging A into C, because that would get all of A into C.
-
-If, sometime later, you find a minor bug in that feature, you make the change in the same branch (`git checkout AC_feature; edit/test/commit`), and then you merge it into custA and custC as above.
 
