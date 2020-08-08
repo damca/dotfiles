@@ -29,4 +29,8 @@ rm -rf nvim-linux64.tar.gz
 # base16-shell
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 
+# Download zsh autocomplete scripts
+(cd $ZSH && curl -o git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash)
+(cd $ZSH && curl -o _git https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh)
+
 exit 0

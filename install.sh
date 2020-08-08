@@ -2,6 +2,8 @@
 
 echo "Installing dotfiles"
 
+export DOTFILES=$HOME/.dotfiles
+export ZSH=$DOTFILES/zsh
 
 if [ "$(uname)" == "Linux" ]; then
     source install/link.sh
