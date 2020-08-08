@@ -84,8 +84,8 @@ base16_classic-dark
 
 # Load Git completion
 # https://medium.com/@oliverspryn/adding-git-completion-to-zsh-60f3b0e7ffbc
-zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
-fpath=(~/.zsh $fpath)
+zstyle ':completion:*:*:git:*' script $ZSH/git-completion/git-completion.bash
+fpath=("$ZSH/git-completion" $fpath)
 # initialize autocomplete
 # compinit is kind of slow though
 # autoload -U compinit add-zsh-hook
