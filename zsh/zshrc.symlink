@@ -75,9 +75,9 @@ bindkey -e
 
 # zprof  # profile startup time
 
-# source all .zsh files inside of the zsh/ directory.
-# May depend on variables above
-for config ($ZSH/**/*.zsh) source $config
+# X11, test with 'xeyes' program (x11-apps package)
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
 
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/"
@@ -86,6 +86,7 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 base16_classic-dark
 
-# X11, test with 'xeyes' program (x11-apps package)
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-export LIBGL_ALWAYS_INDIRECT=1
+# source all .zsh files inside of the zsh/ directory.
+# May depend on variables above
+# Do this at the end, some machines may have device specific .zsh files
+for config ($ZSH/**/*.zsh) source $config
