@@ -12,12 +12,22 @@ sudo apt install ack tree curl man-db manpages fzf
 # development server setup
 sudo apt install nginx dnsmasq dnsutils ftp vsftpd nmap
 
+# image processing tools
+sudo apt install qt5-default
+
 # development tools
 sudo apt install git zsh python python3 python3-venv
+
+# python environments
 mkdir ~/venvs
+python3 -m venv ~/venvs/base
+source ~/venvs/base/bin/activate
+pip install numpy pandas matplotlib tifffile scikit-image ipython
+deactivate
 python3 -m venv ~/venvs/web
 source ~/venvs/web/bin/activate
 pip install wheel pandas plotly dash
+deactivate
 
 # install neovim
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
