@@ -360,7 +360,8 @@ call plug#begin('~/.config/nvim/plugged')
 
     " instead use NVIM's terminal,  :vsplit | terminal
     " IPython
-    nmap ;ii :vsplit \| terminal<CR>aipython --no-autoindent<CR><C-\><C-n><C-h>
+    " nmap ;ii :vsplit \| terminal<CR>aipython --no-autoindent<CR><C-\><C-n><C-h>
+    nmap ;ii :vsplit \| terminal<CR>a
     nmap ;d :let @i=''<CR>V}"iy:call functions#AddIPy()<CR><C-l>"jpa<CR><C-\><C-n><C-h>:let @i=''<CR>}
     nmap ;s yy<C-l>pa<CR><C-\><C-n><C-h>
     vmap ;s "iy:call functions#AddIPy()<CR><C-l>"jpa<CR><C-\><C-n><C-h>:let @i=''<CR>
