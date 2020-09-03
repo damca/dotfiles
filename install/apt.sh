@@ -44,4 +44,9 @@ git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shel
 (cd $ZSH && curl -o git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash)
 (cd $ZSH && curl -o _git https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh)
 
+# Install fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
+
 exit 0
