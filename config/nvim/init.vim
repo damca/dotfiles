@@ -88,7 +88,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Searching
     " search for word under the cursor
     nnoremap <leader>s "fyiw :/<c-r>f<cr>
-    Plug '/usr/bin/fzf'
+    Plug '~/.fzf'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     nmap <silent> <leader>r :Buffers<cr>

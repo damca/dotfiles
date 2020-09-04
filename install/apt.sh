@@ -7,7 +7,7 @@ sudo apt update
 sudo apt upgrade
 
 # cli tools
-sudo apt install ack tree curl man-db manpages fzf
+sudo apt install ack tree curl man-db manpages
 
 # development server setup
 sudo apt install nginx dnsmasq dnsutils ftp vsftpd nmap
