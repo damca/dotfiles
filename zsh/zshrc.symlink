@@ -38,10 +38,13 @@ export REPORTTIME=10
 
 set HIST_IGNORE_SPACE
 
+<<<<<<< HEAD
 # initialize autocomplete
 # compinit is kind of slow though
 # autoload -U compinit add-zsh-hook
 # compinit
+=======
+>>>>>>> damcaG5
 
 # hub adds bash-completion. Check bash install report
 # for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
@@ -75,8 +78,30 @@ bindkey -e
 
 # zprof  # profile startup time
 
+# X11, test with 'xeyes' program (x11-apps package)
+export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
+export LIBGL_ALWAYS_INDIRECT=1
+export XDG_RUNTIME_DIR=/tmp/runtime-damca
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+base16_classic-dark
+
+# Load Git completion
+# https://medium.com/@oliverspryn/adding-git-completion-to-zsh-60f3b0e7ffbc
+zstyle ':completion:*:*:git:*' script $ZSH/git-completion/git-completion.bash
+fpath=("$ZSH/git-completion" $fpath)
+# initialize autocomplete
+# compinit is kind of slow though
+# autoload -U compinit add-zsh-hook
+autoload -Uz compinit && compinit
+
 # source all .zsh files inside of the zsh/ directory.
 # May depend on variables above
+# Do this at the end, some machines may have device specific .zsh files
 for config ($ZSH/**/*.zsh) source $config
 
 # Base16 Shell
@@ -86,6 +111,3 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 base16_classic-dark
 
-# X11, test with 'xeyes' program (x11-apps package)
-export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
-export LIBGL_ALWAYS_INDIRECT=1
