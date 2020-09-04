@@ -38,13 +38,6 @@ export REPORTTIME=10
 
 set HIST_IGNORE_SPACE
 
-<<<<<<< HEAD
-# initialize autocomplete
-# compinit is kind of slow though
-# autoload -U compinit add-zsh-hook
-# compinit
-=======
->>>>>>> damcaG5
 
 # hub adds bash-completion. Check bash install report
 # for config ($ZSH/**/*completion.sh) source $config  # git_completion.sh sources a brewed git-complettion.bash
