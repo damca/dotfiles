@@ -30,6 +30,8 @@ source ~/venvs/web/bin/activate
 pip install wheel pandas plotly dash
 deactivate
 
+mkdir ~/.config
+
 # install neovim
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
 tar xvzf nvim-linux64.tar.gz
@@ -47,6 +49,10 @@ git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shel
 # Install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install
+
+# Install vivid (for LS_COLORS)
+curl -L https://github.com/sharkdp/vivid/releases/download/v0.5.0/vivid_0.5.0_amd64.deb --output ~/.config/vivid_0.5.0_amd64.deb
+sudo dpkg -i ~/.config/vivid_0.5.0_amd64.deb
 
 
 exit 0

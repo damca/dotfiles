@@ -83,6 +83,10 @@ BASE16_SHELL="$HOME/.config/base16-shell/"
         eval "$("$BASE16_SHELL/profile_helper.sh")"
 base16_classic-dark
 
+export LS_COLORS=$(vivid generate molokai)
+# make it so that "other writable" folders don't show up with green background
+LS_COLORS+=:ow=
+
 # Load Git completion
 # https://medium.com/@oliverspryn/adding-git-completion-to-zsh-60f3b0e7ffbc
 zstyle ':completion:*:*:git:*' script $ZSH/git-completion/git-completion.bash
