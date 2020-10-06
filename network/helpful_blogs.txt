@@ -1,0 +1,5 @@
+https://askubuntu.com/questions/764158/how-to-enable-wake-on-lan-wol-in-ubuntu-16-04
+https://www.howtogeek.com/192642/how-to-remotely-turn-on-your-pc-over-the-internet/#:~:text=You'll%20need%20to%20forward,the%20WoL%20packet%20matches%20it.
+https://www.dell.com/community/Desktops-General-Read-Only/Wake-on-LAN-in-BIOS-unavailable/td-p/4514641
+https://apple.stackexchange.com/questions/95246/wake-other-computers-from-mac-osx
+https://superuser.com/questions/870613/listen-for-wakeonlan-request
