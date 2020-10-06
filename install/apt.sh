@@ -32,12 +32,15 @@ deactivate
 
 mkdir ~/.config
 
-# install neovim
-curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-tar xvzf nvim-linux64.tar.gz
-sudo cp -rf nvim-linux64/* /usr/local
-rm -rf nvim-linux64
-rm -rf nvim-linux64.tar.gz
+# install neovim (only 64bit)
+# curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+# tar xvzf nvim-linux64.tar.gz
+# sudo cp -rf nvim-linux64/* /usr/local
+# rm -rf nvim-linux64
+# rm -rf nvim-linux64.tar.gz
+
+# install vim
+sudo apt install vim
 
 # base16-shell
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
