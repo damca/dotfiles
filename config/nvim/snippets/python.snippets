@@ -1,3 +1,7 @@
+snippet nm
+	import numpy as np
+	import matplotlib.pyplot as plt
+
 snippet fm
 	with fm(${0}) as (fig, ax):
 	    ${1}
@@ -26,7 +30,6 @@ snippet mat
 	matplotlib.use('qt5agg')
 	import matplotlib.pyplot as plt
 
-	plt.ioff()
 
 snippet pre
 	tight = {'tight_layout_rect': [0.04, 0.04, 1, 1]}

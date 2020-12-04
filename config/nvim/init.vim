@@ -44,6 +44,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " code linting
     Plug 'scrooloose/syntastic' 
+    set statusline+=%F
     set statusline+=%#warningmsg#
     set statusline+=%*
     set statusline+=%{SyntasticStatuslineFlag()}

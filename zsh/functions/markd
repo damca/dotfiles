@@ -1,0 +1,6 @@
+# requires chrome command to be defined
+markd () {
+    pandoc $1 --output=/tmp/markdown.html --to=html5 --css=$HOME/repos/markdown-css/github.css \
+    --highlight-style=haddock  --self-contained
+    chrome $(wslpath -w /tmp/markdown.html)
+}

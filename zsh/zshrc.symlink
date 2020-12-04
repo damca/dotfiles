@@ -94,4 +94,5 @@ autoload -Uz compinit && compinit
 # source all .zsh files inside of the zsh/ directory.
 # May depend on variables above
 # Do this at the end, some machines may have device specific .zsh files
+source $ZSH/aliases.zsh
 for config ($ZSH/**/*.zsh) source $config

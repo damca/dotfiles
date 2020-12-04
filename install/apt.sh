@@ -54,5 +54,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 curl -L https://github.com/sharkdp/vivid/releases/download/v0.5.0/vivid_0.5.0_amd64.deb --output ~/.config/vivid_0.5.0_amd64.deb
 sudo dpkg -i ~/.config/vivid_0.5.0_amd64.deb
 
+# convert markdown to html + many other things
+sudo apt install pandoc
 
 exit 0
